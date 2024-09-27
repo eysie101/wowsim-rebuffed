@@ -298,7 +298,7 @@ func newManaCost(spell *Spell, options ManaCostOptions) *ManaCost {
 	baseCost := TernaryFloat64(options.FlatCost > 0, options.FlatCost, options.BaseCost*spell.Unit.BaseMana)
 	if player := spell.Unit.Env.Raid.GetPlayerFromUnit(spell.Unit); player != nil {
 		if player.GetCharacter().HasTrinketEquipped(45703) { // Spark of Hope
-			baseCost = max(0, baseCost-44)
+			baseCost = max(0, baseCost-42)
 		}
 	}
 

@@ -31,7 +31,7 @@ func (shaman *Shaman) registerLesserHealingWaveSpell() {
 	hasGlyph := shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfLesserHealingWave)
 
 	bonusHeal := 0 +
-		core.TernaryFloat64(shaman.Ranged().ID == 42598, 338, 0) +
+		core.TernaryFloat64(shaman.Ranged().ID == 42598, 320, 0) +
 		core.TernaryFloat64(shaman.Ranged().ID == 42597, 267, 0) +
 		core.TernaryFloat64(shaman.Ranged().ID == 42596, 236, 0) +
 		core.TernaryFloat64(shaman.Ranged().ID == 42595, 204, 0)
@@ -182,7 +182,7 @@ func (shaman *Shaman) registerHealingWaveSpell() {
 	hasGlyph := shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfLesserHealingWave)
 
 	bonusHeal := 0 +
-		core.TernaryFloat64(shaman.Ranged().ID == 42598, 338, 0) +
+		core.TernaryFloat64(shaman.Ranged().ID == 42598, 320, 0) +
 		core.TernaryFloat64(shaman.Ranged().ID == 42597, 267, 0) +
 		core.TernaryFloat64(shaman.Ranged().ID == 42596, 236, 0) +
 		core.TernaryFloat64(shaman.Ranged().ID == 42595, 204, 0)
@@ -317,7 +317,7 @@ func (shaman *Shaman) registerChainHealSpell() {
 	bonusHeal := 0 +
 		core.TernaryFloat64(shaman.Ranged().ID == 28523, 87, 0) +
 		core.TernaryFloat64(shaman.Ranged().ID == 38368, 102, 0) +
-		core.TernaryFloat64(shaman.Ranged().ID == 45114, 257, 0)
+		core.TernaryFloat64(shaman.Ranged().ID == 45114, 243, 0)
 
 	manaDiscount := 0 +
 		core.TernaryFloat64(shaman.Ranged().ID == 40709, 78, 0)

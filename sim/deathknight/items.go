@@ -297,11 +297,11 @@ func (dk *Deathknight) sigilOfArthriticBindingBonus() float64 {
 }
 
 func (dk *Deathknight) sigilOfTheVengefulHeartDeathCoil() float64 {
-	return core.TernaryFloat64(dk.Ranged().ID == 45254, 403, 0)
+	return core.TernaryFloat64(dk.Ranged().ID == 45254, 380, 0)
 }
 
 func (dk *Deathknight) sigilOfTheVengefulHeartFrostStrike() float64 {
-	return core.TernaryFloat64(dk.Ranged().ID == 45254, 218, 0) // (1 / 0.55) * 120
+	return core.TernaryFloat64(dk.Ranged().ID == 45254, 205, 0) // (1 / 0.55) * 113
 }
 
 func addEnchantEffect(id int32, effect func(core.Agent)) {
@@ -618,7 +618,7 @@ func (dk *Deathknight) registerItems() {
 
 	addItemEffect(45144, func(agent core.Agent) {
 		dk := agent.(DeathKnightAgent).GetDeathKnight()
-		procAura := dk.NewTemporaryStatsAura("Sigil of Deflection Proc", core.ActionID{SpellID: 64963}, stats.Stats{stats.Dodge: 144.0}, time.Second*5)
+		procAura := dk.NewTemporaryStatsAura("Sigil of Deflection Proc", core.ActionID{SpellID: 64963}, stats.Stats{stats.Dodge: 136.0}, time.Second*5)
 
 		core.MakePermanent(dk.GetOrRegisterAura(core.Aura{
 			Label: "Sigil of Deflection",

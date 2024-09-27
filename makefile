@@ -46,7 +46,9 @@ $(OUT_DIR)/bundle/.dirstamp: \
   ui/core/index.ts \
   ui/core/proto/api.ts \
   $(OUT_DIR)/net_worker.js \
-  $(OUT_DIR)/sim_worker.js
+  $(OUT_DIR)/sim_worker.js \
+  $(OUT_DIR)/tooltips.js \
+  $(OUT_DIR)/LICENSE
 	npx tsc --noEmit
 	npx vite build
 	touch $@
@@ -57,6 +59,12 @@ $(OUT_DIR)/sim_worker.js: ui/worker/sim_worker.js
 
 $(OUT_DIR)/net_worker.js: ui/worker/net_worker.js
 	cp ui/worker/net_worker.js $(OUT_DIR)
+
+$(OUT_DIR)/tooltips.js: ui/tooltips.js
+	cp ui/tooltips.js $(OUT_DIR)
+	
+$(OUT_DIR)/LICENSE: LICENSE
+	cp LICENSE $(OUT_DIR)
 
 ui/core/index.ts: $(TS_CORE_SRC)
 	find ui/core -name '*.ts' | \

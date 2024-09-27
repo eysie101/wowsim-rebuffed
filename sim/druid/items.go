@@ -416,7 +416,7 @@ func init() {
 
 	core.NewItemEffect(45509, func(agent core.Agent) {
 		druid := agent.(DruidAgent).GetDruid()
-		procAura := druid.NewTemporaryStatsAura("Idol of the Corruptor Proc", core.ActionID{SpellID: 64951}, stats.Stats{stats.Agility: 162}, time.Second*12)
+		procAura := druid.NewTemporaryStatsAura("Idol of the Corruptor Proc", core.ActionID{SpellID: 64951}, stats.Stats{stats.Agility: 153}, time.Second*12)
 
 		// Proc chances based on testing by druid discord
 		procChanceBear := 0.50
@@ -577,7 +577,7 @@ func init() {
 	makeGladiatorIdolEffect(42574, 60693, 94, 6, "Savage Gladiator's Idol of Resolve")
 	makeGladiatorIdolEffect(42587, 60695, 106, 6, "Hateful Gladiator's Idol of Resolve")
 	makeGladiatorIdolEffect(42588, 60696, 120, 10, "Deadly Gladiator's Idol of Resolve")
-	makeGladiatorIdolEffect(42589, 60698, 152, 10, "Furious Gladiator's Idol of Resolve")
+	makeGladiatorIdolEffect(42589, 60698, 144, 10, "Furious Gladiator's Idol of Resolve")
 	makeGladiatorIdolEffect(42591, 60700, 172, 10, "Relentless Gladiator's Idol of Resolve")
 	makeGladiatorIdolEffect(51429, 60701, 204, 10, "Wrathful Gladiator's Idol of Resolve")
 }
