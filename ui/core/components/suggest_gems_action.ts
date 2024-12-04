@@ -550,7 +550,7 @@ export class PhysicalDPSGemOptimizer extends GemOptimizer {
 		 * resets, such that the soft cap is set by the strongest proc.
 		 */
 		if (gear.hasTrinket(45931)) {
-			arpTarget -= 751; // Mjolnir Runestone
+			arpTarget -= 665; // Mjolnir Runestone
 		} else if (gear.hasTrinket(50198)) {
 			arpTarget -= 678; // Needle-Encrusted Scorpion
 		} else if (gear.hasTrinket(40256)) {
