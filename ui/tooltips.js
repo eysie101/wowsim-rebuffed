@@ -1,3 +1,7 @@
+// Sun-Lute tooltip hack
+var sunluteTxt = '<table><tr><td><b class="q5">Sun-Lute of the Phoenix King</b><br /><!--bo-->Binds when picked up<br />Unique<table width="100%"><tr><td>Two-Hand</td><th>Axe</th></tr></table><table width="100%"><tr><td><!--dmg-->673 - 1008 Damage</td><th>Speed <!--spd-->3.60</th></tr></table><!--dps-->(233.5 damage per second)<br /><span><!--stat4-->+131 Strength</span><br /><span><!--stat7-->+139 Stamina</span><br />_SLPH_Durability 145 / 145<br />Classes: <a href="?class=1" class="c1">Warrior</a>, <a href="?class=2" class="c2">Paladin</a><br />Requires Level 80<br />Item Level 232<br /></td></tr></table><table><tr><td><span class="q2">Equip: Improves critical strike rating by <!--rtg32-->81&nbsp;<small>(<!--rtg%32-->1.76%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases your armor penetration rating by <!--rtg44-->64&nbsp;<small>(<!--rtg%44-->4.57%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Your melee attacks have a chance to strike a Power Chord. When you reach 4 Power Chords, they will release, causing you to instantly attack for 100% weapon damage with the Sun-Lute.</span><br /><div class="q1 whtt-sellprice">Sell Price: <span class="moneygold">36</span> <span class="moneysilver">32</span> <span class="moneycopper">60</span></div></td></tr></table><!--?130031:1:80:80-->'
+var sunluteFake = 46041 // Starfall Girdle (has same sockets and bonus as Sun-Lute)
+
 if (typeof $WH == "undefined") {
     $WH = { wowheadRemote: true };
 
@@ -19,6 +23,7 @@ if (typeof $WowheadPower == "undefined") {
             currentDomain,
             currentParams,
             currentA,
+            fixSunlute,
 
             cursorX,
             cursorY,
@@ -515,6 +520,11 @@ if (typeof $WowheadPower == "undefined") {
         }
 
         function display(type, id, locale, params) {
+            fixSunlute = id == 130031
+            if (fixSunlute) {
+                id = sunluteFake
+            }
+
             if (!params) {
                 params = {};
             }
@@ -587,6 +597,14 @@ if (typeof $WowheadPower == "undefined") {
         }
 
         function showTooltip(html, icon, map, spellData, html2) {
+            if (fixSunlute && currentType == 3 && currentId.startsWith(sunluteFake.toString())) {
+                icon = "inv_weapon_bow_18"
+                var txt = html.match(/((?:<span class="q2">)?<!--e-->.*?Durability)/)
+                if (txt) {
+                    html = sunluteTxt.replace("_SLPH_", txt[1])
+                }
+            }
+
             if (currentA && currentA._fixTooltip) {
                 html = currentA._fixTooltip(html, currentType, currentId, currentA);
             }
