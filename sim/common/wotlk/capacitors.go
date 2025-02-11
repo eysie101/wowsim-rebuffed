@@ -255,4 +255,84 @@ func init() {
 			})
 		})
 	})
+
+	core.NewItemEffect(130031, func(agent core.Agent) {
+		name := "Sun-Lute of the Phoenix King"
+		itemID := int32(130031)
+		maxStacks := int32(4)
+		character := agent.GetCharacter()
+		if !character.AutoAttacks.AutoSwingMelee {
+			return
+		}
+
+		var mhSpell *core.Spell
+		var ohSpell *core.Spell
+		initSpells := func() {
+			mhSpell = character.GetOrRegisterSpell(core.SpellConfig{
+				ActionID:         core.ActionID{SpellID: 36735},
+				SpellSchool:      core.SpellSchoolPhysical,
+				ProcMask:         core.ProcMaskMeleeMHAuto,
+				Flags:            core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagNoOnCastComplete,
+				DamageMultiplier: character.AutoAttacks.MHConfig().DamageMultiplier,
+				CritMultiplier:   character.AutoAttacks.MHConfig().CritMultiplier,
+				ThreatMultiplier: character.AutoAttacks.MHConfig().ThreatMultiplier,
+				ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
+					baseDamage := character.MHWeaponDamage(sim, spell.MeleeAttackPower())
+					spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeWhite)
+				},
+			})
+
+			if character.AutoAttacks.IsDualWielding {
+				ohSpell = character.GetOrRegisterSpell(core.SpellConfig{
+					ActionID:         core.ActionID{SpellID: 44192},
+					SpellSchool:      core.SpellSchoolPhysical,
+					ProcMask:         core.ProcMaskMeleeOHAuto,
+					Flags:            core.SpellFlagMeleeMetrics | core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagNoOnCastComplete,
+					DamageMultiplier: character.AutoAttacks.OHConfig().DamageMultiplier,
+					CritMultiplier:   character.AutoAttacks.OHConfig().CritMultiplier,
+					ThreatMultiplier: character.AutoAttacks.OHConfig().ThreatMultiplier,
+					ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
+						baseDamage := character.OHWeaponDamage(sim, spell.MeleeAttackPower())
+						spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeWhite)
+					},
+				})
+			}
+		}
+
+		capacitorAura := makeCapacitorAura(&character.Unit, CapacitorAura{
+			Aura: core.Aura{
+				Label:     name,
+				ActionID:  core.ActionID{SpellID: 40029},
+				Duration:  core.NeverExpires,
+				MaxStacks: maxStacks,
+				OnInit: func(aura *core.Aura, sim *core.Simulation) {
+					initSpells()
+				},
+			},
+			Handler: func(sim *core.Simulation) {
+				if character.HasMHWeapon() && character.GetMHWeapon().ID == 130031 {
+					mhSpell.Cast(sim, character.CurrentTarget)
+				} else {
+					ohSpell.Cast(sim, character.CurrentTarget)
+				}
+			},
+		})
+
+		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			Name:       name + " Trigger",
+			Callback:   core.CallbackOnSpellHitDealt,
+			ProcMask:   core.ProcMaskMeleeOrProc,
+			Outcome:    core.OutcomeLanded,
+			ActionID:   core.ActionID{ItemID: itemID},
+			ProcChance: 1,
+			ICD:        time.Second / 2,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				if spell == mhSpell || spell == ohSpell { // can't proc itself
+					return
+				}
+				capacitorAura.Activate(sim)
+				capacitorAura.AddStack(sim)
+			},
+		})
+	})
 }
