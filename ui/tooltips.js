@@ -599,7 +599,7 @@ if (typeof $WowheadPower == "undefined") {
         function showTooltip(html, icon, map, spellData, html2) {
             if (fixSunlute && currentType == 3 && currentId.startsWith(sunluteFake.toString())) {
                 icon = "inv_weapon_bow_18"
-                var txt = html.match(/((?:<span class="q2">)?<!--e-->.*?Durability)/)
+                var txt = html.match(/((?:<span class="q2">)?<!--e-->.*?)Durability/)
                 if (txt) {
                     html = sunluteTxt.replace("_SLPH_", txt[1])
                 }
