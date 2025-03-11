@@ -1,6 +1,9 @@
 // Sun-Lute tooltip hack
 var sunluteTxt = '<table><tr><td><b class="q5">Sun-Lute of the Phoenix King</b><br /><!--bo-->Binds when picked up<br />Unique<table width="100%"><tr><td>Two-Hand</td><th>Axe</th></tr></table><table width="100%"><tr><td><!--dmg-->673 - 1008 Damage</td><th>Speed <!--spd-->3.60</th></tr></table><!--dps-->(233.5 damage per second)<br /><span><!--stat4-->+131 Strength</span><br /><span><!--stat7-->+139 Stamina</span><br />_SLPH_Durability 145 / 145<br />Classes: <a href="?class=1" class="c1">Warrior</a>, <a href="?class=2" class="c2">Paladin</a><br />Requires Level 80<br />Item Level 232<br /></td></tr></table><table><tr><td><span class="q2">Equip: Improves critical strike rating by <!--rtg32-->81&nbsp;<small>(<!--rtg%32-->1.76%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases your armor penetration rating by <!--rtg44-->64&nbsp;<small>(<!--rtg%44-->4.57%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Your melee attacks have a chance to strike a Power Chord. When you reach 4 Power Chords, they will release, causing you to instantly attack for 100% weapon damage with the Sun-Lute.</span><br /><div class="q1 whtt-sellprice">Sell Price: <span class="moneygold">36</span> <span class="moneysilver">32</span> <span class="moneycopper">60</span></div></td></tr></table><!--?130031:1:80:80-->'
 var sunluteFake = 46041 // Starfall Girdle (has same sockets and bonus as Sun-Lute)
+// Sulfuras tooltip hack
+var sulfurasTxt = '<table><tr><td><b class="q5">Sulfuras, Hand of Ragnaros</b><br /><!--bo-->Binds when picked up<br />Unique<table width="100%"><tr><td>Two-Hand</td><th>Mace</th></tr></table><table width="100%"><tr><td><!--dmg-->872 - 1309 Damage</td><th>Speed <!--spd-->3.70</th></tr></table><!--dps-->(294.7 damage per second)<br /><span class=\"c11\"><!--fap-->(3359 Feral Attack Power)</span><br /><span><!--stat3-->+155 Agility</span><br /><span><!--stat7-->+199 Stamina</span><br />_SULPH_Durability 145 / 145<br />Requires Level 80<br />Item Level 264<br /></td></tr></table><table><tr><td><span class="q2">Equip: Improves hit rating by <!--rtg31-->116&nbsp;<small>(<!--rtg%31-->3.54%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases your expertise rating by <!--rtg37-->99&nbsp;<small>(<!--rtg%37-->12.08%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases attack power by <!--rtg38-->184.</span><br /><span class="q2">Chance on hit: Hurls a fiery ball that causes 717 to 913 Fire damage and an additional 116 Fire damage over 8 sec.</span><br /><div class="q1 whtt-sellprice">Sell Price: <span class="moneygold">32</span> <span class="moneysilver">44</span> <span class="moneycopper">95</span></div></td></tr></table><!--?132001:1:80:80-->'
+var sulfurasFake = 51905 // Ramaladni's Blade of Culling (has same sockets. there is no real item with +12 dodge socket bonus, making this harder)
 
 if (typeof $WH == "undefined") {
     $WH = { wowheadRemote: true };
@@ -24,6 +27,7 @@ if (typeof $WowheadPower == "undefined") {
             currentParams,
             currentA,
             fixSunlute,
+            fixSulfuras,
 
             cursorX,
             cursorY,
@@ -525,6 +529,11 @@ if (typeof $WowheadPower == "undefined") {
                 id = sunluteFake
             }
 
+            fixSulfuras = id == 132001
+            if (fixSulfuras) {
+                id = sulfurasFake
+            }
+
             if (!params) {
                 params = {};
             }
@@ -602,6 +611,15 @@ if (typeof $WowheadPower == "undefined") {
                 var txt = html.match(/((?:<span class="q2">)?<!--e-->.*?)Durability/)
                 if (txt) {
                     html = sunluteTxt.replace("_SLPH_", txt[1])
+                }
+            }
+
+            if (fixSulfuras && currentType == 3 && currentId.startsWith(sulfurasFake.toString())) {
+                icon = "inv_hammer_unique_sulfuras"
+                var txt = html.match(/((?:<span class="q2">)?<!--e-->.*?)Durability/)
+                if (txt) {
+                    html = sulfurasTxt.replace("_SULPH_", txt[1])
+                    html = html.replace('Bonus: <a href=\"?enchantment=3312\">+8 Strength', 'Bonus: <a href=\"?enchantment=3312\">+12 Dodge Rating')
                 }
             }
 

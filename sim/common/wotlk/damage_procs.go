@@ -141,4 +141,56 @@ func init() {
 		MinDmg: 1750,
 		MaxDmg: 2250,
 	})
+
+	// Sulfuras (Whitemane)
+	core.NewItemEffect(132001, func(agent core.Agent) {
+		character := agent.GetCharacter()
+
+		fireballSpell := character.GetOrRegisterSpell(core.SpellConfig{
+			ActionID:    core.ActionID{SpellID: 42834},
+			SpellSchool: core.SpellSchoolFire,
+			ProcMask:    core.ProcMaskEmpty,
+
+			DamageMultiplier: 1,
+			CritMultiplier:   1,
+			ThreatMultiplier: 1,
+
+			Dot: core.DotConfig{
+				Aura: core.Aura{
+					Label: "Fireball (Sulfuras)",
+				},
+				TickLength:    2 * time.Second,
+				NumberOfTicks: 4,
+
+				OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
+					dot.SnapshotBaseDamage = 29
+					dot.SnapshotCritChance = dot.Spell.SpellCritChance(target)
+					attackTable := dot.Spell.Unit.AttackTables[target.UnitIndex]
+					dot.SnapshotAttackerMultiplier = dot.Spell.AttackerDamageMultiplier(attackTable)
+				},
+
+				OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
+					dot.CalcAndDealPeriodicSnapshotDamage(sim, target, dot.OutcomeTick)
+				},
+			},
+
+			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
+				result := spell.CalcAndDealDamage(sim, target, sim.Roll(717, 913), spell.OutcomeMagicHitAndCrit)
+				if result.Landed() {
+					spell.Dot(target).ApplyOrRefresh(sim)
+				}
+			},
+		})
+
+		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			Name:     "Sulfuras Trigger",
+			Callback: core.CallbackOnSpellHitDealt,
+			Outcome:  core.OutcomeLanded,
+			ProcMask: core.ProcMaskMelee,
+			PPM:      4,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				fireballSpell.Cast(sim, result.Target)
+			},
+		})
+	})
 }
