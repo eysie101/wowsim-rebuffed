@@ -97,6 +97,9 @@ type Rogue struct {
 	DirtyDeedsAura       *core.Aura
 	HonorAmongThieves    *core.Aura
 	StealthAura          *core.Aura
+	WarglaivesAura       *core.Aura
+
+	HasWarglaives bool
 
 	masterPoisonerDebuffAuras core.AuraArray
 	savageCombatDebuffAuras   core.AuraArray
@@ -187,6 +190,10 @@ func (rogue *Rogue) Reset(sim *core.Simulation) {
 	for _, mcd := range rogue.GetMajorCooldowns() {
 		mcd.Disable()
 	}
+
+	if rogue.HasWarglaives {
+		rogue.WarglaivesAura.Activate(sim)
+	}
 }
 
 func (rogue *Rogue) MeleeCritMultiplier(applyLethality bool) float64 {
@@ -239,6 +246,8 @@ func NewRogue(character *core.Character, options *proto.Player) *Rogue {
 	rogue.AddStatDependency(stats.Strength, stats.AttackPower, 1)
 	rogue.AddStatDependency(stats.Agility, stats.AttackPower, 1)
 	rogue.AddStatDependency(stats.Agility, stats.MeleeCrit, core.CritPerAgiMaxLevel[character.Class]*core.CritRatingPerCritChance)
+
+	rogue.HasWarglaives = rogue.HasSetBonus(ItemSetWarglaivesWhitemane, 2)
 
 	return rogue
 }

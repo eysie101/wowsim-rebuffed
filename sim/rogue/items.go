@@ -146,6 +146,101 @@ var Tier6 = core.NewItemSet(core.ItemSet{
 	},
 })
 
+// Whitemane Warglaives
+var ItemSetWarglaivesWhitemane = core.NewItemSet(core.ItemSet{
+	Name: "Warglaives (Whitemane)",
+	Bonuses: map[int32]core.ApplyEffect{
+		2: func(agent core.Agent) {
+			// Warglaives on Whitemane. copy-paste of Bandit's Guile from Cata
+			character := (agent.(RogueAgent).GetRogue())
+			attackCounter := int32(0)
+			var lastAttacked *core.Unit
+			var bgDamageAuras [3]*core.Aura
+			currentInsightIndex := -1
+
+			for index := 0; index < 3; index++ {
+				var label string
+				var actionID core.ActionID
+				switch index {
+				case 0:
+					label = "Shallow Insight"
+					actionID = core.ActionID{SpellID: 54262}
+				case 1:
+					label = "Moderate Insight"
+					actionID = core.ActionID{SpellID: 45797}
+				case 2:
+					label = "Deep Insight"
+					actionID = core.ActionID{SpellID: 52679}
+				}
+
+				damageBonus := []float64{1.03, 1.06, 1.1}[index]
+
+				bgDamageAuras[index] = character.RegisterAura(core.Aura{
+					Label:    label,
+					ActionID: actionID,
+					Duration: time.Second * 15,
+
+					OnGain: func(aura *core.Aura, sim *core.Simulation) {
+						character.PseudoStats.DamageDealtMultiplier *= damageBonus
+					},
+					OnExpire: func(aura *core.Aura, sim *core.Simulation) {
+						character.PseudoStats.DamageDealtMultiplier /= damageBonus
+						if currentInsightIndex == 2 {
+							currentInsightIndex = -1
+							attackCounter = 0
+						}
+					},
+				})
+			}
+
+			character.WarglaivesAura = character.RegisterAura(core.Aura{
+				Label:     "Warglaives Tracker",
+				ActionID:  core.ActionID{SpellID: 31284},
+				Duration:  core.NeverExpires,
+				MaxStacks: 4,
+				OnReset: func(aura *core.Aura, sim *core.Simulation) {
+					currentInsightIndex = -1
+					attackCounter = 0
+				},
+				OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+					if currentInsightIndex < 2 && result.Landed() && (spell == (agent.(RogueAgent).GetRogue()).SinisterStrike) {
+						if lastAttacked != result.Target {
+							// Reset back to no insight, no casts
+							attackCounter = 0
+							if currentInsightIndex >= 0 {
+								bgDamageAuras[currentInsightIndex].Deactivate(sim)
+							}
+							currentInsightIndex = -1
+						}
+						lastAttacked = result.Target
+
+						attackCounter += 1
+						character.WarglaivesAura.SetStacks(sim, attackCounter+1)
+						if attackCounter == 4 {
+							attackCounter = 0
+							character.WarglaivesAura.SetStacks(sim, attackCounter+1)
+							// Deactivate previous aura
+							if currentInsightIndex >= 0 {
+								bgDamageAuras[currentInsightIndex].Deactivate(sim)
+							}
+							currentInsightIndex += 1
+							// Activate next aura
+							bgDamageAuras[currentInsightIndex].Activate(sim)
+						} else {
+							// Refresh duration of existing aura
+							if currentInsightIndex >= 0 {
+								bgDamageAuras[currentInsightIndex].Duration = time.Second * 15
+								bgDamageAuras[currentInsightIndex].Activate(sim)
+							}
+						}
+
+					}
+				},
+			})
+		},
+	},
+})
+
 func init() {
 	core.NewItemEffect(32492, func(agent core.Agent) {
 		rogue := agent.(RogueAgent).GetRogue()

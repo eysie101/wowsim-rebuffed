@@ -1,9 +1,18 @@
 // Sun-Lute tooltip hack
 var sunluteTxt = '<table><tr><td><b class="q5">Sun-Lute of the Phoenix King</b><br /><!--bo-->Binds when picked up<br />Unique<table width="100%"><tr><td>Two-Hand</td><th>Axe</th></tr></table><table width="100%"><tr><td><!--dmg-->673 - 1008 Damage</td><th>Speed <!--spd-->3.60</th></tr></table><!--dps-->(233.5 damage per second)<br /><span><!--stat4-->+131 Strength</span><br /><span><!--stat7-->+139 Stamina</span><br />_SLPH_Durability 145 / 145<br />Classes: <a href="?class=1" class="c1">Warrior</a>, <a href="?class=2" class="c2">Paladin</a><br />Requires Level 80<br />Item Level 232<br /></td></tr></table><table><tr><td><span class="q2">Equip: Improves critical strike rating by <!--rtg32-->81&nbsp;<small>(<!--rtg%32-->1.76%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases your armor penetration rating by <!--rtg44-->64&nbsp;<small>(<!--rtg%44-->4.57%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Your melee attacks have a chance to strike a Power Chord. When you reach 4 Power Chords, they will release, causing you to instantly attack for 100% weapon damage with the Sun-Lute.</span><br /><div class="q1 whtt-sellprice">Sell Price: <span class="moneygold">36</span> <span class="moneysilver">32</span> <span class="moneycopper">60</span></div></td></tr></table><!--?130031:1:80:80-->'
 var sunluteFake = 46041 // Starfall Girdle (has same sockets and bonus as Sun-Lute)
+var fixSunlute
 // Sulfuras tooltip hack
 var sulfurasTxt = '<table><tr><td><b class="q5">Sulfuras, Hand of Ragnaros</b><br /><!--bo-->Binds when picked up<br />Unique<table width="100%"><tr><td>Two-Hand</td><th>Mace</th></tr></table><table width="100%"><tr><td><!--dmg-->872 - 1309 Damage</td><th>Speed <!--spd-->3.70</th></tr></table><!--dps-->(294.7 damage per second)<br /><span class=\"c11\"><!--fap-->(3359 Feral Attack Power)</span><br /><span><!--stat3-->+155 Agility</span><br /><span><!--stat7-->+199 Stamina</span><br />_SULPH_Durability 145 / 145<br />Requires Level 80<br />Item Level 264<br /></td></tr></table><table><tr><td><span class="q2">Equip: Improves hit rating by <!--rtg31-->116&nbsp;<small>(<!--rtg%31-->3.54%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases your expertise rating by <!--rtg37-->99&nbsp;<small>(<!--rtg%37-->12.08%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases attack power by <!--rtg38-->184.</span><br /><span class="q2">Chance on hit: Hurls a fiery ball that causes 717 to 913 Fire damage and an additional 116 Fire damage over 8 sec.</span><br /><div class="q1 whtt-sellprice">Sell Price: <span class="moneygold">32</span> <span class="moneysilver">44</span> <span class="moneycopper">95</span></div></td></tr></table><!--?132001:1:80:80-->'
 var sulfurasFake = 51905 // Ramaladni's Blade of Culling (has same sockets. there is no real item with +12 dodge socket bonus, making this harder)
+var fixSulfuras
+// Warglaives tooltip hack
+var warglaiveATxt = '<table><tr><td><b class="q5">Warglaive of Azzinoth</b><br /><!--bo-->Binds when picked up<br />Unique<table width="100%"><tr><td>Main Hand</td><th>Sword</th></tr></table><table width="100%"><tr><td><!--dmg-->394 - 701 Damage</td><th>Speed <!--spd-->2.80</th></tr></table><!--dps-->(195.5 damage per second)<br /><span><!--stat3-->+58 Agility</span><br /><span><!--stat7-->+60 Stamina</span><br />_WGPH_Durability 125 / 125<br />Classes: <a href="?class=4" class="c4">Rogue</a><br />Requires Level 80<br />Item Level 245<br /></td></tr></table><table><tr><td><span class="q2">Equip: Improves hit rating by <!--rtg31-->39&nbsp;<small>(<!--rtg%31-->1.19%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases attack power by 78.</span><br /><span class="q2">Equip: Improves melee haste rating by <!--rtg36-->39&nbsp;<small>(<!--rtg%36-->1.19%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><br /><span class="q"><a href="?itemset=699" class="q">The Twin Blades of Azzinoth</a> (0/2)</span><div class="q0 indent"><span><!--si32837--><a href="?item=32837">Warglaive of Azzinoth</a></span><br /><span><!--si32838--><a href="?item=32838">Warglaive of Azzinoth</a></span></div><br /><span class="q0"><span>(2) Set: Your Sinister Strike has a 100% chance to grant you an evolving insight into an opponent\'s defenses, increasing damage to that target by up to 10%. Opponents can adapt over time, negating this benefit, and Striking a different opponent will begin the cycle anew.</span><div class="q1 whtt-sellprice">Sell Price: <span class="moneygold">24</span> <span class="moneysilver">31</span> <span class="moneycopper">12</span></div></td></tr></table><!--?32837:1:80:80-->'
+var warglaiveAFake = 32837
+var fixWarglaiveA
+var warglaiveBTxt = '<table><tr><td><b class="q5">Warglaive of Azzinoth</b><br /><!--bo-->Binds when picked up<br />Unique<table width="100%"><tr><td>Off Hand</td><th>Sword</th></tr></table><table width="100%"><tr><td><!--dmg-->186 - 365 Damage</td><th>Speed <!--spd-->1.40</th></tr></table><!--dps-->(196.8 damage per second)<br /><span><!--stat3-->+58 Agility</span><br /><span><!--stat7-->+60 Stamina</span><br />_WGPH_Durability 125 / 125<br />Classes: <a href="?class=4" class="c4">Rogue</a><br />Requires Level 80<br />Item Level 245<br /></td></tr></table><table><tr><td><span class="q2">Equip: Improves critical strike rating by <!--rtg32-->39&nbsp;<small>(<!--rtg%32-->0.85%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases your armor penetration rating by <!--rtg44-->39&nbsp;<small>(<!--rtg%44-->2.79%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases attack power by 78.</span><br /><br /><span class="q"><a href="?itemset=699" class="q">The Twin Blades of Azzinoth</a> (0/2)</span><div class="q0 indent"><span><!--si32837--><a href="?item=32837">Warglaive of Azzinoth</a></span><br /><span><!--si32838--><a href="?item=32838">Warglaive of Azzinoth</a></span></div><br /><span class="q0"><span>(2) Set: Your Sinister Strike has a 100% chance to grant you an evolving insight into an opponent\'s defenses, increasing damage to that target by up to 10%. Opponents can adapt over time, negating this benefit, and Striking a different opponent will begin the cycle anew.</span><br /></span><div class="q1 whtt-sellprice">Sell Price: <span class="moneygold">24</span> <span class="moneysilver">39</span> <span class="moneycopper">74</span></div></td></tr></table><!--?32838:1:80:80-->'
+var warglaiveBFake = 32838
+var fixWarglaiveB
 
 if (typeof $WH == "undefined") {
     $WH = { wowheadRemote: true };
@@ -26,8 +35,6 @@ if (typeof $WowheadPower == "undefined") {
             currentDomain,
             currentParams,
             currentA,
-            fixSunlute,
-            fixSulfuras,
 
             cursorX,
             cursorY,
@@ -534,6 +541,17 @@ if (typeof $WowheadPower == "undefined") {
                 id = sulfurasFake
             }
 
+            fixWarglaiveA = id == 131001
+            if (fixWarglaiveA) {
+                id = warglaiveAFake
+            }
+
+            fixWarglaiveB = id == 131002
+            if (fixWarglaiveB) {
+                id = warglaiveBFake
+            }
+
+
             if (!params) {
                 params = {};
             }
@@ -620,6 +638,20 @@ if (typeof $WowheadPower == "undefined") {
                 if (txt) {
                     html = sulfurasTxt.replace("_SULPH_", txt[1])
                     html = html.replace('Bonus: <a href=\"?enchantment=3312\">+8 Strength', 'Bonus: <a href=\"?enchantment=3312\">+12 Dodge Rating')
+                }
+            }
+
+            if (fixWarglaiveA && currentType == 3 && currentId.startsWith(warglaiveAFake.toString())) {
+                var txt = html.match(/((?:<span class="q2">)?<!--e-->.*?)Durability/)
+                if (txt) {
+                    html = warglaiveATxt.replace("_WGPH_", txt[1])
+                }
+            }
+
+            if (fixWarglaiveB && currentType == 3 && currentId.startsWith(warglaiveBFake.toString())) {
+                var txt = html.match(/((?:<span class="q2">)?<!--e-->.*?)Durability/)
+                if (txt) {
+                    html = warglaiveBTxt.replace("_WGPH_", txt[1])
                 }
             }
 
