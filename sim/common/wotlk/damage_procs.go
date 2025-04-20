@@ -193,4 +193,40 @@ func init() {
 			},
 		})
 	})
+
+	// Thunderfury (Whitemane)
+	core.NewItemEffect(132003, func(agent core.Agent) {
+		character := agent.GetCharacter()
+
+		thunderbladeSpell := character.GetOrRegisterSpell(core.SpellConfig{
+			ActionID:    core.ActionID{SpellID: 55864},
+			SpellSchool: core.SpellSchoolNature | core.SpellSchoolPhysical,
+			ProcMask:    core.ProcMaskEmpty,
+
+			DamageMultiplier: 1,
+			CritMultiplier:   character.DefaultSpellCritMultiplier(),
+			ThreatMultiplier: 1,
+
+			ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
+				// does 100% weapon damage despite tooltip saying 15%
+				dmg := character.MHWeaponDamage(sim, spell.MeleeAttackPower())
+				spell.CalcAndDealDamage(sim, target, dmg, spell.OutcomeMagicHitAndCrit)
+				target2 := sim.Environment.NextTargetUnit(target)
+				if target != target2 {
+					spell.CalcAndDealDamage(sim, target2, dmg*0.7, spell.OutcomeMagicHitAndCrit)
+				}
+			},
+		})
+
+		core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+			Name:     "Thunderblade Trigger",
+			Callback: core.CallbackOnSpellHitDealt,
+			Outcome:  core.OutcomeLanded,
+			ProcMask: core.ProcMaskMelee,
+			PPM:      2,
+			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+				thunderbladeSpell.Cast(sim, result.Target)
+			},
+		})
+	})
 }

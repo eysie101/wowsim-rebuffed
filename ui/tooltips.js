@@ -13,6 +13,9 @@ var fixWarglaiveA
 var warglaiveBTxt = '<table><tr><td><b class="q5">Warglaive of Azzinoth</b><br /><!--bo-->Binds when picked up<br />Unique<table width="100%"><tr><td>Off Hand</td><th>Sword</th></tr></table><table width="100%"><tr><td><!--dmg-->186 - 365 Damage</td><th>Speed <!--spd-->1.40</th></tr></table><!--dps-->(196.8 damage per second)<br /><span><!--stat3-->+58 Agility</span><br /><span><!--stat7-->+60 Stamina</span><br />_WGPH_Durability 125 / 125<br />Classes: <a href="?class=4" class="c4">Rogue</a><br />Requires Level 80<br />Item Level 245<br /></td></tr></table><table><tr><td><span class="q2">Equip: Improves critical strike rating by <!--rtg32-->39&nbsp;<small>(<!--rtg%32-->0.85%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases your armor penetration rating by <!--rtg44-->39&nbsp;<small>(<!--rtg%44-->2.79%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases attack power by 78.</span><br /><br /><span class="q"><a href="?itemset=699" class="q">The Twin Blades of Azzinoth</a> (0/2)</span><div class="q0 indent"><span><!--si32837--><a href="?item=32837">Warglaive of Azzinoth</a></span><br /><span><!--si32838--><a href="?item=32838">Warglaive of Azzinoth</a></span></div><br /><span class="q0"><span>(2) Set: Your Sinister Strike has a 100% chance to grant you an evolving insight into an opponent\'s defenses, increasing damage to that target by up to 10%. Opponents can adapt over time, negating this benefit, and Striking a different opponent will begin the cycle anew.</span><br /></span><div class="q1 whtt-sellprice">Sell Price: <span class="moneygold">24</span> <span class="moneysilver">39</span> <span class="moneycopper">74</span></div></td></tr></table><!--?32838:1:80:80-->'
 var warglaiveBFake = 32838
 var fixWarglaiveB
+var thunderfuryTxt = '<table><tr><td><b class="q5">Thunderfury, Blessed Blade of the Windseeker</b><br /><!--bo-->Binds when picked up<br />Unique<table width="100%"><tr><td>One-Hand</td><th>Sword</th></tr></table><table width="100%"><tr><td><!--dmg-->494 - 685 Damage</td><th>Speed <!--spd-->2.60</th></tr></table><!--dps-->(226.7 damage per second)<br /><span><!--stat3-->+69 Agility</span><br /><span><!--stat7-->+69 Stamina</span><br />_TFPH_Durability 125 / 125<br />Classes: <a href="?class=1" class="c1">Warrior</a>, <a href="?class=2" class="c2">Paladin</a><br />Requires Level 80<br />Item Level 264<br /></td></tr></table><table><tr><td><span class="q2">Equip: Improves hit rating by <!--rtg31-->44&nbsp;<small>(<!--rtg%31-->1.34%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases your expertise rating by <!--rtg37-->41&nbsp;<small>(<!--rtg%37-->5.00%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases attack power by <!--rtg38-->139.</span><br /><span class="q2">Chance on hit: Slashes a lightning charged weapon at the enemy, dealing 15% Stormstrike damage and then jumping to additional nearby enemies. Each jump reduces the damage by 30%. Affects 2 total targets. (2 procs per minute)</span><br /><div class="q1 whtt-sellprice">Sell Price: <span class="moneygold">12</span> <span class="moneysilver">59</span> <span class="moneycopper">28</span></div></td></tr></table><!--?132003:1:80:80-->'
+var thunderfuryFake = 50738 // Mithrios, Bronzebeard's Legacy (has same socket. there is no real item with one blue socket and +8 dodge socket bonus)
+var fixThunderfury
 
 if (typeof $WH == "undefined") {
     $WH = { wowheadRemote: true };
@@ -551,6 +554,11 @@ if (typeof $WowheadPower == "undefined") {
                 id = warglaiveBFake
             }
 
+            fixThunderfury = id == 132003
+            if (fixThunderfury) {
+                id = thunderfuryFake
+            }
+
 
             if (!params) {
                 params = {};
@@ -652,6 +660,15 @@ if (typeof $WowheadPower == "undefined") {
                 var txt = html.match(/((?:<span class="q2">)?<!--e-->.*?)Durability/)
                 if (txt) {
                     html = warglaiveBTxt.replace("_WGPH_", txt[1])
+                }
+            }
+
+            if (fixThunderfury && currentType == 3 && currentId.startsWith(thunderfuryFake.toString())) {
+                icon = "inv_sword_39"
+                var txt = html.match(/((?:<span class="q2">)?<!--e-->.*?)Durability/)
+                if (txt) {
+                    html = thunderfuryTxt.replace("_TFPH_", txt[1])
+                    html = html.replace('Bonus: <a href=\"?enchantment=2868\">+6 Stamina', 'Bonus: <a href=\"?enchantment=2868\">+8 Dodge Rating')
                 }
             }
 
