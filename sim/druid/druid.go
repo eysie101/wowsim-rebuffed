@@ -90,6 +90,7 @@ type Druid struct {
 	BleedCategories core.ExclusiveCategoryArray
 
 	PrimalPrecisionRecoveryMetrics *core.ResourceMetrics
+	sotcgMetrics                   *core.ResourceMetrics
 	SavageRoarDurationTable        [6]time.Duration
 
 	ProcOoc func(sim *core.Simulation)
@@ -198,6 +199,10 @@ func (druid *Druid) Initialize() {
 
 	if druid.Talents.PrimalPrecision > 0 {
 		druid.PrimalPrecisionRecoveryMetrics = druid.NewEnergyMetrics(core.ActionID{SpellID: 48410})
+	}
+	// Scythe of the Cat God (Whitemane)
+	if druid.HasMHWeapon() && druid.GetMHWeapon().ID == 132004 {
+		druid.sotcgMetrics = druid.NewEnergyMetrics(core.ActionID{SpellID: 23278})
 	}
 	druid.registerFaerieFireSpell()
 	druid.registerRebirthSpell()

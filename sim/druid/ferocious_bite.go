@@ -54,6 +54,11 @@ func (druid *Druid) registerFerociousBiteSpell() {
 			if result.Landed() {
 				druid.SpendEnergy(sim, excessEnergy, spell.Cost.(*core.EnergyCost).ResourceMetrics)
 				druid.SpendComboPoints(sim, spell.ComboPointMetrics())
+
+				// Scythe of the Cat God (Whitemane)
+				if druid.HasMHWeapon() && druid.GetMHWeapon().ID == 132004 {
+					druid.AddEnergy(sim, 4*comboPoints, druid.sotcgMetrics)
+				}
 			} else {
 				spell.IssueRefund(sim)
 			}

@@ -57,9 +57,15 @@ func (druid *Druid) registerSavageRoarSpell() {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, _ *core.Unit, spell *core.Spell) {
+			comboPoints := float64(druid.ComboPoints())
 			druid.SavageRoarAura.Duration = druid.SavageRoarDurationTable[druid.ComboPoints()]
 			druid.SavageRoarAura.Activate(sim)
 			druid.SpendComboPoints(sim, spell.ComboPointMetrics())
+
+			// Scythe of the Cat God (Whitemane)
+			if druid.HasMHWeapon() && druid.GetMHWeapon().ID == 132004 {
+				druid.AddEnergy(sim, 4*comboPoints, druid.sotcgMetrics)
+			}
 		},
 	})
 

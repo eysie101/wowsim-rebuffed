@@ -16,6 +16,10 @@ var fixWarglaiveB
 var thunderfuryTxt = '<table><tr><td><b class="q5">Thunderfury, Blessed Blade of the Windseeker</b><br /><!--bo-->Binds when picked up<br />Unique<table width="100%"><tr><td>One-Hand</td><th>Sword</th></tr></table><table width="100%"><tr><td><!--dmg-->494 - 685 Damage</td><th>Speed <!--spd-->2.60</th></tr></table><!--dps-->(226.7 damage per second)<br /><span><!--stat3-->+69 Agility</span><br /><span><!--stat7-->+69 Stamina</span><br />_TFPH_Durability 125 / 125<br />Classes: <a href="?class=1" class="c1">Warrior</a>, <a href="?class=2" class="c2">Paladin</a><br />Requires Level 80<br />Item Level 264<br /></td></tr></table><table><tr><td><span class="q2">Equip: Improves hit rating by <!--rtg31-->44&nbsp;<small>(<!--rtg%31-->1.34%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases your expertise rating by <!--rtg37-->41&nbsp;<small>(<!--rtg%37-->5.00%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases attack power by <!--rtg38-->139.</span><br /><span class="q2">Chance on hit: Slashes a lightning charged weapon at the enemy, dealing 15% Stormstrike damage and then jumping to additional nearby enemies. Each jump reduces the damage by 30%. Affects 2 total targets. (2 procs per minute)</span><br /><div class="q1 whtt-sellprice">Sell Price: <span class="moneygold">12</span> <span class="moneysilver">59</span> <span class="moneycopper">28</span></div></td></tr></table><!--?132003:1:80:80-->'
 var thunderfuryFake = 50738 // Mithrios, Bronzebeard's Legacy (has same socket. there is no real item with one blue socket and +8 dodge socket bonus)
 var fixThunderfury
+// Scythe tooltip hack
+var scytheTxt = '<table><tr><td><b class="q5">Scythe of the Cat God</b><br /><!--bo-->Binds when picked up<br />Unique<table width="100%"><tr><td>Two-Hand</td><th>Polearm</th></tr></table><table width="100%"><tr><td><!--dmg-->761 - 1080 Damage</td><th>Speed <!--spd-->3.60</th></tr></table><!--dps-->(255.69 damage per second)<br /><span class=\"c11\"><!--fap-->(2813 Feral Attack Power)</span><br /><span><!--stat3-->+130 Agility</span><br /><span><!--stat7-->+142 Stamina</span><br />_SCYPH_Durability 145 / 145<br />Requires Level 80<br />Item Level 245<br /></td></tr></table><table><tr><td><span class="q2">Equip: Increases attack power by 177.</span><br /><span class="q2">Equip: Improves critical strike rating by <!--rtg32-->98&nbsp;<small>(<!--rtg%32-->2.13%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases your armor penetration rating by <!--rtg44-->92&nbsp;<small>(<!--rtg%44-->6.57%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Your finishing moves restore 4 energy per 1 combo point spent.</span><br /><div class="q1 whtt-sellprice">Sell Price: <span class="moneygold">38</span> <span class="moneysilver">75</span> <span class="moneycopper">22</span></div></td></tr></table><!--?132004:1:80:80-->'
+var scytheFake = 50737 // Havoc's Call, Blade of Lordaeron Kings (has same socket. there is no real item with the correct socket+bonus, making this harder)
+var fixScythe
 
 if (typeof $WH == "undefined") {
     $WH = { wowheadRemote: true };
@@ -559,6 +563,11 @@ if (typeof $WowheadPower == "undefined") {
                 id = thunderfuryFake
             }
 
+            fixScythe = id == 132004
+            if (fixScythe) {
+                id = scytheFake
+            }
+
 
             if (!params) {
                 params = {};
@@ -669,6 +678,15 @@ if (typeof $WowheadPower == "undefined") {
                 if (txt) {
                     html = thunderfuryTxt.replace("_TFPH_", txt[1])
                     html = html.replace('Bonus: <a href=\"?enchantment=2868\">+6 Stamina', 'Bonus: <a href=\"?enchantment=2868\">+8 Dodge Rating')
+                }
+            }
+
+            if (fixScythe && currentType == 3 && currentId.startsWith(scytheFake.toString())) {
+                icon = "inv_staff_2h_artifactelune_d_04"
+                var txt = html.match(/((?:<span class="q2">)?<!--e-->.*?)Durability/)
+                if (txt) {
+                    html = scytheTxt.replace("_SCYPH_", txt[1])
+                    html = html.replace('Bonus: <a href=\"?enchantment=2877\">+4 Agility', 'Bonus: <a href=\"?enchantment=3313\">+8 Agility')
                 }
             }
 

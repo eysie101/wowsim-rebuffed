@@ -76,11 +76,17 @@ func (druid *Druid) registerRipSpell() {
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			result := spell.CalcOutcome(sim, target, spell.OutcomeMeleeSpecialHit)
 			if result.Landed() {
+				comboPoints := float64(druid.ComboPoints())
 				spell.SpellMetrics[target.UnitIndex].Hits--
 				dot := spell.Dot(target)
 				dot.NumberOfTicks = ripBaseNumTicks
 				dot.Apply(sim)
 				druid.SpendComboPoints(sim, spell.ComboPointMetrics())
+
+				// Scythe of the Cat God (Whitemane)
+				if druid.HasMHWeapon() && druid.GetMHWeapon().ID == 132004 {
+					druid.AddEnergy(sim, 4*comboPoints, druid.sotcgMetrics)
+				}
 			} else {
 				spell.IssueRefund(sim)
 			}
