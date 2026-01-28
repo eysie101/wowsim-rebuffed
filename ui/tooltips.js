@@ -20,6 +20,12 @@ var fixThunderfury
 var scytheTxt = '<table><tr><td><b class="q5">Scythe of the Cat God</b><br /><!--bo-->Binds when picked up<br />Unique<table width="100%"><tr><td>Two-Hand</td><th>Polearm</th></tr></table><table width="100%"><tr><td><!--dmg-->761 - 1080 Damage</td><th>Speed <!--spd-->3.60</th></tr></table><!--dps-->(255.69 damage per second)<br /><span class=\"c11\"><!--fap-->(2813 Feral Attack Power)</span><br /><span><!--stat3-->+130 Agility</span><br /><span><!--stat7-->+142 Stamina</span><br />_SCYPH_Durability 145 / 145<br />Requires Level 80<br />Item Level 245<br /></td></tr></table><table><tr><td><span class="q2">Equip: Increases attack power by 177.</span><br /><span class="q2">Equip: Improves critical strike rating by <!--rtg32-->98&nbsp;<small>(<!--rtg%32-->2.13%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases your armor penetration rating by <!--rtg44-->92&nbsp;<small>(<!--rtg%44-->6.57%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Your finishing moves restore 4 energy per 1 combo point spent.</span><br /><div class="q1 whtt-sellprice">Sell Price: <span class="moneygold">38</span> <span class="moneysilver">75</span> <span class="moneycopper">22</span></div></td></tr></table><!--?132004:1:80:80-->'
 var scytheFake = 50737 // Havoc's Call, Blade of Lordaeron Kings (has same socket. there is no real item with the correct socket+bonus, making this harder)
 var fixScythe
+// Atiesh tooltip hack
+var atieshPriestMageTxt = '<table><tr><td><b class="q5">Atiesh, Greatstaff of the Guardian</b><br /><!--bo-->Binds when picked up<br />Unique<table width="100%"><tr><td>Two-Hand</td><th>Staff</th></tr></table><table width="100%"><tr><td><!--dmg-->231 - 427 Damage</td><th>Speed <!--spd-->2.10</th></tr></table><!--dps-->(156.7 damage per second)<br /><span class="c11"><!--fap-->(1426 Feral Attack Power)</span><br /><span><!--stat7-->+108 Stamina</span><br /><span><!--stat5-->+128 Intellect</span><br />_ATPH_Durability 145 / 145<br />Requires Level 80<br />Item Level 232<br /></td></tr></table><table><tr><td><span class="q2">Equip: Improves critical strike rating by <!--rtg32-->113&nbsp;<small>(<!--rtg%32-->2.46%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases your haste rating by <!--rtg36-->108&nbsp;<small>(<!--rtg%36-->3.29%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases spell power by <!--rtg45-->550.</span><br /><span class="q2">Equip: Your offensive spells have a chance on hit to increase your spell power by 285 for 10 sec.</span><br /><div class="q1 whtt-sellprice">Sell Price: <span class="moneygold">28</span> <span class="moneysilver">23</span> <span class="moneycopper">25</span></div></td></tr></table><!--?132005:1:80:80-->'
+var atieshDruidTxt = '<table><tr><td><b class="q5">Atiesh, Greatstaff of the Guardian</b><br /><!--bo-->Binds when picked up<br />Unique<table width="100%"><tr><td>Two-Hand</td><th>Staff</th></tr></table><table width="100%"><tr><td><!--dmg-->231 - 427 Damage</td><th>Speed <!--spd-->2.10</th></tr></table><!--dps-->(156.7 damage per second)<br /><span class="c11"><!--fap-->(1426 Feral Attack Power)</span><br /><span><!--stat7-->+108 Stamina</span><br /><span><!--stat5-->+128 Intellect</span><br />_ATPH_Durability 145 / 145<br />Requires Level 80<br />Item Level 232<br /></td></tr></table><table><tr><td><span class="q2">Equip: Improves hit rating by <!--rtg31-->120&nbsp;<small>(<!--rtg%31-->3.66%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Improves critical strike rating by <!--rtg32-->113&nbsp;<small>(<!--rtg%32-->2.46%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases spell power by <!--rtg45-->550.</span><br /><span class="q2">Equip: Your offensive spells have a chance on hit to increase your spell power by 285 for 10 sec.</span><br /><div class="q1 whtt-sellprice">Sell Price: <span class="moneygold">28</span> <span class="moneysilver">23</span> <span class="moneycopper">25</span></div></td></tr></table><!--?132005:1:80:80-->'
+var atieshFake = 45886 // Icecore Staff (has same sockets and bonus as Atiesh)
+var fixAtiesh1
+var fixAtiesh2
 
 if (typeof $WH == "undefined") {
     $WH = { wowheadRemote: true };
@@ -568,6 +574,12 @@ if (typeof $WowheadPower == "undefined") {
                 id = scytheFake
             }
 
+            fixAtiesh1 = (id == 132005 || id == 132007)
+            fixAtiesh2 = id == 132006
+            if (fixAtiesh1 || fixAtiesh2) {
+                id = atieshFake
+            }
+
 
             if (!params) {
                 params = {};
@@ -687,6 +699,18 @@ if (typeof $WowheadPower == "undefined") {
                 if (txt) {
                     html = scytheTxt.replace("_SCYPH_", txt[1])
                     html = html.replace('Bonus: <a href=\"?enchantment=2877\">+4 Agility', 'Bonus: <a href=\"?enchantment=3313\">+8 Agility')
+                }
+            }
+
+            if ((fixAtiesh1 || fixAtiesh2) && currentType == 3 && currentId.startsWith(atieshFake.toString())) {
+                icon = "inv_staff_medivh"
+                var txt = html.match(/((?:<span class="q2">)?<!--e-->.*?)Durability/)
+                if (txt) {
+                    if (fixAtiesh1) {
+                        html = atieshPriestMageTxt.replace("_ATPH_", txt[1])
+                    } else if (fixAtiesh2) {
+                        html = atieshDruidTxt.replace("_ATPH_", txt[1])
+                    }
                 }
             }
 
