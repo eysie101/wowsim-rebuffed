@@ -324,7 +324,7 @@ func init() {
 			ProcMask:   core.ProcMaskMeleeOrProc,
 			Outcome:    core.OutcomeLanded,
 			ActionID:   core.ActionID{ItemID: itemID},
-			ProcChance: 1,
+			ProcChance: 0.2,
 			ICD:        time.Second / 2,
 			Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 				if spell == mhSpell || spell == ohSpell { // can't proc itself
