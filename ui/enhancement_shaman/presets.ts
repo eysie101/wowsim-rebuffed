@@ -32,8 +32,6 @@ import * as PresetUtils from '../core/preset_utils.js';
 
 import PreraidGear from './gear_sets/preraid.gear.json';
 export const PRERAID_PRESET = PresetUtils.makePresetGear('Preraid Preset', PreraidGear);
-import P1Gear from './gear_sets/p1.gear.json';
-export const P1_PRESET = PresetUtils.makePresetGear('P1 Preset', P1Gear);
 import P2FtGear from './gear_sets/p2_ft.gear.json';
 export const P2_PRESET_FT = PresetUtils.makePresetGear('P2 Preset FT', P2FtGear);
 import P2WfGear from './gear_sets/p2_wf.gear.json';
@@ -50,6 +48,9 @@ import EysieSpellGear from './gear_sets/eysie_spell.gear.json';
 export const EYSIE_SPELL_PRESET = PresetUtils.makePresetGear('Eysie Spell', EysieSpellGear);
 import EysieWfGear from './gear_sets/eysie_wf.gear.json';
 export const EYSIE_WF_PRESET = PresetUtils.makePresetGear('Eysie WF', EysieWfGear);
+// Whitemane phase 1: the best-in-slot sets of the spell and Windfury builds (Jewelcrafting and Engineering)
+export const P1_SPELL_PRESET = PresetUtils.makePresetGear('P1 Spell', EysieSpellGear);
+export const P1_WF_PRESET = PresetUtils.makePresetGear('P1 WF', EysieWfGear);
 
 import DefaultFt from './apls/default_ft.apl.json';
 export const ROTATION_FT_DEFAULT = PresetUtils.makePresetAPLRotation('Default FT', DefaultFt);
@@ -68,27 +69,28 @@ export const ROTATION_EYSIE_WF_AOE3 = PresetUtils.makePresetAPLRotation('Eysie W
 
 // Default talents. Uses the wowhead calculator format, make the talents on
 // https://wowhead.com/wotlk/talent-calc and copy the numbers in the url.
-export const StandardTalents = {
-	name: 'Standard',
+// Whitemane: Ancestral Knowledge 5/5 and Improved Stormstrike 2/2 in both builds; glyphs per build.
+export const SpellTalents = {
+	name: 'Spell',
 	data: SavedTalents.create({
-		talentsString: '053030152-30405003105021333031131031051',
+		talentsString: '053030152-00505033105001333031130231051',
 		glyphs: Glyphs.create({
 			major1: ShamanMajorGlyph.GlyphOfFireNova,
 			major2: ShamanMajorGlyph.GlyphOfFlametongueWeapon,
-			major3: ShamanMajorGlyph.GlyphOfFeralSpirit,
+			major3: ShamanMajorGlyph.GlyphOfStormstrike,
 			//minor glyphs dont affect damage done, all convenience/QoL
 		})
 	}),
 };
 
-export const Phase3Talents = {
-	name: 'Phase 3',
+export const WfTalents = {
+	name: 'WF',
 	data: SavedTalents.create({
-		talentsString: '053030152-30505003105001333031131131051',
+		talentsString: '053030152-00505033105001333031130231051',
 		glyphs: Glyphs.create({
-			major1: ShamanMajorGlyph.GlyphOfFireNova,
-			major2: ShamanMajorGlyph.GlyphOfFlametongueWeapon,
-			major3: ShamanMajorGlyph.GlyphOfFeralSpirit,
+			major1: ShamanMajorGlyph.GlyphOfStormstrike,
+			major2: ShamanMajorGlyph.GlyphOfFeralSpirit,
+			major3: ShamanMajorGlyph.GlyphOfLightningShield,
 			//minor glyphs dont affect damage done, all convenience/QoL
 		})
 	}),
@@ -120,7 +122,7 @@ export const EysieWfTalents = {
 
 export const DefaultOptions = EnhancementShamanOptions.create({
 	shield: ShamanShield.LightningShield,
-	imbueMh: ShamanImbue.WindfuryWeapon,
+	imbueMh: ShamanImbue.FlametongueWeapon,
 	imbueOh: ShamanImbue.FlametongueWeapon,
 	syncType: ShamanSyncType.Auto,
 	totems: ShamanTotems.create({
@@ -133,7 +135,7 @@ export const DefaultOptions = EnhancementShamanOptions.create({
 
 export const DefaultConsumes = Consumes.create({
 	defaultPotion: Potions.PotionOfSpeed,
-	flask: Flask.FlaskOfEndlessRage,
+	flask: Flask.FlaskOfTheFrostWyrm,
 	food: Food.FoodFishFeast,
 });
 
