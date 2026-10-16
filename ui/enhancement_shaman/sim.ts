@@ -77,7 +77,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecEnhancementShaman, {
 
 	defaults: {
 		// Default equipped gear.
-		gear: Presets.P1_SPELL_PRESET.gear,
+		gear: Presets.ENHA_P1_SPELL_PRESET.gear,
 		// Default EP weights for sorting gear in the gear picker.
 		epWeights: Stats.fromMap({
 			[Stat.StatIntellect]: 1.48,
@@ -100,7 +100,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecEnhancementShaman, {
 		// Default consumes settings.
 		consumes: Presets.DefaultConsumes,
 		// Default talents.
-		talents: Presets.SpellTalents.data,
+		talents: Presets.EnhaP1SpellTalents.data,
 		// Default spec-specific settings.
 		specOptions: Presets.DefaultOptions,
 		// Default raid/party buffs settings.
@@ -153,34 +153,20 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecEnhancementShaman, {
 	presets: {
 		// Preset talents that the user can quickly select.
 		talents: [
-			Presets.SpellTalents,
-			Presets.WfTalents,
-			Presets.EysieSpellTalents,
-			Presets.EysieWfTalents,
+			Presets.EnhaP1SpellTalents,
+			Presets.EnhaP1WfTalents,
 		],
 		// Preset rotations that the user can quickly select.
 		rotations: [
-			Presets.ROTATION_FT_DEFAULT,
-			Presets.ROTATION_WF_DEFAULT,
-			Presets.ROTATION_PHASE_3,
-			Presets.ROTATION_EYSIE_SPELL,
-			Presets.ROTATION_EYSIE_WF,
-			Presets.ROTATION_EYSIE_SPELL_AOE3,
-			Presets.ROTATION_EYSIE_WF_AOE3,
+			Presets.ROTATION_ENHA_P1_SPELL,
+			Presets.ROTATION_ENHA_P1_WF,
+			Presets.ROTATION_ENHA_P1_SPELL_AOE3,
+			Presets.ROTATION_ENHA_P1_WF_AOE3,
 		],
 		// Preset gear configurations that the user can quickly select.
 		gear: [
-			Presets.PRERAID_PRESET,
-			Presets.P1_SPELL_PRESET,
-			Presets.P1_WF_PRESET,
-			Presets.P2_PRESET_FT,
-			Presets.P2_PRESET_WF,
-			Presets.P3_PRESET_ALLIANCE,
-			Presets.P3_PRESET_HORDE,
-			Presets.P4_PRESET_FT,
-			Presets.P4_PRESET_WF,
-			Presets.EYSIE_SPELL_PRESET,
-			Presets.EYSIE_WF_PRESET,
+			Presets.ENHA_P1_SPELL_PRESET,
+			Presets.ENHA_P1_WF_PRESET,
 		],
 	},
 
@@ -191,15 +177,12 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecEnhancementShaman, {
 			|| player.getCurrentStats().sets.includes('Thrall\'s Battlegear (4pc)');
 		const options = player.getSpecOptions();
 
-		if (hasT94P) {
-			console.log("has set");
-			return Presets.ROTATION_PHASE_3.rotation.rotation!;
-		} else if (options.imbueMh == ShamanImbue.FlametongueWeapon) {
+		if (options.imbueMh == ShamanImbue.FlametongueWeapon) {
 			// Whitemane: the spell build's priority list
-			return Presets.ROTATION_EYSIE_SPELL.rotation.rotation!;
+			return Presets.ROTATION_ENHA_P1_SPELL.rotation.rotation!;
 		} else {
 			// Whitemane: the Windfury build's priority list
-			return Presets.ROTATION_EYSIE_WF.rotation.rotation!;
+			return Presets.ROTATION_ENHA_P1_WF.rotation.rotation!;
 		}
 	},
 
@@ -210,7 +193,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecEnhancementShaman, {
 			defaultName: 'Enhancement',
 			iconUrl: getSpecIcon(Class.ClassShaman, 1),
 
-			talents: Presets.SpellTalents.data,
+			talents: Presets.EnhaP1SpellTalents.data,
 			specOptions: Presets.DefaultOptions,
 			consumes: Presets.DefaultConsumes,
 			defaultFactionRaces: {
@@ -221,16 +204,16 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecEnhancementShaman, {
 			defaultGear: {
 				[Faction.Unknown]: {},
 				[Faction.Alliance]: {
-					1: Presets.P1_SPELL_PRESET.gear,
-					2: Presets.P2_PRESET_FT.gear,
-					3: Presets.P3_PRESET_ALLIANCE.gear,
-					4: Presets.P4_PRESET_FT.gear,
+					1: Presets.ENHA_P1_SPELL_PRESET.gear,
+					2: Presets.ENHA_P1_SPELL_PRESET.gear,
+					3: Presets.ENHA_P1_SPELL_PRESET.gear,
+					4: Presets.ENHA_P1_SPELL_PRESET.gear,
 				},
 				[Faction.Horde]: {
-					1: Presets.P1_SPELL_PRESET.gear,
-					2: Presets.P2_PRESET_FT.gear,
-					3: Presets.P3_PRESET_HORDE.gear,
-					4: Presets.P4_PRESET_FT.gear,
+					1: Presets.ENHA_P1_SPELL_PRESET.gear,
+					2: Presets.ENHA_P1_SPELL_PRESET.gear,
+					3: Presets.ENHA_P1_SPELL_PRESET.gear,
+					4: Presets.ENHA_P1_SPELL_PRESET.gear,
 				},
 			},
 		},

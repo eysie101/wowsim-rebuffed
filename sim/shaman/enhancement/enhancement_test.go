@@ -18,7 +18,7 @@ func TestEnhancement(t *testing.T) {
 		Race:       proto.Race_RaceTroll,
 		OtherRaces: []proto.Race{proto.Race_RaceOrc},
 
-		GearSet:     core.GetGearSet("../../../ui/enhancement_shaman/gear_sets", "eysie_spell"),
+		GearSet:     core.GetGearSet("../../../ui/enhancement_shaman/gear_sets", "enha_p1_spell"),
 		Talents:     StandardTalents,
 		Glyphs:      StandardGlyphs,
 		Consumes:    FullConsumes,
@@ -26,10 +26,10 @@ func TestEnhancement(t *testing.T) {
 		OtherSpecOptions: []core.SpecOptionsCombo{
 			{Label: "WF", SpecOptions: PlayerOptionsWFWF},
 		},
-		Rotation: core.GetAplRotation("../../../ui/enhancement_shaman/apls", "default_ft"),
+		Rotation: core.GetAplRotation("../../../ui/enhancement_shaman/apls", "enha_p1_spell"),
 		OtherRotations: []core.RotationCombo{
-			core.GetAplRotation("../../../ui/enhancement_shaman/apls", "default_wf"),
-			core.GetAplRotation("../../../ui/enhancement_shaman/apls", "phase_3"),
+			core.GetAplRotation("../../../ui/enhancement_shaman/apls", "enha_p1_wf"),
+			core.GetAplRotation("../../../ui/enhancement_shaman/apls", "enha_p1_spell_aoe3"),
 		},
 
 		ItemFilter: core.ItemFilter{
@@ -56,7 +56,7 @@ func BenchmarkSimulate(b *testing.B) {
 			&proto.Player{
 				Race:          proto.Race_RaceOrc,
 				Class:         proto.Class_ClassShaman,
-				Equipment:     core.GetGearSet("../../../ui/enhancement_shaman/gear_sets", "eysie_spell").GearSet,
+				Equipment:     core.GetGearSet("../../../ui/enhancement_shaman/gear_sets", "enha_p1_spell").GearSet,
 				TalentsString: StandardTalents,
 				Glyphs:        StandardGlyphs,
 				Consumes:      FullConsumes,

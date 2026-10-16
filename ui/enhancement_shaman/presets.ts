@@ -7,7 +7,6 @@ import {
 	RaidBuffs,
 	TristateEffect,
 	Debuffs,
-	Faction,
 } from '../core/proto/common.js';
 import { SavedTalents } from '../core/proto/ui.js';
 
@@ -30,48 +29,27 @@ import * as PresetUtils from '../core/preset_utils.js';
 // Eventually we will import these values for the raid sim too, so its good to
 // keep them in a separate file.
 
-import PreraidGear from './gear_sets/preraid.gear.json';
-export const PRERAID_PRESET = PresetUtils.makePresetGear('Preraid Preset', PreraidGear);
-import P2FtGear from './gear_sets/p2_ft.gear.json';
-export const P2_PRESET_FT = PresetUtils.makePresetGear('P2 Preset FT', P2FtGear);
-import P2WfGear from './gear_sets/p2_wf.gear.json';
-export const P2_PRESET_WF = PresetUtils.makePresetGear('P2 Preset WF', P2WfGear);
-import P3AllianceGear from './gear_sets/p3_alliance.gear.json';
-export const P3_PRESET_ALLIANCE = PresetUtils.makePresetGear('P3 Preset [A]', P3AllianceGear, { faction: Faction.Alliance });
-import P3HordeGear from './gear_sets/p3_horde.gear.json';
-export const P3_PRESET_HORDE = PresetUtils.makePresetGear('P3 Preset [H]', P3HordeGear, { faction: Faction.Horde });
-import P4FtGear from './gear_sets/p4_ft.gear.json';
-export const P4_PRESET_FT = PresetUtils.makePresetGear('P4 Preset FT', P4FtGear);
-import P4WfGear from './gear_sets/p4_wf.gear.json';
-export const P4_PRESET_WF = PresetUtils.makePresetGear('P4 Preset WF', P4WfGear);
-import EysieSpellGear from './gear_sets/eysie_spell.gear.json';
-export const EYSIE_SPELL_PRESET = PresetUtils.makePresetGear('Eysie Spell', EysieSpellGear);
-import EysieWfGear from './gear_sets/eysie_wf.gear.json';
-export const EYSIE_WF_PRESET = PresetUtils.makePresetGear('Eysie WF', EysieWfGear);
 // Whitemane phase 1: the best-in-slot sets of the spell and Windfury builds (Jewelcrafting and Engineering)
-export const P1_SPELL_PRESET = PresetUtils.makePresetGear('P1 Spell', EysieSpellGear);
-export const P1_WF_PRESET = PresetUtils.makePresetGear('P1 WF', EysieWfGear);
+import EnhaP1SpellGear from './gear_sets/enha_p1_spell.gear.json';
+export const ENHA_P1_SPELL_PRESET = PresetUtils.makePresetGear('ENHA P1 Spell', EnhaP1SpellGear);
+import EnhaP1WfGear from './gear_sets/enha_p1_wf.gear.json';
+export const ENHA_P1_WF_PRESET = PresetUtils.makePresetGear('ENHA P1 WF', EnhaP1WfGear);
 
-import DefaultFt from './apls/default_ft.apl.json';
-export const ROTATION_FT_DEFAULT = PresetUtils.makePresetAPLRotation('Default FT', DefaultFt);
-import DefaultWf from './apls/default_wf.apl.json';
-export const ROTATION_WF_DEFAULT = PresetUtils.makePresetAPLRotation('Default WF', DefaultWf);
-import Phase3Apl from './apls/phase_3.apl.json';
-export const ROTATION_PHASE_3 = PresetUtils.makePresetAPLRotation('Phase 3', Phase3Apl);
-import EysieSpellApl from './apls/eysie_spell.apl.json';
-export const ROTATION_EYSIE_SPELL = PresetUtils.makePresetAPLRotation('Eysie Spell', EysieSpellApl);
-import EysieWfApl from './apls/eysie_wf.apl.json';
-export const ROTATION_EYSIE_WF = PresetUtils.makePresetAPLRotation('Eysie WF', EysieWfApl);
-import EysieSpellAoe3Apl from './apls/eysie_spell_aoe3.apl.json';
-export const ROTATION_EYSIE_SPELL_AOE3 = PresetUtils.makePresetAPLRotation('Eysie Spell AoE 3+', EysieSpellAoe3Apl);
-import EysieWfAoe3Apl from './apls/eysie_wf_aoe3.apl.json';
-export const ROTATION_EYSIE_WF_AOE3 = PresetUtils.makePresetAPLRotation('Eysie WF AoE 3+', EysieWfAoe3Apl);
+// The priority lists of the phase 1 search: single target and three or more targets, per build
+import EnhaP1SpellApl from './apls/enha_p1_spell.apl.json';
+export const ROTATION_ENHA_P1_SPELL = PresetUtils.makePresetAPLRotation('ENHA P1 Spell', EnhaP1SpellApl);
+import EnhaP1WfApl from './apls/enha_p1_wf.apl.json';
+export const ROTATION_ENHA_P1_WF = PresetUtils.makePresetAPLRotation('ENHA P1 WF', EnhaP1WfApl);
+import EnhaP1SpellAoe3Apl from './apls/enha_p1_spell_aoe3.apl.json';
+export const ROTATION_ENHA_P1_SPELL_AOE3 = PresetUtils.makePresetAPLRotation('ENHA P1 Spell AoE 3+', EnhaP1SpellAoe3Apl);
+import EnhaP1WfAoe3Apl from './apls/enha_p1_wf_aoe3.apl.json';
+export const ROTATION_ENHA_P1_WF_AOE3 = PresetUtils.makePresetAPLRotation('ENHA P1 WF AoE 3+', EnhaP1WfAoe3Apl);
 
 // Default talents. Uses the wowhead calculator format, make the talents on
 // https://wowhead.com/wotlk/talent-calc and copy the numbers in the url.
 // Whitemane: Ancestral Knowledge 5/5 and Improved Stormstrike 2/2 in both builds; glyphs per build.
-export const SpellTalents = {
-	name: 'Spell',
+export const EnhaP1SpellTalents = {
+	name: 'ENHA P1 Spell',
 	data: SavedTalents.create({
 		talentsString: '053030152-00505033105001333031130231051',
 		glyphs: Glyphs.create({
@@ -83,8 +61,8 @@ export const SpellTalents = {
 	}),
 };
 
-export const WfTalents = {
-	name: 'WF',
+export const EnhaP1WfTalents = {
+	name: 'ENHA P1 WF',
 	data: SavedTalents.create({
 		talentsString: '053030152-00505033105001333031130231051',
 		glyphs: Glyphs.create({
@@ -92,30 +70,6 @@ export const WfTalents = {
 			major2: ShamanMajorGlyph.GlyphOfFeralSpirit,
 			major3: ShamanMajorGlyph.GlyphOfLightningShield,
 			//minor glyphs dont affect damage done, all convenience/QoL
-		})
-	}),
-};
-
-export const EysieSpellTalents = {
-	name: 'Eysie Spell',
-	data: SavedTalents.create({
-		talentsString: '053030152-00505033105001333031130231051',
-		glyphs: Glyphs.create({
-			major1: ShamanMajorGlyph.GlyphOfFireNova,
-			major2: ShamanMajorGlyph.GlyphOfFlametongueWeapon,
-			major3: ShamanMajorGlyph.GlyphOfStormstrike,
-		})
-	}),
-};
-
-export const EysieWfTalents = {
-	name: 'Eysie WF',
-	data: SavedTalents.create({
-		talentsString: '053030152-00505033105001333031130231051',
-		glyphs: Glyphs.create({
-			major1: ShamanMajorGlyph.GlyphOfStormstrike,
-			major2: ShamanMajorGlyph.GlyphOfFeralSpirit,
-			major3: ShamanMajorGlyph.GlyphOfLightningShield,
 		})
 	}),
 };
