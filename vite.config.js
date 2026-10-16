@@ -3,7 +3,7 @@ import glob from "glob";
 import { defineConfig } from 'vite'
 
 export default defineConfig(({ command, mode }) => ({
-	base: "/wotlk/",
+	base: "/wowsim-rebuffed/",
 	root: path.join(__dirname, "ui"),
 	build: {
 		outDir: path.join(__dirname, "dist", "wotlk"),
