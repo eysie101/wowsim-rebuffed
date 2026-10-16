@@ -18,7 +18,7 @@ func TestEnhancement(t *testing.T) {
 		Race:       proto.Race_RaceTroll,
 		OtherRaces: []proto.Race{proto.Race_RaceOrc},
 
-		GearSet:     core.GetGearSet("../../../ui/enhancement_shaman/gear_sets", "p1"),
+		GearSet:     core.GetGearSet("../../../ui/enhancement_shaman/gear_sets", "eysie_spell"),
 		Talents:     StandardTalents,
 		Glyphs:      StandardGlyphs,
 		Consumes:    FullConsumes,
@@ -56,7 +56,7 @@ func BenchmarkSimulate(b *testing.B) {
 			&proto.Player{
 				Race:          proto.Race_RaceOrc,
 				Class:         proto.Class_ClassShaman,
-				Equipment:     core.GetGearSet("../../../ui/enhancement_shaman/gear_sets", "p1").GearSet,
+				Equipment:     core.GetGearSet("../../../ui/enhancement_shaman/gear_sets", "eysie_spell").GearSet,
 				TalentsString: StandardTalents,
 				Glyphs:        StandardGlyphs,
 				Consumes:      FullConsumes,
