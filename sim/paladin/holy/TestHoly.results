@@ -455,6 +455,10 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestHoly-AllItems-Sulfuras,HandofRagnaros(Whitemane)-132001"
+ value: {}
+}
+dps_results: {
  key: "TestHoly-AllItems-SwiftSkyflareDiamond"
  value: {}
 }
@@ -480,6 +484,10 @@ dps_results: {
 }
 dps_results: {
  key: "TestHoly-AllItems-TheTwinBladesofAzzinoth"
+ value: {}
+}
+dps_results: {
+ key: "TestHoly-AllItems-Thunderfury,BlessedBladeoftheWindseeker(Whitemane)-132003"
  value: {}
 }
 dps_results: {

@@ -103,6 +103,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-ArmataStrigoi-130031"
+ value: {
+  dps: 1443.50947
+  tps: 3757.45627
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-AustereEarthsiegeDiamond"
  value: {
   dps: 1443.50947
@@ -374,8 +381,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-EyeoftheBroodmother-45308"
  value: {
-  dps: 1466.27182
-  tps: 3802.47188
+  dps: 1467.06974
+  tps: 3809.12351
  }
 }
 dps_results: {
@@ -690,15 +697,15 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-SiegebreakerBattlegear"
  value: {
-  dps: 1528.60272
-  tps: 3922.80255
+  dps: 1502.66013
+  tps: 3866.08064
  }
 }
 dps_results: {
  key: "TestProtectionWarrior-AllItems-SiegebreakerPlate"
  value: {
-  dps: 1362.18488
-  tps: 3534.24554
+  dps: 1358.73464
+  tps: 3536.19027
  }
 }
 dps_results: {
@@ -758,6 +765,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-Sulfuras,HandofRagnaros(Whitemane)-132001"
+ value: {
+  dps: 1443.50947
+  tps: 3757.45627
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-SwiftSkyflareDiamond"
  value: {
   dps: 1439.81394
@@ -811,6 +825,13 @@ dps_results: {
  value: {
   dps: 1067.10265
   tps: 2408.07406
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-Thunderfury,BlessedBladeoftheWindseeker(Whitemane)-132003"
+ value: {
+  dps: 1443.50947
+  tps: 3757.45627
  }
 }
 dps_results: {
@@ -879,8 +900,8 @@ dps_results: {
 dps_results: {
  key: "TestProtectionWarrior-AllItems-Val'anyr,HammerofAncientKings-46017"
  value: {
-  dps: 1320.86781
-  tps: 3455.68965
+  dps: 1322.69643
+  tps: 3474.57299
  }
 }
 dps_results: {

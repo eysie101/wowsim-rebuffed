@@ -46,16 +46,16 @@ character_stats_results: {
 dps_results: {
  key: "TestRetribution-AllItems-AegisBattlegear"
  value: {
-  dps: 6268.37146
-  tps: 6353.83098
-  dtps: 9.92959
+  dps: 6209.74526
+  tps: 6295.25455
+  dtps: 9.56591
  }
 }
 dps_results: {
  key: "TestRetribution-AllItems-AegisPlate"
  value: {
-  dps: 5624.17512
-  tps: 5704.4374
+  dps: 5571.88301
+  tps: 5652.14529
   dtps: 8.90286
  }
 }
@@ -72,6 +72,14 @@ dps_results: {
  value: {
   dps: 6471.12751
   tps: 6556.61193
+  dtps: 9.92959
+ }
+}
+dps_results: {
+ key: "TestRetribution-AllItems-ArmataStrigoi-130031"
+ value: {
+  dps: 7604.90703
+  tps: 7692.29729
   dtps: 9.92959
  }
 }
@@ -369,8 +377,8 @@ dps_results: {
 dps_results: {
  key: "TestRetribution-AllItems-EyeoftheBroodmother-45308"
  value: {
-  dps: 6541.10959
-  tps: 6626.59401
+  dps: 6535.90429
+  tps: 6621.38871
   dtps: 9.92959
  }
 }
@@ -872,6 +880,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestRetribution-AllItems-Sulfuras,HandofRagnaros(Whitemane)-132001"
+ value: {
+  dps: 7269.16556
+  tps: 7354.66525
+  dtps: 9.7515
+ }
+}
+dps_results: {
  key: "TestRetribution-AllItems-SwiftSkyflareDiamond"
  value: {
   dps: 6562.52488
@@ -925,6 +941,14 @@ dps_results: {
   dps: 5385.86671
   tps: 5471.22541
   dtps: 9.23882
+ }
+}
+dps_results: {
+ key: "TestRetribution-AllItems-Thunderfury,BlessedBladeoftheWindseeker(Whitemane)-132003"
+ value: {
+  dps: 7178.71217
+  tps: 7264.19642
+  dtps: 9.92959
  }
 }
 dps_results: {
@@ -1026,8 +1050,8 @@ dps_results: {
 dps_results: {
  key: "TestRetribution-AllItems-Val'anyr,HammerofAncientKings-46017"
  value: {
-  dps: 5145.39682
-  tps: 5230.26174
+  dps: 5073.68472
+  tps: 5158.79659
   dtps: 9.92959
  }
 }

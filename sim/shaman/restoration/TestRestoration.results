@@ -52,6 +52,10 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestRestoration-AllItems-ArmataStrigoi-130031"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-AustereEarthsiegeDiamond"
  value: {}
 }
@@ -469,6 +473,10 @@ dps_results: {
 }
 dps_results: {
  key: "TestRestoration-AllItems-StormshroudArmor"
+ value: {}
+}
+dps_results: {
+ key: "TestRestoration-AllItems-Sulfuras,HandofRagnaros(Whitemane)-132001"
  value: {}
 }
 dps_results: {

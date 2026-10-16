@@ -477,6 +477,10 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestRestoration-AllItems-Sulfuras,HandofRagnaros(Whitemane)-132001"
+ value: {}
+}
+dps_results: {
  key: "TestRestoration-AllItems-SwiftSkyflareDiamond"
  value: {}
 }

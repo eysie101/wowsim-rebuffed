@@ -337,8 +337,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralTank-AllItems-EyeoftheBroodmother-45308"
  value: {
-  dps: 2606.58615
-  tps: 5489.9591
+  dps: 2603.17029
+  tps: 5484.26381
   dtps: 7.24371
  }
 }
@@ -385,8 +385,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralTank-AllItems-FuriousGladiator'sIdolofResolve-42589"
  value: {
-  dps: 2540.03686
-  tps: 5341.63739
+  dps: 2540.62121
+  tps: 5360.91952
   dtps: 7.24371
  }
 }
@@ -489,8 +489,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralTank-AllItems-IdoloftheCorruptor-45509"
  value: {
-  dps: 2530.78982
-  tps: 5345.70003
+  dps: 2527.06576
+  tps: 5331.69921
   dtps: 7.24371
  }
 }
@@ -682,16 +682,16 @@ dps_results: {
 dps_results: {
  key: "TestFeralTank-AllItems-NightsongBattlegear"
  value: {
-  dps: 2612.25457
-  tps: 5519.13837
+  dps: 2561.68234
+  tps: 5398.23964
   dtps: 7.24371
  }
 }
 dps_results: {
  key: "TestFeralTank-AllItems-NightsongGarb"
  value: {
-  dps: 2108.6152
-  tps: 4525.48381
+  dps: 2085.80326
+  tps: 4468.84842
   dtps: 7.24371
  }
 }
@@ -904,6 +904,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFeralTank-AllItems-Sulfuras,HandofRagnaros(Whitemane)-132001"
+ value: {
+  dps: 2983.81659
+  tps: 6326.41775
+  dtps: 7.24371
+ }
+}
+dps_results: {
  key: "TestFeralTank-AllItems-SwiftSkyflareDiamond"
  value: {
   dps: 2527.84406
@@ -1042,8 +1050,8 @@ dps_results: {
 dps_results: {
  key: "TestFeralTank-AllItems-Val'anyr,HammerofAncientKings-46017"
  value: {
-  dps: 2048.8415
-  tps: 4404.4266
+  dps: 1952.0906
+  tps: 4203.08332
   dtps: 7.24371
  }
 }

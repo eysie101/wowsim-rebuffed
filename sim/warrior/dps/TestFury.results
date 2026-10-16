@@ -58,6 +58,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFury-AllItems-ArmataStrigoi-130031"
+ value: {
+  dps: 6964.93261
+  tps: 5177.34824
+ }
+}
+dps_results: {
  key: "TestFury-AllItems-AustereEarthsiegeDiamond"
  value: {
   dps: 6864.87671
@@ -336,8 +343,8 @@ dps_results: {
 dps_results: {
  key: "TestFury-AllItems-EyeoftheBroodmother-45308"
  value: {
-  dps: 6704.97271
-  tps: 4980.45534
+  dps: 6707.84259
+  tps: 4982.86104
  }
 }
 dps_results: {
@@ -652,15 +659,15 @@ dps_results: {
 dps_results: {
  key: "TestFury-AllItems-SiegebreakerBattlegear"
  value: {
-  dps: 6538.17097
-  tps: 4855.89342
+  dps: 6433.27919
+  tps: 4781.14124
  }
 }
 dps_results: {
  key: "TestFury-AllItems-SiegebreakerPlate"
  value: {
-  dps: 5485.8763
-  tps: 4084.22545
+  dps: 5443.42472
+  tps: 4058.05547
  }
 }
 dps_results: {
@@ -720,6 +727,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestFury-AllItems-Sulfuras,HandofRagnaros(Whitemane)-132001"
+ value: {
+  dps: 6964.93261
+  tps: 5177.34824
+ }
+}
+dps_results: {
  key: "TestFury-AllItems-SwiftSkyflareDiamond"
  value: {
   dps: 6891.5717
@@ -773,6 +787,13 @@ dps_results: {
  value: {
   dps: 5099.68017
   tps: 3798.55202
+ }
+}
+dps_results: {
+ key: "TestFury-AllItems-Thunderfury,BlessedBladeoftheWindseeker(Whitemane)-132003"
+ value: {
+  dps: 6964.93261
+  tps: 5177.34824
  }
 }
 dps_results: {
@@ -841,8 +862,8 @@ dps_results: {
 dps_results: {
  key: "TestFury-AllItems-Val'anyr,HammerofAncientKings-46017"
  value: {
-  dps: 5196.53795
-  tps: 3921.70656
+  dps: 5143.73305
+  tps: 3886.42646
  }
 }
 dps_results: {

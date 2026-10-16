@@ -65,6 +65,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestMM-AllItems-ArmataStrigoi-130031"
+ value: {
+  dps: 7510.76367
+  tps: 6583.55766
+ }
+}
+dps_results: {
  key: "TestMM-AllItems-AshtongueTalismanofSwiftness-32487"
  value: {
   dps: 7133.6007
@@ -343,8 +350,8 @@ dps_results: {
 dps_results: {
  key: "TestMM-AllItems-EyeoftheBroodmother-45308"
  value: {
-  dps: 7188.69225
-  tps: 6276.63648
+  dps: 7181.57186
+  tps: 6269.52884
  }
 }
 dps_results: {
@@ -645,8 +652,8 @@ dps_results: {
 dps_results: {
  key: "TestMM-AllItems-ScourgestalkerBattlegear"
  value: {
-  dps: 7065.56974
-  tps: 6186.05793
+  dps: 6951.19151
+  tps: 6079.09864
  }
 }
 dps_results: {
@@ -727,6 +734,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestMM-AllItems-Sulfuras,HandofRagnaros(Whitemane)-132001"
+ value: {
+  dps: 7692.48136
+  tps: 6744.01686
+ }
+}
+dps_results: {
  key: "TestMM-AllItems-SwiftSkyflareDiamond"
  value: {
   dps: 7182.93638
@@ -780,6 +794,13 @@ dps_results: {
  value: {
   dps: 7140.69531
   tps: 6235.9288
+ }
+}
+dps_results: {
+ key: "TestMM-AllItems-Thunderfury,BlessedBladeoftheWindseeker(Whitemane)-132003"
+ value: {
+  dps: 7537.50182
+  tps: 6599.55066
  }
 }
 dps_results: {
@@ -848,8 +869,8 @@ dps_results: {
 dps_results: {
  key: "TestMM-AllItems-Val'anyr,HammerofAncientKings-46017"
  value: {
-  dps: 7044.43231
-  tps: 6137.68887
+  dps: 7034.88517
+  tps: 6131.51726
  }
 }
 dps_results: {
