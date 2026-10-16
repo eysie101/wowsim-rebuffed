@@ -1,5 +1,6 @@
 import {BooleanPicker} from '../components/boolean_picker.js';
 import {EnumPicker} from '../components/enum_picker.js';
+import {RangePicker} from '../components/range_picker.js';
 import {ItemSlot, UnitReference} from '../proto/common.js';
 import {Player} from '../player.js';
 import {Sim} from '../sim.js';
@@ -60,6 +61,41 @@ export function makeShowEPValuesSelector(parent: HTMLElement, sim: Sim): Boolean
 		getValue: (sim: Sim) => sim.getShowEPValues(),
 		setValue: (eventID: EventID, sim: Sim, newValue: boolean) => {
 			sim.setShowEPValues(eventID, newValue);
+		},
+	});
+}
+
+export function makeEpicVariantsSelector(parent: HTMLElement, sim: Sim): BooleanPicker<Sim> {
+	return new BooleanPicker<Sim>(parent, sim, {
+		extraCssClasses: ['epic-variants-selector', 'mb-0'],
+		label: 'Epic',
+		labelTooltip: 'Show the epic version of items that have one on Whitemane.',
+		inline: true,
+		changedEvent: (sim: Sim) => sim.filtersChangeEmitter,
+		getValue: (sim: Sim) => sim.getFilters().epicVariants,
+		setValue: (eventID: EventID, sim: Sim, newValue: boolean) => {
+			const filters = sim.getFilters();
+			filters.epicVariants = newValue;
+			sim.setFilters(eventID, filters);
+		},
+	});
+}
+
+export function makeUpgradeLevelSelector(parent: HTMLElement, sim: Sim): RangePicker<Sim> {
+	return new RangePicker<Sim>(parent, sim, {
+		extraCssClasses: ['upgrade-level-selector', 'mb-0'],
+		label: 'Upgrade',
+		labelTooltip: 'Show items at this upgrade level where Whitemane has one (each level adds about 6 item levels).',
+		inline: true,
+		min: 0,
+		max: 5,
+		formatValue: (value: number) => '+' + value,
+		changedEvent: (sim: Sim) => sim.filtersChangeEmitter,
+		getValue: (sim: Sim) => sim.getFilters().upgradeLevel,
+		setValue: (eventID: EventID, sim: Sim, newValue: number) => {
+			const filters = sim.getFilters();
+			filters.upgradeLevel = newValue;
+			sim.setFilters(eventID, filters);
 		},
 	});
 }

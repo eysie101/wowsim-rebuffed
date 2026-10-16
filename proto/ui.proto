@@ -272,6 +272,10 @@ message DatabaseFilters {
 	repeated int32 favorite_gems = 12;
 	// Uniquely-identifying strings for favorited enchants.
 	repeated string favorite_enchants = 13;
+
+	// Whitemane 2 variants shown in the item lists: upgrade level (0-5) and epic versions.
+	int32 upgrade_level = 20;
+	bool epic_variants = 21;
 }
 
 message SimSettings {

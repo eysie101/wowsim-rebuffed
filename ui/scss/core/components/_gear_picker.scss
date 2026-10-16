@@ -219,6 +219,28 @@ $favorite-cell-width: 2rem;
 	}
 }
 
+.selector-modal-upgrade-level {
+	.range-picker-root {
+		display: flex;
+		align-items: center;
+		margin-bottom: 0;
+
+		.form-label {
+			margin: 0 map-get($spacers, 2) 0 0;
+		}
+	}
+
+	.range-picker-input {
+		width: 6rem;
+		padding: 0;
+	}
+
+	.range-picker-value {
+		min-width: 1.75rem;
+		margin-left: map-get($spacers, 2);
+	}
+}
+
 .selector-modal-remove-button {
 	margin-left: auto;
 }
@@ -365,6 +387,11 @@ $favorite-cell-width: 2rem;
 .heroic-label {
 	margin-left: map-get($spacers, 1);
 	color: $item-quality-uncommon;
+}
+
+.upgrade-label {
+	margin-left: map-get($spacers, 1);
+	color: $item-quality-rare;
 }
 
 @include media-breakpoint-down(lg) {

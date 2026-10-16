@@ -21,11 +21,13 @@ import { BaseModal } from './base_modal';
 import { Component } from './component';
 import { FiltersMenu } from './filters_menu';
 import {
+	makeEpicVariantsSelector,
 	makePhaseSelector,
 	makeShow1hWeaponsSelector,
 	makeShow2hWeaponsSelector,
 	makeShowEPValuesSelector,
 	makeShowMatchingGemsSelector,
+	makeUpgradeLevelSelector,
 } from './other_inputs';
 import { Clusterize } from './virtual_scroll/clusterize.js';
 
@@ -36,6 +38,11 @@ const EP_TOOLTIP = `
 
 const createHeroicLabel = () => {
 	return <span className="heroic-label">[H]</span>;
+};
+
+// Whitemane 2 upgrade level of an item
+const createUpgradeLabel = (level: number) => {
+	return <span className="upgrade-label">{`[+${level}]`}</span>;
 };
 
 const createGemContainer = (socketColor: GemColor, gem: Gem | null) => {
@@ -162,6 +169,9 @@ export class ItemRenderer extends Component {
 			this.nameElem.insertAdjacentElement('beforeend', createHeroicLabel());
 		} else {
 			this.nameElem.querySelector('.heroic-label')?.remove();
+		}
+		if (newItem.item.upgradeLevel) {
+			this.nameElem.insertAdjacentElement('beforeend', createUpgradeLabel(newItem.item.upgradeLevel));
 		}
 		this.ilvlElem.textContent = newItem.item.ilvl.toString();
 
@@ -465,6 +475,7 @@ export class SelectorModal extends BaseModal {
 					name: item.name,
 					quality: item.quality,
 					heroic: item.heroic,
+					upgradeLevel: item.upgradeLevel,
 					phase: item.phase,
 					baseEP: this.player.computeItemEP(item, slot),
 					ignoreEPFilter: false,
@@ -731,6 +742,7 @@ export interface ItemData<T> {
 	baseEP: number;
 	ignoreEPFilter: boolean;
 	heroic: boolean;
+	upgradeLevel?: number;
 	onEquip: (eventID: EventID, item: T) => void;
 }
 
@@ -815,6 +827,8 @@ export class ItemList<T> {
 					<input className="selector-modal-search form-control" type="text" placeholder="Search..." />
 					{label == 'Items' && <button className="selector-modal-filters-button btn btn-primary">Filters</button>}
 					<div className="selector-modal-phase-selector"></div>
+					{label == 'Items' && <div className="sim-input selector-modal-boolean-option selector-modal-epic-variants"></div>}
+					{label == 'Items' && <div className="sim-input selector-modal-upgrade-level"></div>}
 					<div className="sim-input selector-modal-boolean-option selector-modal-show-1h-weapons"></div>
 					<div className="sim-input selector-modal-boolean-option selector-modal-show-2h-weapons"></div>
 					<div className="sim-input selector-modal-boolean-option selector-modal-show-matching-gems"></div>
@@ -870,6 +884,9 @@ export class ItemList<T> {
 		if (label == 'Items') {
 			const filtersButton = this.tabContent.getElementsByClassName('selector-modal-filters-button')[0] as HTMLElement;
 			filtersButton.addEventListener('click', () => new FiltersMenu(parent, player, slot));
+
+			makeEpicVariantsSelector(this.tabContent.getElementsByClassName('selector-modal-epic-variants')[0] as HTMLElement, player.sim);
+			makeUpgradeLevelSelector(this.tabContent.getElementsByClassName('selector-modal-upgrade-level')[0] as HTMLElement, player.sim);
 		}
 
 		this.listElem = this.tabContent.getElementsByClassName('selector-modal-list')[0] as HTMLElement;
@@ -1108,6 +1125,7 @@ export class ItemList<T> {
 						<label className="selector-modal-list-item-name" ref={nameElem}>
 							{itemData.name}
 							{itemData.heroic && createHeroicLabel()}
+							{!!itemData.upgradeLevel && createUpgradeLabel(itemData.upgradeLevel)}
 						</label>
 					</a>
 				</div>

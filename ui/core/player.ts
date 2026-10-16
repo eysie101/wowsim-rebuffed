@@ -1255,7 +1255,51 @@ export class Player<SpecType extends Spec> {
 				return true;
 			});
 		}
-		return itemData;
+		return Player.selectItemVariants(itemData, getItemFunc, filters.upgradeLevel, filters.epicVariants);
+	}
+
+	// Whitemane 2: of an item, its upgrade levels and its epic version, keeps the one the filters ask for:
+	// the epic version when epic versions are on, else the highest upgrade level up to the chosen one, else the item.
+	static selectItemVariants<T>(itemData: Array<T>, getItemFunc: (val: T) => Item, upgradeLevel: number, epicVariants: boolean): Array<T> {
+		const families = new Map<number, Array<T>>();
+		const result: Array<T> = [];
+		for (const elem of itemData) {
+			const item = getItemFunc(elem);
+			const key = item.variantBaseId || item.id;
+			const family = families.get(key);
+			if (family) {
+				family.push(elem);
+			} else {
+				families.set(key, [elem]);
+			}
+		}
+		for (const family of families.values()) {
+			if (family.length == 1 && !getItemFunc(family[0]).variantBaseId) {
+				result.push(family[0]);
+				continue;
+			}
+			let pick: T | undefined;
+			if (epicVariants) {
+				pick = family.find(elem => getItemFunc(elem).epicVariant);
+			}
+			if (!pick && upgradeLevel > 0) {
+				for (const elem of family) {
+					const level = getItemFunc(elem).upgradeLevel;
+					if (level > 0 && level <= upgradeLevel && (!pick || level > getItemFunc(pick).upgradeLevel)) {
+						pick = elem;
+					}
+				}
+			}
+			if (!pick) {
+				pick = family.find(elem => !getItemFunc(elem).variantBaseId);
+			}
+			if (!pick) {
+				// the base item is not in the list: keep its lowest variant
+				pick = family.reduce((a, b) => (getItemFunc(b).upgradeLevel < getItemFunc(a).upgradeLevel ? b : a));
+			}
+			result.push(pick);
+		}
+		return result;
 	}
 
 	filterEnchantData<T>(enchantData: Array<T>, getEnchantFunc: (val: T) => Enchant, slot: ItemSlot, currentEquippedItem: EquippedItem | null): Array<T> {
