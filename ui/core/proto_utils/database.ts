@@ -26,6 +26,7 @@ import {
 import { gemEligibleForSocket, gemMatchesSocket } from './gems.js';
 import { EquippedItem } from './equipped_item.js';
 import { Gear, ItemSwapGear } from './gear.js';
+import { registerWhitemaneTooltips } from './whitemane_tooltips.js';
 import { CHARACTER_LEVEL } from '../constants/mechanics.js';
 import { distinct } from '../utils.js';
 
@@ -95,6 +96,7 @@ export class Database {
 
 	private constructor(db: UIDatabase) {
 		this.loadProto(db);
+		registerWhitemaneTooltips(id => this.items.get(id) || null);
 	}
 
 	// Add all data from the db proto into this database.

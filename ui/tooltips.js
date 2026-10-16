@@ -544,6 +544,20 @@ if (typeof $WowheadPower == "undefined") {
         }
 
         function display(type, id, locale, params) {
+            // Whitemane items Wowhead does not know: tooltip built from the sim's item data
+            if (type == TYPE_ITEM && window.wsrItemTooltip) {
+                var own = window.wsrItemTooltip(parseInt(id));
+                if (own) {
+                    fixSunlute = fixSulfuras = fixWarglaiveA = fixWarglaiveB = fixThunderfury = fixScythe = fixAtiesh1 = fixAtiesh2 = false;
+                    currentType   = type;
+                    currentId     = String(id);
+                    currentLocale = locale;
+                    currentParams = {};
+                    showTooltip(own.html, own.icon);
+                    return;
+                }
+            }
+
             fixSunlute = id == 130031
             if (fixSunlute) {
                 id = sunluteFake
