@@ -194,6 +194,15 @@ func (druid *Druid) RegisterSpell(formMask DruidForm, config core.SpellConfig) *
 	return ds
 }
 
+// Embersoul, Scythe of the Cat God (Whitemane 2, ilvl 245 and 258): finishing moves restore 4 energy per combo point.
+func (druid *Druid) hasScytheOfTheCatGod() bool {
+	if !druid.HasMHWeapon() {
+		return false
+	}
+	id := druid.GetMHWeapon().ID
+	return id == 128858 || id == 315010
+}
+
 func (druid *Druid) Initialize() {
 	druid.BleedCategories = druid.GetEnemyExclusiveCategories(core.BleedEffectCategory)
 
@@ -201,7 +210,7 @@ func (druid *Druid) Initialize() {
 		druid.PrimalPrecisionRecoveryMetrics = druid.NewEnergyMetrics(core.ActionID{SpellID: 48410})
 	}
 	// Scythe of the Cat God (Whitemane)
-	if druid.HasMHWeapon() && druid.GetMHWeapon().ID == 132004 {
+	if druid.hasScytheOfTheCatGod() {
 		druid.sotcgMetrics = druid.NewEnergyMetrics(core.ActionID{SpellID: 23278})
 	}
 	druid.registerFaerieFireSpell()

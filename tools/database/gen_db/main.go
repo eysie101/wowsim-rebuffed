@@ -98,6 +98,15 @@ func main() {
 		}
 	}
 
+	// Whitemane 2 items the sources above do not have (upgrade levels, epic versions, Whitemane's own items),
+	// exported from the Whitemane 2 client's item cache.
+	whitemaneDB := database.ReadDatabaseFromJson(tools.ReadFile(fmt.Sprintf("%s/whitemane2_items.json", inputsDir)))
+	for _, item := range whitemaneDB.Items {
+		if _, ok := db.Items[item.Id]; !ok {
+			db.MergeItem(item)
+		}
+	}
+
 	db.MergeItems(database.ItemOverrides)
 	db.MergeGems(database.GemOverrides)
 	db.MergeEnchants(database.EnchantOverrides)

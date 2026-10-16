@@ -63,7 +63,7 @@ func (druid *Druid) registerSavageRoarSpell() {
 			druid.SpendComboPoints(sim, spell.ComboPointMetrics())
 
 			// Scythe of the Cat God (Whitemane)
-			if druid.HasMHWeapon() && druid.GetMHWeapon().ID == 132004 {
+			if druid.hasScytheOfTheCatGod() {
 				druid.AddEnergy(sim, 4*comboPoints, druid.sotcgMetrics)
 			}
 		},
