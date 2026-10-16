@@ -17,6 +17,7 @@ var OtherItemIdsToFetch = []string{
 }
 
 var ItemOverrides = []*proto.UIItem{
+	{ /** Armata Strigoi (Whitemane) */ Id: 130031, Name: "Armata Strigoi"},
 	{ /** Destruction Holo-gogs */ Id: 32494, ClassAllowlist: []proto.Class{proto.Class_ClassMage, proto.Class_ClassPriest, proto.Class_ClassWarlock}},
 	{ /** Gadgetstorm Goggles */ Id: 32476, ClassAllowlist: []proto.Class{proto.Class_ClassShaman}},
 	{ /** Magnified Moon Specs */ Id: 32480, ClassAllowlist: []proto.Class{proto.Class_ClassDruid}},
@@ -308,6 +309,18 @@ var ItemDenyList = map[int32]struct{}{
 	48897: {}, // DK's Tier 9 Duplicates
 	48898: {}, // DK's Tier 9 Duplicates
 	48899: {}, // DK's Tier 9 Duplicates
+
+	// Ids of other items on Whitemane; its Scythe of the Cat God and Atiesh have other ids
+	132004: {}, // Scythe of the Cat God
+	132005: {}, // Atiesh, Greatstaff of the Guardian
+	132006: {}, // Atiesh, Greatstaff of the Guardian
+	132007: {}, // Atiesh, Greatstaff of the Guardian
+	// Not on Whitemane (missing from its client's Item.dbc)
+	211817: {}, // Ring of Ghoulish Glee
+	211844: {}, // The Horseman's Seal
+	211847: {}, // Wicked Witch's Band
+	211850: {}, // The Horseman's Horrific Helm
+	211851: {}, // The Horseman's Baleful Blade
 }
 
 // Item icons to include in the DB, so they don't need to be separately loaded in the UI.
