@@ -61,6 +61,10 @@ import EysieSpellApl from './apls/eysie_spell.apl.json';
 export const ROTATION_EYSIE_SPELL = PresetUtils.makePresetAPLRotation('Eysie Spell', EysieSpellApl);
 import EysieWfApl from './apls/eysie_wf.apl.json';
 export const ROTATION_EYSIE_WF = PresetUtils.makePresetAPLRotation('Eysie WF', EysieWfApl);
+import EysieSpellAoe3Apl from './apls/eysie_spell_aoe3.apl.json';
+export const ROTATION_EYSIE_SPELL_AOE3 = PresetUtils.makePresetAPLRotation('Eysie Spell AoE 3+', EysieSpellAoe3Apl);
+import EysieWfAoe3Apl from './apls/eysie_wf_aoe3.apl.json';
+export const ROTATION_EYSIE_WF_AOE3 = PresetUtils.makePresetAPLRotation('Eysie WF AoE 3+', EysieWfAoe3Apl);
 
 // Default talents. Uses the wowhead calculator format, make the talents on
 // https://wowhead.com/wotlk/talent-calc and copy the numbers in the url.

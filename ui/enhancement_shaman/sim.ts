@@ -165,6 +165,8 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecEnhancementShaman, {
 			Presets.ROTATION_PHASE_3,
 			Presets.ROTATION_EYSIE_SPELL,
 			Presets.ROTATION_EYSIE_WF,
+			Presets.ROTATION_EYSIE_SPELL_AOE3,
+			Presets.ROTATION_EYSIE_WF_AOE3,
 		],
 		// Preset gear configurations that the user can quickly select.
 		gear: [
