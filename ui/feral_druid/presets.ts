@@ -26,8 +26,9 @@ import * as PresetUtils from '../core/preset_utils.js';
 
 import PreraidGear from './gear_sets/preraid.gear.json';
 export const PRERAID_PRESET = PresetUtils.makePresetGear('Preraid Preset', PreraidGear);
-import P1Gear from './gear_sets/p1.gear.json';
-export const P1_PRESET = PresetUtils.makePresetGear('P1 Preset', P1Gear);
+// Whitemane phase 1: the best-in-slot set of the cat build (Jewelcrafting and Engineering)
+import P1FeralGear from './gear_sets/p1_feral.gear.json';
+export const P1_FERAL_PRESET = PresetUtils.makePresetGear('P1 Feral', P1FeralGear);
 import P2Gear from './gear_sets/p2.gear.json';
 export const P2_PRESET = PresetUtils.makePresetGear('P2 Preset', P2Gear);
 import P3Gear from './gear_sets/p3.gear.json';
@@ -40,6 +41,10 @@ export const APL_ROTATION_DEFAULT = PresetUtils.makePresetAPLRotation('APL Defau
 
 import CustomExampleApl from './apls/custom_apl_example.apl.json';
 export const APL_ROTATION_CUSTOM_EXAMPLE = PresetUtils.makePresetAPLRotation('Custom APL Example', CustomExampleApl);
+
+// Whitemane: the cat rotation with the parameters of the phase 1 search (bite time 4, roar offset 25, rip leeway 4)
+import MeowFeralApl from './apls/meow_feral.apl.json';
+export const APL_ROTATION_MEOW_FERAL = PresetUtils.makePresetAPLRotation('Meow Feral', MeowFeralApl);
 
 export const DefaultRotation = FeralDruidRotation.create({
 	rotationType: FeralDruid_Rotation_AplType.SingleTarget,
@@ -71,10 +76,11 @@ export const SIMPLE_ROTATION_DEFAULT = PresetUtils.makePresetSimpleRotation('Sim
 
 // Default talents. Uses the wowhead calculator format, make the talents on
 // https://wowhead.com/wotlk/talent-calc and copy the numbers in the url.
-export const StandardTalents = {
-	name: 'Standard',
+// Whitemane: the tree of the phase 1 search (Feral Aggression 5/5, Improved Leader of the Pack 1/2)
+export const FeralTalents = {
+	name: 'Feral',
 	data: SavedTalents.create({
-		talentsString: '-543202132322010053120030310511-203503012',
+		talentsString: '-553202132322010053110030310511-203503012',
 		glyphs: Glyphs.create({
 			major1: DruidMajorGlyph.GlyphOfOmenOfClarity,
 			major2: DruidMajorGlyph.GlyphOfSavageRoar,

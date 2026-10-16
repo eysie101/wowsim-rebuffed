@@ -31,7 +31,7 @@ func TestFeral(t *testing.T) {
 		Class: proto.Class_ClassDruid,
 		Race:  proto.Race_RaceTauren,
 
-		GearSet:     core.GetGearSet("../../../ui/feral_druid/gear_sets", "p1"),
+		GearSet:     core.GetGearSet("../../../ui/feral_druid/gear_sets", "p1_feral"),
 		Talents:     StandardTalents,
 		Glyphs:      StandardGlyphs,
 		Consumes:    FullConsumes,
@@ -66,7 +66,7 @@ func BenchmarkSimulate(b *testing.B) {
 			&proto.Player{
 				Race:      proto.Race_RaceTauren,
 				Class:     proto.Class_ClassDruid,
-				Equipment: core.GetGearSet("../../../ui/feral_druid/gear_sets", "p1").GearSet,
+				Equipment: core.GetGearSet("../../../ui/feral_druid/gear_sets", "p1_feral").GearSet,
 				Consumes:  FullConsumes,
 				Spec:      PlayerOptionsMonoCat,
 				Buffs:     core.FullIndividualBuffs,

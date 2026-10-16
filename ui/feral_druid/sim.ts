@@ -77,7 +77,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecFeralDruid, {
 
 	defaults: {
 		// Default equipped gear.
-		gear: Presets.P4_PRESET.gear,
+		gear: Presets.P1_FERAL_PRESET.gear,
 		// Default EP weights for sorting gear in the gear picker.
 		epWeights: Stats.fromMap({
 			[Stat.StatStrength]: 2.40,
@@ -94,7 +94,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecFeralDruid, {
 		// Default consumes settings.
 		consumes: Presets.DefaultConsumes,
 		// Default talents.
-		talents: Presets.StandardTalents.data,
+		talents: Presets.FeralTalents.data,
 		// Default spec-specific settings.
 		specOptions: Presets.DefaultOptions,
 		// Default raid/party buffs settings.
@@ -159,17 +159,18 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecFeralDruid, {
 	presets: {
 		// Preset talents that the user can quickly select.
 		talents: [
-			Presets.StandardTalents,
+			Presets.FeralTalents,
 		],
 		rotations: [
 			Presets.SIMPLE_ROTATION_DEFAULT,
 			Presets.APL_ROTATION_DEFAULT,
 			Presets.APL_ROTATION_CUSTOM_EXAMPLE,
+			Presets.APL_ROTATION_MEOW_FERAL,
 		],
 		// Preset gear configurations that the user can quickly select.
 		gear: [
 			Presets.PRERAID_PRESET,
-			Presets.P1_PRESET,
+			Presets.P1_FERAL_PRESET,
 			Presets.P2_PRESET,
 			Presets.P3_PRESET,
 			Presets.P4_PRESET,
@@ -177,7 +178,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecFeralDruid, {
 	},
 	
 	autoRotation: (_player: Player<Spec.SpecFeralDruid>): APLRotation => {
-		return Presets.APL_ROTATION_DEFAULT.rotation.rotation!;
+		return Presets.APL_ROTATION_MEOW_FERAL.rotation.rotation!;
 	},
 
 	simpleRotation: (player: Player<Spec.SpecFeralDruid>, simple: DruidRotation, cooldowns: Cooldowns): APLRotation => {
@@ -213,7 +214,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecFeralDruid, {
 			defaultName: 'Cat',
 			iconUrl: getSpecIcon(Class.ClassDruid, 3),
 
-			talents: Presets.StandardTalents.data,
+			talents: Presets.FeralTalents.data,
 			specOptions: Presets.DefaultOptions,
 			consumes: Presets.DefaultConsumes,
 			defaultFactionRaces: {
@@ -224,13 +225,13 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecFeralDruid, {
 			defaultGear: {
 				[Faction.Unknown]: {},
 				[Faction.Alliance]: {
-					1: Presets.P1_PRESET.gear,
+					1: Presets.P1_FERAL_PRESET.gear,
 					2: Presets.P2_PRESET.gear,
 					3: Presets.P3_PRESET.gear,
 					4: Presets.P4_PRESET.gear,
 				},
 				[Faction.Horde]: {
-					1: Presets.P1_PRESET.gear,
+					1: Presets.P1_FERAL_PRESET.gear,
 					2: Presets.P2_PRESET.gear,
 					3: Presets.P3_PRESET.gear,
 					4: Presets.P4_PRESET.gear,
