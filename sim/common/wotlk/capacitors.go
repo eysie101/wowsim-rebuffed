@@ -310,7 +310,8 @@ func init() {
 				},
 			},
 			Handler: func(sim *core.Simulation) {
-				if character.HasMHWeapon() && character.GetMHWeapon().ID == 130031 {
+				// Without an off-hand weapon there is no off-hand swing to repeat.
+				if (character.HasMHWeapon() && character.GetMHWeapon().ID == 130031) || ohSpell == nil {
 					mhSpell.Cast(sim, character.CurrentTarget)
 				} else {
 					ohSpell.Cast(sim, character.CurrentTarget)
