@@ -46,6 +46,10 @@ import P4FtGear from './gear_sets/p4_ft.gear.json';
 export const P4_PRESET_FT = PresetUtils.makePresetGear('P4 Preset FT', P4FtGear);
 import P4WfGear from './gear_sets/p4_wf.gear.json';
 export const P4_PRESET_WF = PresetUtils.makePresetGear('P4 Preset WF', P4WfGear);
+import EysieSpellGear from './gear_sets/eysie_spell.gear.json';
+export const EYSIE_SPELL_PRESET = PresetUtils.makePresetGear('Eysie Spell', EysieSpellGear);
+import EysieWfGear from './gear_sets/eysie_wf.gear.json';
+export const EYSIE_WF_PRESET = PresetUtils.makePresetGear('Eysie WF', EysieWfGear);
 
 import DefaultFt from './apls/default_ft.apl.json';
 export const ROTATION_FT_DEFAULT = PresetUtils.makePresetAPLRotation('Default FT', DefaultFt);
@@ -53,6 +57,10 @@ import DefaultWf from './apls/default_wf.apl.json';
 export const ROTATION_WF_DEFAULT = PresetUtils.makePresetAPLRotation('Default WF', DefaultWf);
 import Phase3Apl from './apls/phase_3.apl.json';
 export const ROTATION_PHASE_3 = PresetUtils.makePresetAPLRotation('Phase 3', Phase3Apl);
+import EysieSpellApl from './apls/eysie_spell.apl.json';
+export const ROTATION_EYSIE_SPELL = PresetUtils.makePresetAPLRotation('Eysie Spell', EysieSpellApl);
+import EysieWfApl from './apls/eysie_wf.apl.json';
+export const ROTATION_EYSIE_WF = PresetUtils.makePresetAPLRotation('Eysie WF', EysieWfApl);
 
 // Default talents. Uses the wowhead calculator format, make the talents on
 // https://wowhead.com/wotlk/talent-calc and copy the numbers in the url.
@@ -78,6 +86,30 @@ export const Phase3Talents = {
 			major2: ShamanMajorGlyph.GlyphOfFlametongueWeapon,
 			major3: ShamanMajorGlyph.GlyphOfFeralSpirit,
 			//minor glyphs dont affect damage done, all convenience/QoL
+		})
+	}),
+};
+
+export const EysieSpellTalents = {
+	name: 'Eysie Spell',
+	data: SavedTalents.create({
+		talentsString: '053030152-00505033105001333031130231051',
+		glyphs: Glyphs.create({
+			major1: ShamanMajorGlyph.GlyphOfFireNova,
+			major2: ShamanMajorGlyph.GlyphOfFlametongueWeapon,
+			major3: ShamanMajorGlyph.GlyphOfStormstrike,
+		})
+	}),
+};
+
+export const EysieWfTalents = {
+	name: 'Eysie WF',
+	data: SavedTalents.create({
+		talentsString: '053030152-00505033105001333031130231051',
+		glyphs: Glyphs.create({
+			major1: ShamanMajorGlyph.GlyphOfStormstrike,
+			major2: ShamanMajorGlyph.GlyphOfFeralSpirit,
+			major3: ShamanMajorGlyph.GlyphOfLightningShield,
 		})
 	}),
 };

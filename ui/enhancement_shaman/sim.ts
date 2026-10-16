@@ -155,12 +155,16 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecEnhancementShaman, {
 		talents: [
 			Presets.StandardTalents,
 			Presets.Phase3Talents,
+			Presets.EysieSpellTalents,
+			Presets.EysieWfTalents,
 		],
 		// Preset rotations that the user can quickly select.
 		rotations: [
 			Presets.ROTATION_FT_DEFAULT,
 			Presets.ROTATION_WF_DEFAULT,
 			Presets.ROTATION_PHASE_3,
+			Presets.ROTATION_EYSIE_SPELL,
+			Presets.ROTATION_EYSIE_WF,
 		],
 		// Preset gear configurations that the user can quickly select.
 		gear: [
@@ -172,6 +176,8 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecEnhancementShaman, {
 			Presets.P3_PRESET_HORDE,
 			Presets.P4_PRESET_FT,
 			Presets.P4_PRESET_WF,
+			Presets.EYSIE_SPELL_PRESET,
+			Presets.EYSIE_WF_PRESET,
 		],
 	},
 
