@@ -257,7 +257,7 @@ func init() {
 	})
 
 	core.NewItemEffect(130031, func(agent core.Agent) {
-		name := "Sun-Lute of the Phoenix King"
+		name := "Armata Strigoi"
 		itemID := int32(130031)
 		maxStacks := int32(4)
 		character := agent.GetCharacter()
