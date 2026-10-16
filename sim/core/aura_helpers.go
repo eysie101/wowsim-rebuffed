@@ -159,7 +159,7 @@ type StackingStatAura struct {
 }
 
 func MakeStackingAura(character *Character, config StackingStatAura) *Aura {
-	bonusPerStack := config.BonusPerStack
+	bonusPerStack := character.ScaleItemEffectStats(config.BonusPerStack)
 	config.Aura.OnStacksChange = func(aura *Aura, sim *Simulation, oldStacks int32, newStacks int32) {
 		character.AddStatsDynamic(sim, bonusPerStack.Multiply(float64(newStacks-oldStacks)))
 	}
@@ -188,8 +188,25 @@ func (character *Character) NewTemporaryStatsAura(auraLabel string, actionID Act
 	return character.NewTemporaryStatsAuraWrapped(auraLabel, actionID, tempStats, duration, nil)
 }
 
+// Scales the amounts of an item effect while it is being applied for an item with an EffectScale
+// (an upgraded or epic version of the item that defines the effect); other values pass unchanged.
+func (character *Character) ScaleItemEffect(value float64) float64 {
+	if character.itemEffectScale == 0 || character.itemEffectScale == 1 {
+		return value
+	}
+	return math.Round(value * character.itemEffectScale)
+}
+
+func (character *Character) ScaleItemEffectStats(s stats.Stats) stats.Stats {
+	for i := range s {
+		s[i] = character.ScaleItemEffect(s[i])
+	}
+	return s
+}
+
 // Alternative that allows modifying the Aura config.
 func (character *Character) NewTemporaryStatsAuraWrapped(auraLabel string, actionID ActionID, buffs stats.Stats, duration time.Duration, modConfig func(*Aura)) *Aura {
+	buffs = character.ScaleItemEffectStats(buffs)
 	// If one of the stat bonuses is a health bonus, then set up healing metrics for the associated
 	// heal, since all temporary max health bonuses also instantaneously heal the player.
 	var healthMetrics *ResourceMetrics

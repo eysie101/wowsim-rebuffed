@@ -248,6 +248,10 @@ func (filter *ItemFilter) FindAllItems() []Item {
 	var filteredItems []Item
 
 	for _, item := range ItemsByID {
+		// Items sharing another item's effect (Whitemane 2 variants) would test that effect twice.
+		if item.VariantID != 0 {
+			continue
+		}
 		if filter.Matches(item, false) {
 			filteredItems = append(filteredItems, item)
 		}

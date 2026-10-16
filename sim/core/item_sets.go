@@ -19,7 +19,8 @@ type ItemSet struct {
 func (set ItemSet) Items() []Item {
 	var items []Item
 	for _, item := range ItemsByID {
-		if item.SetName == "" {
+		// Whitemane 2 variants carry their base item's ID and set; the base item stands for them.
+		if item.SetName == "" || item.VariantID != 0 {
 			continue
 		}
 		if item.SetName == set.Name || item.SetName == set.AlternativeName {

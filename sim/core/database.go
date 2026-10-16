@@ -53,6 +53,11 @@ type Item struct {
 	GemSockets  []proto.GemColor
 	SocketBonus stats.Stats
 
+	// Set when the item shares the effects of another item: ID is then that item's ID (so procs, set bonuses
+	// and item checks apply), VariantID the item's own ID, and EffectScale the factor for the effect amounts.
+	VariantID   int32
+	EffectScale float64
+
 	// Modified for each instance of the item.
 	Gems    []Gem
 	Enchant Enchant
@@ -62,8 +67,14 @@ type Item struct {
 }
 
 func ItemFromProto(pData *proto.SimItem) Item {
+	id, variantID := pData.Id, int32(0)
+	if pData.EffectItemId != 0 && pData.EffectItemId != pData.Id {
+		id, variantID = pData.EffectItemId, pData.Id
+	}
 	return Item{
-		ID:               pData.Id,
+		ID:               id,
+		VariantID:        variantID,
+		EffectScale:      pData.EffectScale,
 		Name:             pData.Name,
 		Type:             pData.Type,
 		ArmorType:        pData.ArmorType,
@@ -80,9 +91,17 @@ func ItemFromProto(pData *proto.SimItem) Item {
 	}
 }
 
+// The item's own ID, also for items that share the effects of another item.
+func (item *Item) RealID() int32 {
+	if item.VariantID != 0 {
+		return item.VariantID
+	}
+	return item.ID
+}
+
 func (item *Item) ToItemSpecProto() *proto.ItemSpec {
 	return &proto.ItemSpec{
-		Id:      item.ID,
+		Id:      item.RealID(),
 		Enchant: item.Enchant.EffectID,
 		Gems:    MapSlice(item.Gems, func(gem Gem) int32 { return gem.ID }),
 	}

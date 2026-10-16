@@ -58,6 +58,9 @@ type Character struct {
 	// equipment was already applied
 	equipStatsApplied bool
 
+	// Factor for the amounts of the item effect being applied (see Item.EffectScale); 0 outside of that.
+	itemEffectScale float64
+
 	// Bonus stats for this Character, specified in the UI and/or EP
 	// calculator
 	bonusStats     stats.Stats
@@ -305,9 +308,23 @@ func (character *Character) clearBuildPhaseAuras(phase CharacterBuildPhase) {
 
 // Apply effects from all equipped core.
 func (character *Character) applyItemEffects(agent Agent) {
+	// An item and an item sharing its effect (its upgrade level, say) apply the effect once, like the same aura
+	// in game. Two copies of the same item keep applying it twice, as before.
+	const appliedByItem, appliedByVariant = 1, 2
+	applied := map[int32]int{}
 	for slot, eq := range character.Equipment {
 		if applyItemEffect, ok := itemEffects[eq.ID]; ok {
-			applyItemEffect(agent)
+			prev := applied[eq.ID]
+			if prev == 0 || (eq.VariantID == 0 && prev == appliedByItem) {
+				if eq.VariantID != 0 {
+					applied[eq.ID] = appliedByVariant
+				} else {
+					applied[eq.ID] = appliedByItem
+				}
+				character.itemEffectScale = eq.EffectScale
+				applyItemEffect(agent)
+				character.itemEffectScale = 0
+			}
 		}
 
 		for _, g := range eq.Gems {

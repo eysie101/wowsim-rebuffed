@@ -83,6 +83,15 @@ message UIItem {
 	}
 
 	FactionRestriction faction_restriction = 25;
+
+	// Whitemane 2 variants: the item this one is an upgrade level (1-5) or the epic version of.
+	int32 variant_base_id = 26;
+	int32 upgrade_level = 27;
+	bool epic_variant = 28;
+
+	// Item whose effects (procs, set bonuses, item checks) this item shares, and the factor for their amounts.
+	int32 effect_item_id = 29;
+	double effect_scale = 30;
 }
 
 enum Expansion {

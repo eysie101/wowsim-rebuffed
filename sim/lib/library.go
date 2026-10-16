@@ -104,8 +104,14 @@ func getDatabase(itemIds *int32, numItems int32, enchantIds *int32, numEnchants 
 	}
 	for i, itemId := range ids {
 		item := core.ItemsByID[itemId]
+		effectItemID := int32(0)
+		if item.VariantID != 0 {
+			effectItemID = item.ID
+		}
 		simDB.Items[i] = &proto.SimItem{
-			Id:               item.ID,
+			Id:               item.RealID(),
+			EffectItemId:     effectItemID,
+			EffectScale:      item.EffectScale,
 			Name:             item.Name,
 			Type:             item.Type,
 			ArmorType:        item.ArmorType,

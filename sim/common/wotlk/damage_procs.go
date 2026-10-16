@@ -19,8 +19,8 @@ func newProcDamageEffect(config ProcDamageEffect) {
 	core.NewItemEffect(config.ID, func(agent core.Agent) {
 		character := agent.GetCharacter()
 
-		minDmg := config.MinDmg
-		maxDmg := config.MaxDmg
+		minDmg := character.ScaleItemEffect(config.MinDmg)
+		maxDmg := character.ScaleItemEffect(config.MaxDmg)
 		damageSpell := character.RegisterSpell(core.SpellConfig{
 			ActionID:    core.ActionID{ItemID: config.ID},
 			SpellSchool: config.School,

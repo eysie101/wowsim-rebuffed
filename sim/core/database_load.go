@@ -35,6 +35,8 @@ func init() {
 			WeaponDamageMax:  item.WeaponDamageMax,
 			WeaponSpeed:      item.WeaponSpeed,
 			SetName:          item.SetName,
+			EffectItemId:     item.EffectItemId,
+			EffectScale:      item.EffectScale,
 		}
 	}
 
