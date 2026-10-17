@@ -3,16 +3,25 @@ import {
 	APLRotation_Type as APLRotationType,
 } from './proto/apl';
 import {
+	Consumes,
+	Debuffs,
 	EquipmentSpec,
     Faction,
+	IndividualBuffs,
+	PartyBuffs,
+	Profession,
+	Race,
+	RaidBuffs,
     Spec,
 } from './proto/common';
 import {
     SavedRotation,
+	SavedTalents,
 } from './proto/ui';
 
 import { Player } from './player';
 import {
+	SpecOptions,
     SpecRotation,
 	specTypeFunctions,
 } from './proto_utils/utils';
@@ -31,6 +40,31 @@ export interface PresetRotation {
 	rotation: SavedRotation;
 	tooltip?: string;
 	enableWhen?: (obj: Player<any>) => boolean;
+}
+
+// A complete build. Loading it first restores the page defaults, then sets every part given here.
+export interface PresetBuild<SpecType extends Spec> {
+	name: string;
+	gear: PresetGear;
+	talents: SavedTalents;
+	rotation: PresetRotation;
+	specOptions?: SpecOptions<SpecType>;
+	consumes?: Consumes;
+	race?: Race;
+	professions?: Array<Profession>;
+	raidBuffs?: RaidBuffs;
+	partyBuffs?: PartyBuffs;
+	individualBuffs?: IndividualBuffs;
+	debuffs?: Debuffs;
+	encounter?: PresetBuildEncounter;
+	tooltip?: string;
+}
+
+// The encounter of a build: its length in seconds and the number of default targets.
+export interface PresetBuildEncounter {
+	duration: number;
+	durationVariation: number;
+	numTargets: number;
 }
 
 export interface PresetGearOptions {

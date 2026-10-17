@@ -19,7 +19,7 @@ func init() {
 	// has some testing, and arrives at ~12 ppm (~75% for 3.7 speed)
 	// https://web.archive.org/web/20100508065259/http://elitistjerks.com/f81/t37462-warrior_dps_calculation_spreadsheet/p109/
 	// arrives at ~80% with "2000 white swings" on a dummy.
-	core.NewItemEffect(49623, func(agent core.Agent) {
+	shadowmourne := func(agent core.Agent) {
 		player := agent.GetCharacter()
 
 		ppmm := player.AutoAttacks.NewPPMManager(12, core.ProcMaskMeleeOrProc)
@@ -72,5 +72,11 @@ func init() {
 				}
 			},
 		}))
-	})
+	}
+	core.NewItemEffect(49623, shadowmourne)
+
+	// Frostmourne (Whitemane 2) carries Shadowmourne's equip spell 71903, with the same values in the client's Spell.dbc
+	core.AddEffectsToTest = false
+	core.NewItemEffect(33475, shadowmourne)
+	core.AddEffectsToTest = true
 }

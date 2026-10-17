@@ -3,8 +3,13 @@ import {
 	Flask,
 	Food,
 	Glyphs,
+	IndividualBuffs,
+	PartyBuffs,
 	Potions,
+	Profession,
+	Race,
 	RaidBuffs,
+	Spec,
 	TristateEffect,
 	Debuffs,
 } from '../core/proto/common.js';
@@ -24,6 +29,7 @@ import {
 } from '../core/proto/shaman.js';
 
 import * as PresetUtils from '../core/preset_utils.js';
+import { FULL_DEBUFFS, FULL_INDIVIDUAL_BUFFS, FULL_PARTY_BUFFS, FULL_RAID_BUFFS } from '../core/constants/full_raid_buffs.js';
 
 // Preset options for this spec.
 // Eventually we will import these values for the raid sim too, so its good to
@@ -44,6 +50,12 @@ import EnhaP1SpellAoe3Apl from './apls/enha_p1_spell_aoe3.apl.json';
 export const ROTATION_ENHA_P1_SPELL_AOE3 = PresetUtils.makePresetAPLRotation('ENHA P1 Spell AoE 3+', EnhaP1SpellAoe3Apl);
 import EnhaP1WfAoe3Apl from './apls/enha_p1_wf_aoe3.apl.json';
 export const ROTATION_ENHA_P1_WF_AOE3 = PresetUtils.makePresetAPLRotation('ENHA P1 WF AoE 3+', EnhaP1WfAoe3Apl);
+
+// wowsims' phase 1 rotations (named Default FT and Default WF there), for comparison with the ENHA lists
+import WowsimsP1SpellApl from './apls/default_ft.apl.json';
+export const ROTATION_WOWSIMS_P1_SPELL = PresetUtils.makePresetAPLRotation('wowsims P1 Spell', WowsimsP1SpellApl);
+import WowsimsP1WfApl from './apls/default_wf.apl.json';
+export const ROTATION_WOWSIMS_P1_WF = PresetUtils.makePresetAPLRotation('wowsims P1 WF', WowsimsP1WfApl);
 
 // Default talents. Uses the wowhead calculator format, make the talents on
 // https://wowhead.com/wotlk/talent-calc and copy the numbers in the url.
@@ -117,3 +129,113 @@ export const DefaultDebuffs = Debuffs.create({
 	totemOfWrath: true,
 	shadowMastery: true,
 });
+
+// Complete builds. ENHA: the whole setup of the phase 1 search - Orc, Jewelcrafting and Engineering, a full raid with
+// a Draenei in the party but without Mana Spring Totem, Mana Tide Totem and Judgements of the Wise, 240 s.
+const enhaTotems = ShamanTotems.create({
+	earth: EarthTotem.StrengthOfEarthTotem,
+	air: AirTotem.WindfuryTotem,
+	water: WaterTotem.HealingStreamTotem,
+	fire: FireTotem.MagmaTotem,
+	useFireElemental: true,
+});
+const enhaSpellOptions = EnhancementShamanOptions.create({
+	shield: ShamanShield.LightningShield,
+	syncType: ShamanSyncType.Auto,
+	imbueMh: ShamanImbue.FlametongueWeapon,
+	imbueOh: ShamanImbue.FlametongueWeapon,
+	totems: enhaTotems,
+});
+const enhaWfOptions = EnhancementShamanOptions.create({ ...enhaSpellOptions, imbueMh: ShamanImbue.WindfuryWeapon });
+const enhaSpellConsumes = Consumes.create({
+	flask: Flask.FlaskOfTheFrostWyrm,
+	food: Food.FoodFishFeast,
+	defaultPotion: Potions.PotionOfSpeed,
+	prepopPotion: Potions.PotionOfSpeed,
+});
+const enhaWfConsumes = Consumes.create({ ...enhaSpellConsumes, flask: Flask.FlaskOfEndlessRage });
+const enhaRaid = {
+	race: Race.RaceOrc,
+	professions: [Profession.Jewelcrafting, Profession.Engineering],
+	raidBuffs: RaidBuffs.create({ ...FULL_RAID_BUFFS, manaSpringTotem: TristateEffect.TristateEffectMissing }),
+	partyBuffs: PartyBuffs.create({ ...FULL_PARTY_BUFFS, manaTideTotems: 0, heroicPresence: true }),
+	individualBuffs: IndividualBuffs.create({ ...FULL_INDIVIDUAL_BUFFS, judgementsOfTheWise: false }),
+	debuffs: Debuffs.create({ ...FULL_DEBUFFS }),
+};
+// The Windfury build on three or more targets: Fire Nova, Flametongue Weapon and Feral Spirit glyphs
+const enhaWfAoeTalents = SavedTalents.create({
+	...EnhaP1WfTalents.data,
+	glyphs: Glyphs.create({
+		major1: ShamanMajorGlyph.GlyphOfFireNova,
+		major2: ShamanMajorGlyph.GlyphOfFlametongueWeapon,
+		major3: ShamanMajorGlyph.GlyphOfFeralSpirit,
+	}),
+});
+
+export const BUILD_ENHA_P1_SPELL: PresetUtils.PresetBuild<Spec.SpecEnhancementShaman> = {
+	name: 'ENHA P1 Spell', gear: ENHA_P1_SPELL_PRESET, talents: EnhaP1SpellTalents.data, rotation: ROTATION_ENHA_P1_SPELL,
+	specOptions: enhaSpellOptions, consumes: enhaSpellConsumes, ...enhaRaid,
+	encounter: { duration: 240, durationVariation: 5, numTargets: 1 },
+};
+export const BUILD_ENHA_P1_WF: PresetUtils.PresetBuild<Spec.SpecEnhancementShaman> = {
+	name: 'ENHA P1 WF', gear: ENHA_P1_WF_PRESET, talents: EnhaP1WfTalents.data, rotation: ROTATION_ENHA_P1_WF,
+	specOptions: enhaWfOptions, consumes: enhaWfConsumes, ...enhaRaid,
+	encounter: { duration: 240, durationVariation: 5, numTargets: 1 },
+};
+export const BUILD_ENHA_P1_SPELL_AOE3: PresetUtils.PresetBuild<Spec.SpecEnhancementShaman> = {
+	name: 'ENHA P1 Spell AoE 3+', gear: ENHA_P1_SPELL_PRESET, talents: EnhaP1SpellTalents.data, rotation: ROTATION_ENHA_P1_SPELL_AOE3,
+	specOptions: enhaSpellOptions, consumes: enhaSpellConsumes, ...enhaRaid,
+	encounter: { duration: 240, durationVariation: 5, numTargets: 3 },
+};
+export const BUILD_ENHA_P1_WF_AOE3: PresetUtils.PresetBuild<Spec.SpecEnhancementShaman> = {
+	name: 'ENHA P1 WF AoE 3+', gear: ENHA_P1_WF_PRESET, talents: enhaWfAoeTalents, rotation: ROTATION_ENHA_P1_WF_AOE3,
+	specOptions: enhaWfOptions, consumes: enhaWfConsumes, ...enhaRaid,
+	encounter: { duration: 240, durationVariation: 5, numTargets: 3 },
+};
+
+// wowsims' phase 1 setup: their P1 gear, Standard talents and rotations; the spell build with the Flametongue options
+// of their Enhancement test, the Windfury build with their default options; everything else the page defaults.
+import WowsimsP1Gear from './gear_sets/p1.gear.json';
+const WOWSIMS_P1_GEAR = PresetUtils.makePresetGear('wowsims P1', WowsimsP1Gear);
+const wowsimsStandardTalents = SavedTalents.create({
+	talentsString: '053030152-30405003105021333031131031051',
+	glyphs: Glyphs.create({
+		major1: ShamanMajorGlyph.GlyphOfFireNova,
+		major2: ShamanMajorGlyph.GlyphOfFlametongueWeapon,
+		major3: ShamanMajorGlyph.GlyphOfFeralSpirit,
+	}),
+});
+const wowsimsTotems = ShamanTotems.create({
+	earth: EarthTotem.StrengthOfEarthTotem,
+	fire: FireTotem.MagmaTotem,
+	water: WaterTotem.ManaSpringTotem,
+	air: AirTotem.WindfuryTotem,
+});
+const wowsimsConsumes = Consumes.create({
+	defaultPotion: Potions.PotionOfSpeed,
+	flask: Flask.FlaskOfEndlessRage,
+	food: Food.FoodFishFeast,
+});
+
+export const BUILD_WOWSIMS_P1_SPELL: PresetUtils.PresetBuild<Spec.SpecEnhancementShaman> = {
+	name: 'wowsims P1 Spell', gear: WOWSIMS_P1_GEAR, talents: wowsimsStandardTalents, rotation: ROTATION_WOWSIMS_P1_SPELL,
+	specOptions: EnhancementShamanOptions.create({
+		shield: ShamanShield.LightningShield,
+		syncType: ShamanSyncType.Auto,
+		imbueMh: ShamanImbue.FlametongueWeaponDownrank,
+		imbueOh: ShamanImbue.FlametongueWeapon,
+		totems: ShamanTotems.create({ ...wowsimsTotems, useFireElemental: true }),
+	}),
+	consumes: wowsimsConsumes,
+};
+export const BUILD_WOWSIMS_P1_WF: PresetUtils.PresetBuild<Spec.SpecEnhancementShaman> = {
+	name: 'wowsims P1 WF', gear: WOWSIMS_P1_GEAR, talents: wowsimsStandardTalents, rotation: ROTATION_WOWSIMS_P1_WF,
+	specOptions: EnhancementShamanOptions.create({
+		shield: ShamanShield.LightningShield,
+		syncType: ShamanSyncType.Auto,
+		imbueMh: ShamanImbue.WindfuryWeapon,
+		imbueOh: ShamanImbue.FlametongueWeapon,
+		totems: wowsimsTotems,
+	}),
+	consumes: wowsimsConsumes,
+};

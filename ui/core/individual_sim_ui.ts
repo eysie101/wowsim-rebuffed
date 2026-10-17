@@ -14,11 +14,20 @@ import * as InputHelpers from './components/input_helpers';
 import { addRaidSimAction, RaidSimResultsManager } from './components/raid_sim_action';
 import { SavedDataConfig } from './components/saved_data_manager';
 import { addStatWeightsAction } from './components/stat_weights_action';
+import {
+	FULL_DEBUFFS,
+	FULL_INDIVIDUAL_BUFFS,
+	FULL_PARTY_BUFFS,
+	FULL_RAID_BUFFS,
+	withFullRaid,
+} from './constants/full_raid_buffs';
 import * as Mechanics from './constants/mechanics';
 import * as Tooltips from './constants/tooltips';
 import { simLaunchStatuses } from './launched_sims';
 import { Player, PlayerConfig, registerSpecConfig as registerPlayerConfig } from './player';
-import { PresetGear, PresetRotation } from './preset_utils';
+import { Encounter } from './encounter';
+import { PresetBuild, PresetGear, PresetRotation } from './preset_utils';
+import { APLRotation } from './proto/apl';
 import { StatWeightsResult } from './proto/api';
 import {
 	Consumes,
@@ -49,6 +58,7 @@ import {
 	SpecOptions,
 	specToEligibleRaces,
 	specToLocalStorageKey,
+	specTypeFunctions,
 } from './proto_utils/utils';
 import { SimSettingCategories } from './sim';
 import { SimUI, SimWarning } from './sim_ui';
@@ -146,6 +156,7 @@ export interface IndividualSimUIConfig<SpecType extends Spec> extends PlayerConf
 		gear: Array<PresetGear>;
 		talents: Array<SavedDataConfig<Player<any>, SavedTalents>>;
 		rotations: Array<PresetRotation>;
+		builds?: Array<PresetBuild<SpecType>>;
 	};
 
 	raidSimPresets: Array<RaidSimPreset<SpecType>>;
@@ -483,6 +494,12 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 			const tankSpec = isTankSpec(this.player.spec);
 			const healingSpec = isHealingSpec(this.player.spec);
 
+			const defaults = this.individualConfig.defaults;
+			defaults.raidBuffs = withFullRaid(RaidBuffs, defaults.raidBuffs, FULL_RAID_BUFFS);
+			defaults.partyBuffs = withFullRaid(PartyBuffs, defaults.partyBuffs, FULL_PARTY_BUFFS);
+			defaults.individualBuffs = withFullRaid(IndividualBuffs, defaults.individualBuffs, FULL_INDIVIDUAL_BUFFS);
+			defaults.debuffs = withFullRaid(Debuffs, defaults.debuffs, FULL_DEBUFFS);
+
 			//Special case for Totem of Wrath keeps buff and debuff sync'd
 			const towEnabled =
 				this.individualConfig.defaults.raidBuffs.totemOfWrath ||
@@ -548,6 +565,53 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 				}
 			}
 		});
+	}
+
+	applyPresetBuild(eventID: EventID, build: PresetBuild<SpecType>) {
+		TypedEvent.freezeAllAndDo(() => {
+			this.applyDefaults(eventID);
+			this.player.setGear(eventID, this.sim.db.lookupEquipmentSpec(build.gear.gear));
+			this.player.setBonusStats(eventID, new Stats());
+			this.player.setTalentsString(eventID, build.talents.talentsString);
+			this.player.setGlyphs(eventID, build.talents.glyphs || Glyphs.create());
+			this.player.setAplRotation(eventID, build.rotation.rotation.rotation || APLRotation.create());
+			if (build.specOptions) this.player.setSpecOptions(eventID, build.specOptions);
+			if (build.consumes) this.player.setConsumes(eventID, build.consumes);
+			if (build.race != undefined) this.player.setRace(eventID, build.race);
+			if (build.professions) this.player.setProfessions(eventID, build.professions);
+			if (build.individualBuffs) this.player.setBuffs(eventID, build.individualBuffs);
+			if (build.partyBuffs) this.player.getParty()!.setBuffs(eventID, build.partyBuffs);
+			if (build.raidBuffs) this.player.getRaid()!.setBuffs(eventID, build.raidBuffs);
+			if (build.debuffs) this.sim.raid.setDebuffs(eventID, build.debuffs);
+			if (build.encounter) {
+				const encounter = this.sim.encounter.toProto();
+				encounter.duration = build.encounter.duration;
+				encounter.durationVariation = build.encounter.durationVariation;
+				encounter.targets = [...Array(build.encounter.numTargets)].map(() => Encounter.defaultTargetProto());
+				this.sim.encounter.fromProto(eventID, encounter);
+			}
+		});
+	}
+
+	// True while the page holds every part of the build (the build chip is shown as active).
+	matchesPresetBuild(build: PresetBuild<SpecType>): boolean {
+		const player = this.player;
+		const encounter = this.sim.encounter.toProto();
+		return EquipmentSpec.equals(player.getGear().asSpec(), this.sim.db.lookupEquipmentSpec(build.gear.gear).asSpec())
+			&& player.getTalentsString() == build.talents.talentsString
+			&& Glyphs.equals(player.getGlyphs(), build.talents.glyphs || Glyphs.create())
+			&& APLRotation.equals(player.aplRotation, build.rotation.rotation.rotation || APLRotation.create())
+			&& (!build.specOptions || specTypeFunctions[player.spec].optionsEquals(player.getSpecOptions(), build.specOptions))
+			&& (!build.consumes || Consumes.equals(player.getConsumes(), build.consumes))
+			&& (build.race == undefined || player.getRace() == build.race)
+			&& (!build.professions || player.getProfessions().join() == build.professions.join())
+			&& (!build.individualBuffs || IndividualBuffs.equals(player.getBuffs(), build.individualBuffs))
+			&& (!build.partyBuffs || PartyBuffs.equals(player.getParty()!.getBuffs(), build.partyBuffs))
+			&& (!build.raidBuffs || RaidBuffs.equals(player.getRaid()!.getBuffs(), build.raidBuffs))
+			&& (!build.debuffs || Debuffs.equals(this.sim.raid.getDebuffs(), build.debuffs))
+			&& (!build.encounter || (encounter.duration == build.encounter.duration
+				&& encounter.durationVariation == build.encounter.durationVariation
+				&& encounter.targets.length == build.encounter.numTargets));
 	}
 
 	getSavedGearStorageKey(): string {

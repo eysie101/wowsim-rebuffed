@@ -108,6 +108,13 @@ func main() {
 	}
 
 	db.MergeItems(database.ItemOverrides)
+	// Whitemane 2 stats of items the sources above have with other stats, from the Whitemane 2 client's item cache.
+	whitemaneOverrides := database.ReadDatabaseFromJson(tools.ReadFile(fmt.Sprintf("%s/whitemane2_overrides.json", inputsDir)))
+	for _, item := range whitemaneOverrides.Items {
+		if _, ok := db.Items[item.Id]; ok {
+			db.MergeItem(item)
+		}
+	}
 	db.MergeGems(database.GemOverrides)
 	db.MergeEnchants(database.EnchantOverrides)
 	ApplyGlobalFilters(db)

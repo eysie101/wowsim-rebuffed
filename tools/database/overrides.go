@@ -646,7 +646,8 @@ var DenyListNameRegexes = []*regexp.Regexp{
 	regexp.MustCompile(`PH`),
 	regexp.MustCompile(`QR XXXX`),
 	regexp.MustCompile(`TEST`),
-	regexp.MustCompile(`Test`),
+	// Not "Tested": Flame-Tested Chestguard is a real item.
+	regexp.MustCompile(`Test([^e]|$)`),
 	regexp.MustCompile(`zOLD`),
 }
 

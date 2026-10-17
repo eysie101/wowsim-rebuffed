@@ -1,6 +1,6 @@
-// Sun-Lute tooltip hack
+// Armata Strigoi tooltip hack
 var sunluteTxt = '<table><tr><td><b class="q5">Armata Strigoi</b><br /><!--bo-->Binds when picked up<br />Unique<table width="100%"><tr><td>Two-Hand</td><th>Axe</th></tr></table><table width="100%"><tr><td><!--dmg-->673 - 1008 Damage</td><th>Speed <!--spd-->3.60</th></tr></table><!--dps-->(233.5 damage per second)<br /><span><!--stat4-->+131 Strength</span><br /><span><!--stat7-->+139 Stamina</span><br />_SLPH_Durability 145 / 145<br />Classes: <a href="?class=1" class="c1">Warrior</a>, <a href="?class=2" class="c2">Paladin</a><br />Requires Level 80<br />Item Level 232<br /></td></tr></table><table><tr><td><span class="q2">Equip: Improves critical strike rating by <!--rtg32-->81&nbsp;<small>(<!--rtg%32-->1.76%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases your armor penetration rating by <!--rtg44-->64&nbsp;<small>(<!--rtg%44-->4.57%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Your melee attacks have a chance to strike a Power Chord. When you reach 4 Power Chords, they will release, causing you to instantly attack for 100% weapon damage with the Armata Strigoi.</span><br /><div class="q1 whtt-sellprice">Sell Price: <span class="moneygold">36</span> <span class="moneysilver">32</span> <span class="moneycopper">60</span></div></td></tr></table><!--?130031:1:80:80-->'
-var sunluteFake = 46041 // Starfall Girdle (has same sockets and bonus as Sun-Lute)
+var sunluteFake = 46041 // Starfall Girdle (has same sockets and bonus as Armata Strigoi)
 var fixSunlute
 // Sulfuras tooltip hack
 var sulfurasTxt = '<table><tr><td><b class="q5">Sulfuras, Hand of Ragnaros</b><br /><!--bo-->Binds when picked up<br />Unique<table width="100%"><tr><td>Two-Hand</td><th>Mace</th></tr></table><table width="100%"><tr><td><!--dmg-->872 - 1309 Damage</td><th>Speed <!--spd-->3.70</th></tr></table><!--dps-->(294.7 damage per second)<br /><span class=\"c11\"><!--fap-->(3359 Feral Attack Power)</span><br /><span><!--stat3-->+155 Agility</span><br /><span><!--stat7-->+199 Stamina</span><br />_SULPH_Durability 145 / 145<br />Requires Level 80<br />Item Level 264<br /></td></tr></table><table><tr><td><span class="q2">Equip: Improves hit rating by <!--rtg31-->116&nbsp;<small>(<!--rtg%31-->3.54%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases your expertise rating by <!--rtg37-->99&nbsp;<small>(<!--rtg%37-->12.08%&nbsp;@&nbsp;L<!--lvl-->80)</small>.</span><br /><span class="q2">Equip: Increases attack power by <!--rtg38-->184.</span><br /><span class="q2">Chance on hit: Hurls a fiery ball that causes 717 to 913 Fire damage and an additional 116 Fire damage over 8 sec.</span><br /><div class="q1 whtt-sellprice">Sell Price: <span class="moneygold">32</span> <span class="moneysilver">44</span> <span class="moneycopper">95</span></div></td></tr></table><!--?132001:1:80:80-->'
@@ -97,12 +97,12 @@ if (typeof $WowheadPower == "undefined") {
             CURSOR_VSPACE = 15,
 
             _LANG = {
-                0: { achievementComplete: "Achievement earned by $1 on $2/$3/$4",     loading: "Loadingâ€¦",    noResponse: "No response from server :(",       notFound: "$1 Not Found"       },
-                2: { achievementComplete: "Haut-fait reÃ§u par $1 le $2/$3/$4",        loading: "Chargementâ€¦", noResponse: "Pas de rÃ©ponse du serveur :(",     notFound: "$1 non trouvÃ©"      },
-                3: { achievementComplete: "Erfolg wurde von $1 am $3.$2.$4 errungen", loading: "LÃ¤dtâ€¦",       noResponse: "Keine Antwort vom Server :(",      notFound: "$1 nicht gefunden"  },
-                4: { achievementComplete: "$1åœ¨$2/$3/$4ä¸ŠèŽ·å¾—æˆå°±",                     loading: "æ­£åœ¨è½½å…¥â€¦",    noResponse: "æœåŠ¡å™¨æ²¡æœ‰å“åº” :(",                   notFound: "$1æœªæ‰¾åˆ°"            },
-                8: { achievementComplete: "$1 Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ð»(Ð°) ÑÑ‚Ð¾ Ð´Ð¾ÑÑ‚Ð¸Ð¶ÐµÐ½Ð¸Ðµ $2/$3/$4",    loading: "Ð—Ð°Ð³Ñ€ÑƒÐ·ÐºÐ°â€¦",   noResponse: "ÐÐµÑ‚ Ð¾Ñ‚Ð²ÐµÑ‚Ð° Ð¾Ñ‚ ÑÐµÑ€Ð²ÐµÑ€Ð° :(",         notFound: "$1 Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½Ð¾"      },
-                6: { achievementComplete: "Logro conseguido por $1 el $2/$3/$4",      loading: "Cargandoâ€¦",   noResponse: "No hay respuesta del servidor :(", notFound: "$1 no encontrado/a" },
+                0: { achievementComplete: "Achievement earned by $1 on $2/$3/$4",     loading: "Loading…",    noResponse: "No response from server :(",       notFound: "$1 Not Found"       },
+                2: { achievementComplete: "Haut-fait reçu par $1 le $2/$3/$4",        loading: "Chargement…", noResponse: "Pas de réponse du serveur :(",     notFound: "$1 non trouvé"      },
+                3: { achievementComplete: "Erfolg wurde von $1 am $3.$2.$4 errungen", loading: "Lädt…",       noResponse: "Keine Antwort vom Server :(",      notFound: "$1 nicht gefunden"  },
+                4: { achievementComplete: "$1在$2/$3/$4上获得成就",                     loading: "正在载入…",    noResponse: "服务器没有响应 :(",                   notFound: "$1未找到"            },
+                8: { achievementComplete: "$1 получил(а) это достижение $2/$3/$4",    loading: "Загрузка…",   noResponse: "Нет ответа от сервера :(",         notFound: "$1 не найдено"      },
+                6: { achievementComplete: "Logro conseguido por $1 el $2/$3/$4",      loading: "Cargando…",   noResponse: "No hay respuesta del servidor :(", notFound: "$1 no encontrado/a" },
             },
             LOOKUPS = {
                   1: [npcs,         "npc",         "NPC"        ],
@@ -659,11 +659,39 @@ if (typeof $WowheadPower == "undefined") {
                 url = g_host + "/";
 
             // $WH.g_ajaxIshRequest(url + "?" + LOOKUPS[type][1] + "=" + id + "&power" + p);
-            $WH.g_ajaxIshRequest(url + "?" + LOOKUPS[type][1] + "=" + id + "&domain=" + localeDomain + "&power" + p);
+            if (type == TYPE_SPELL) {
+                requestWowheadSpell(type, id, fullId, locale);
+            }
+            else {
+                $WH.g_ajaxIshRequest(url + "?" + LOOKUPS[type][1] + "=" + id + "&domain=" + localeDomain + "&power" + p);
+            }
             if (SCALES[type] && SCALES[type][locale] == SCALES_NONE) {
                 $WH.g_ajaxIshRequest(url + SCALES[type].url);
                 SCALES[type][locale] = SCALES_QUERYING;
             }
+        }
+
+        // Spells come from Wowhead's WotLK tooltips: the server above refuses spell queries (HTTP 403).
+        function requestWowheadSpell(type, id, fullId, locale) {
+            fetch("https://nether.wowhead.com/tooltip/spell/" + id + "?dataEnv=8&locale=" + locale)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    var json = { icon: data.icon };
+                    var fields = ["name", "tooltip", "tooltip2", "buff", "spells", "buffspells"];
+                    for (var i = 0; i < fields.length; i++) {
+                        if (data[fields[i]] != null) {
+                            json[fields[i] + "_" + LOCALES[locale]] = data[fields[i]];
+                        }
+                    }
+                    // Wowhead's tooltip is already scaled: no wait for the scaling data of the server above
+                    SCALES[type][locale] = SCALES_LOADED;
+                    $WowheadPower.registerSpell(fullId, locale, json);
+                })
+                .catch(function () {
+                    notFound(type, fullId, locale);
+                });
         }
 
         function showTooltip(html, icon, map, spellData, html2) {

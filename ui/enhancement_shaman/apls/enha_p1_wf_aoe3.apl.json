@@ -1,21 +1,5 @@
 {
 	"type": "TypeAPL",
-	"prepullActions": [
-		{
-			"action": {
-				"castSpell": {
-					"spellId": {
-						"spellId": 66842
-					}
-				}
-			},
-			"doAtValue": {
-				"const": {
-					"val": "-3s"
-				}
-			}
-		}
-	],
 	"priorityList": [
 		{
 			"action": {
@@ -339,30 +323,6 @@
 						"rhs": {
 							"const": {
 								"val": "3"
-							}
-						}
-					}
-				}
-			}
-		},
-		{
-			"action": {
-				"castSpell": {
-					"spellId": {
-						"spellId": 66842
-					}
-				},
-				"condition": {
-					"cmp": {
-						"op": "OpLt",
-						"lhs": {
-							"totemRemainingTime": {
-								"totemType": "Water"
-							}
-						},
-						"rhs": {
-							"const": {
-								"val": "20s"
 							}
 						}
 					}

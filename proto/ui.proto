@@ -92,6 +92,9 @@ message UIItem {
 	// Item whose effects (procs, set bonuses, item checks) this item shares, and the factor for their amounts.
 	int32 effect_item_id = 29;
 	double effect_scale = 30;
+
+	// Whitemane 2 items: the Use, Equip and Chance on hit lines of the client's tooltip.
+	repeated string effect_texts = 31;
 }
 
 enum Expansion {

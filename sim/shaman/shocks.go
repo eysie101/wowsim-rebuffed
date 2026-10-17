@@ -105,6 +105,7 @@ func (shaman *Shaman) registerFlameShockSpell(shockTimer *core.Timer) {
 		},
 		OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
 			dot.CalcAndDealPeriodicSnapshotDamage(sim, target, dot.OutcomeSnapshotCrit)
+			shaman.lavaSurgeOnFlameShockTick(sim)
 		},
 	}
 

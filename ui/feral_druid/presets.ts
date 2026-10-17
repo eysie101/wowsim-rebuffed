@@ -1,9 +1,15 @@
 import {
 	Consumes,
+	Debuffs,
 	Food,
+	IndividualBuffs,
+	PartyBuffs,
 	Potions,
+	Profession,
 	Flask,
 	Glyphs,
+	Race,
+	RaidBuffs,
 	Spec,
 } from '../core/proto/common.js';
 import { SavedTalents } from '../core/proto/ui.js';
@@ -19,6 +25,7 @@ import {
 } from '../core/proto/druid.js';
 
 import * as PresetUtils from '../core/preset_utils.js';
+import { FULL_DEBUFFS, FULL_INDIVIDUAL_BUFFS, FULL_PARTY_BUFFS, FULL_RAID_BUFFS } from '../core/constants/full_raid_buffs.js';
 
 // Preset options for this spec.
 // Eventually we will import these values for the raid sim too, so its good to
@@ -102,3 +109,18 @@ export const DefaultConsumes = Consumes.create({
 	food: Food.FoodDragonfinFilet,
 	defaultPotion: Potions.PotionOfSpeed,
 });
+
+// Complete build: the whole setup of the phase 1 search - Tauren, Engineering and Jewelcrafting, Fish Feast, a full raid
+// (no Draenei in the party), latency 100 ms without assuming a bleed, 240 s
+export const BUILD_P1_FERAL: PresetUtils.PresetBuild<Spec.SpecFeralDruid> = {
+	name: 'P1 Feral', gear: P1_FERAL_PRESET, talents: FeralTalents.data, rotation: APL_ROTATION_MEOW_FERAL,
+	specOptions: FeralDruidOptions.create({ latencyMs: 100 }),
+	consumes: Consumes.create({ flask: Flask.FlaskOfEndlessRage, food: Food.FoodFishFeast, defaultPotion: Potions.PotionOfSpeed }),
+	race: Race.RaceTauren,
+	professions: [Profession.Engineering, Profession.Jewelcrafting],
+	raidBuffs: RaidBuffs.create({ ...FULL_RAID_BUFFS }),
+	partyBuffs: PartyBuffs.create({ ...FULL_PARTY_BUFFS, heroicPresence: false }),
+	individualBuffs: IndividualBuffs.create({ ...FULL_INDIVIDUAL_BUFFS }),
+	debuffs: Debuffs.create({ ...FULL_DEBUFFS }),
+	encounter: { duration: 240, durationVariation: 5, numTargets: 1 },
+};

@@ -79,6 +79,8 @@ type Shaman struct {
 
 	thunderstormInRange bool // flag if thunderstorm will be in range.
 
+	lavaSurgeAura *core.Aura // Doomhammer, whitemane_lavasurge.go
+
 	Talents   *proto.ShamanTalents
 	SelfBuffs SelfBuffs
 
@@ -247,6 +249,7 @@ func (shaman *Shaman) Initialize() {
 	shaman.registerCallOfTheElements()
 
 	shaman.registerBloodlustCD()
+	shaman.registerLavaSurge()
 
 	shaman.NewTemporaryStatsAura("DC Pre-Pull SP Proc", core.ActionID{SpellID: 60494}, stats.Stats{stats.SpellPower: 765}, time.Second*10)
 }

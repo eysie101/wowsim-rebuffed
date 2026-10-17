@@ -162,6 +162,16 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecEnhancementShaman, {
 			Presets.ROTATION_ENHA_P1_WF,
 			Presets.ROTATION_ENHA_P1_SPELL_AOE3,
 			Presets.ROTATION_ENHA_P1_WF_AOE3,
+			Presets.ROTATION_WOWSIMS_P1_SPELL,
+			Presets.ROTATION_WOWSIMS_P1_WF,
+		],
+		builds: [
+			Presets.BUILD_ENHA_P1_SPELL,
+			Presets.BUILD_ENHA_P1_WF,
+			Presets.BUILD_ENHA_P1_SPELL_AOE3,
+			Presets.BUILD_ENHA_P1_WF_AOE3,
+			Presets.BUILD_WOWSIMS_P1_SPELL,
+			Presets.BUILD_WOWSIMS_P1_WF,
 		],
 		// Preset gear configurations that the user can quickly select.
 		gear: [

@@ -175,8 +175,11 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecFeralDruid, {
 			Presets.P3_PRESET,
 			Presets.P4_PRESET,
 		],
+		builds: [
+			Presets.BUILD_P1_FERAL,
+		],
 	},
-	
+
 	autoRotation: (_player: Player<Spec.SpecFeralDruid>): APLRotation => {
 		return Presets.APL_ROTATION_MEOW_FERAL.rotation.rotation!;
 	},

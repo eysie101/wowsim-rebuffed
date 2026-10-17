@@ -4,6 +4,7 @@ import { EventID, TypedEvent } from "../../typed_event";
 
 import { EquipmentSpec, Spec, UnitStats } from "../../proto/common";
 import { SavedGearSet } from "../../proto/ui";
+import { PresetBuild } from "../../preset_utils";
 import { Stats } from "../../proto_utils/stats";
 
 import { GearPicker } from "../gear_picker";
@@ -36,7 +37,39 @@ export class GearTab extends SimTab {
 	protected buildTabContent() {
 		this.buildGearPickers();
 		this.buildGemSummary();
+		this.buildPresetBuildPicker();
 		this.buildSavedGearsetPicker();
+	}
+
+	private buildPresetBuildPicker() {
+		const builds = this.simUI.individualConfig.presets.builds || [];
+		if (builds.length == 0 || this.simUI.isWithinRaidSim) {
+			return;
+		}
+		const buildsManager = new SavedDataManager<IndividualSimUI<any>, PresetBuild<any>>(this.rightPanel, this.simUI, {
+			header: { title: "Builds" },
+			label: 'Build',
+			presetsOnly: true,
+			storageKey: '',
+			getData: () => builds[0],
+			setData: (eventID: EventID, simUI: IndividualSimUI<any>, build: PresetBuild<any>) => simUI.applyPresetBuild(eventID, build),
+			changeEmitters: [this.simUI.changeEmitter, this.simUI.player.changeEmitter],
+			// presets only: the chip is active while the page holds the whole build
+			equals: (build: PresetBuild<any>) => this.simUI.matchesPresetBuild(build),
+			toJson: (build: PresetBuild<any>) => build.name,
+			fromJson: (_obj: any) => builds[0],
+		});
+
+		this.simUI.sim.waitForInit().then(() => {
+			builds.forEach(build => {
+				buildsManager.addSavedData({
+					name: build.name,
+					tooltip: build.tooltip,
+					isPreset: true,
+					data: build,
+				});
+			});
+		});
 	}
 
 	private buildGearPickers() {

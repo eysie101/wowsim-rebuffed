@@ -9,6 +9,9 @@ import { armorTypeNames, classNames, rangedWeaponTypeNames, weaponTypeNames } fr
 // Items with their own tooltip text in tooltips.js.
 const OWN_TOOLTIP_IDS = new Set([130031, 131001, 131002, 132001, 132003]);
 
+// Items below 100000 whose Whitemane 2 stats the tooltip server does not show (Hateful Gladiator's Redoubt: no mana per 5 sec).
+const WHITEMANE_STATS_IDS = new Set([42569]);
+
 const PRIMARY: Array<[Stat, string]> = [
 	[Stat.StatStrength, 'Strength'],
 	[Stat.StatAgility, 'Agility'],
@@ -108,7 +111,7 @@ function slotAndType(item: Item): [string, string] {
 		if (item.rangedWeaponType == RangedWeaponType.RangedWeaponTypeThrown) return ['Thrown', ''];
 		return ['Ranged', rangedWeaponTypeNames.get(item.rangedWeaponType) || ''];
 	}
-	return [SLOTS[item.type] || '', item.type == ItemType.ItemTypeBack ? '' : armorTypeNames.get(item.armorType) || ''];
+	return [SLOTS[item.type] || '', item.type == ItemType.ItemTypeBack || !item.armorType ? '' : armorTypeNames.get(item.armorType) || ''];
 }
 
 export function buildItemTooltip(item: Item, lookup: (id: number) => Item | null): string {
@@ -156,6 +159,7 @@ export function buildItemTooltip(item: Item, lookup: (id: number) => Item | null
 	}
 	const extraRangedAP = stat(Stat.StatRangedAttackPower) - stat(Stat.StatAttackPower);
 	if (extraRangedAP > 0) lines.push(`<span class="q2">Equip: Increases ranged attack power by ${extraRangedAP}.</span>`);
+	for (const text of item.effectTexts) lines.push(`<span class="q2">${escapeHtml(text).replace(/\n/g, '<br />')}</span>`);
 
 	if (item.effectItemId) {
 		const source = lookup(item.effectItemId);
@@ -168,9 +172,19 @@ export function buildItemTooltip(item: Item, lookup: (id: number) => Item | null
 	return `<table><tr><td>${lines.join('<br />')}</td></tr></table>`;
 }
 
+let itemLookup: (id: number) => Item | null = () => null;
+
+// The item below 100000 (known to Wowhead) a Whitemane item is a version of, or 0.
+export function wowheadBaseId(id: number): number {
+	let item = itemLookup(id);
+	for (let step = 0; item && item.id >= 100000 && item.variantBaseId && step < 3; step++) item = itemLookup(item.variantBaseId);
+	return item && item.id < 100000 ? item.id : 0;
+}
+
 export function registerWhitemaneTooltips(lookup: (id: number) => Item | null) {
+	itemLookup = lookup;
 	(window as any).wsrItemTooltip = (id: number) => {
-		if (id < 100000 || OWN_TOOLTIP_IDS.has(id)) return null;
+		if ((id < 100000 && !WHITEMANE_STATS_IDS.has(id)) || OWN_TOOLTIP_IDS.has(id)) return null;
 		const item = lookup(id);
 		if (!item) return null;
 		return { html: buildItemTooltip(item, lookup), icon: item.icon };
