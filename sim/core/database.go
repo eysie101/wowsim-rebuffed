@@ -53,8 +53,6 @@ type Item struct {
 	GemSockets  []proto.GemColor
 	SocketBonus stats.Stats
 
-	// Set when the item shares the effects of another item: ID is then that item's ID (so procs, set bonuses
-	// and item checks apply), VariantID the item's own ID, and EffectScale the factor for the effect amounts.
 	VariantID   int32
 	EffectScale float64
 
@@ -91,7 +89,6 @@ func ItemFromProto(pData *proto.SimItem) Item {
 	}
 }
 
-// The item's own ID, also for items that share the effects of another item.
 func (item *Item) RealID() int32 {
 	if item.VariantID != 0 {
 		return item.VariantID

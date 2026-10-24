@@ -737,7 +737,6 @@ message SimItem {
 
 	string set_name = 14;
 
-	// Item whose effects (procs, set bonuses, item checks) this item shares, and the factor for their amounts.
 	int32 effect_item_id = 15;
 	double effect_scale = 16;
 }

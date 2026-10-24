@@ -33,9 +33,10 @@ import { FULL_DEBUFFS, FULL_INDIVIDUAL_BUFFS, FULL_PARTY_BUFFS, FULL_RAID_BUFFS 
 
 import PreraidGear from './gear_sets/preraid.gear.json';
 export const PRERAID_PRESET = PresetUtils.makePresetGear('Preraid Preset', PreraidGear);
-// Whitemane phase 1: the best-in-slot set of the cat build (Jewelcrafting and Engineering)
 import P1FeralGear from './gear_sets/p1_feral.gear.json';
 export const P1_FERAL_PRESET = PresetUtils.makePresetGear('P1 Feral', P1FeralGear);
+import P1MeowGear from './gear_sets/p1_meow.gear.json';
+export const P1_MEOW_PRESET = PresetUtils.makePresetGear('P1 Meow', P1MeowGear);
 import P2Gear from './gear_sets/p2.gear.json';
 export const P2_PRESET = PresetUtils.makePresetGear('P2 Preset', P2Gear);
 import P3Gear from './gear_sets/p3.gear.json';
@@ -49,7 +50,6 @@ export const APL_ROTATION_DEFAULT = PresetUtils.makePresetAPLRotation('APL Defau
 import CustomExampleApl from './apls/custom_apl_example.apl.json';
 export const APL_ROTATION_CUSTOM_EXAMPLE = PresetUtils.makePresetAPLRotation('Custom APL Example', CustomExampleApl);
 
-// Whitemane: the cat rotation with the parameters of the phase 1 search (bite time 4, roar offset 25, rip leeway 4)
 import MeowFeralApl from './apls/meow_feral.apl.json';
 export const APL_ROTATION_MEOW_FERAL = PresetUtils.makePresetAPLRotation('Meow Feral', MeowFeralApl);
 
@@ -83,7 +83,6 @@ export const SIMPLE_ROTATION_DEFAULT = PresetUtils.makePresetSimpleRotation('Sim
 
 // Default talents. Uses the wowhead calculator format, make the talents on
 // https://wowhead.com/wotlk/talent-calc and copy the numbers in the url.
-// Whitemane: the tree of the phase 1 search (Feral Aggression 5/5, Improved Leader of the Pack 1/2)
 export const FeralTalents = {
 	name: 'Feral',
 	data: SavedTalents.create({
@@ -110,8 +109,6 @@ export const DefaultConsumes = Consumes.create({
 	defaultPotion: Potions.PotionOfSpeed,
 });
 
-// Complete build: the whole setup of the phase 1 search - Tauren, Engineering and Jewelcrafting, Fish Feast, a full raid
-// (no Draenei in the party), latency 100 ms without assuming a bleed, 240 s
 export const BUILD_P1_FERAL: PresetUtils.PresetBuild<Spec.SpecFeralDruid> = {
 	name: 'P1 Feral', gear: P1_FERAL_PRESET, talents: FeralTalents.data, rotation: APL_ROTATION_MEOW_FERAL,
 	specOptions: FeralDruidOptions.create({ latencyMs: 100 }),
@@ -123,4 +120,9 @@ export const BUILD_P1_FERAL: PresetUtils.PresetBuild<Spec.SpecFeralDruid> = {
 	individualBuffs: IndividualBuffs.create({ ...FULL_INDIVIDUAL_BUFFS }),
 	debuffs: Debuffs.create({ ...FULL_DEBUFFS }),
 	encounter: { duration: 240, durationVariation: 5, numTargets: 1 },
+};
+
+export const BUILD_P1_MEOW: PresetUtils.PresetBuild<Spec.SpecFeralDruid> = {
+	...BUILD_P1_FERAL,
+	name: 'P1 Meow', gear: P1_MEOW_PRESET,
 };

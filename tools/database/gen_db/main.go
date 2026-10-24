@@ -98,8 +98,6 @@ func main() {
 		}
 	}
 
-	// Whitemane 2 items the sources above do not have (upgrade levels, epic versions, Whitemane's own items),
-	// exported from the Whitemane 2 client's item cache.
 	whitemaneDB := database.ReadDatabaseFromJson(tools.ReadFile(fmt.Sprintf("%s/whitemane2_items.json", inputsDir)))
 	for _, item := range whitemaneDB.Items {
 		if _, ok := db.Items[item.Id]; !ok {
@@ -108,7 +106,6 @@ func main() {
 	}
 
 	db.MergeItems(database.ItemOverrides)
-	// Whitemane 2 stats of items the sources above have with other stats, from the Whitemane 2 client's item cache.
 	whitemaneOverrides := database.ReadDatabaseFromJson(tools.ReadFile(fmt.Sprintf("%s/whitemane2_overrides.json", inputsDir)))
 	for _, item := range whitemaneOverrides.Items {
 		if _, ok := db.Items[item.Id]; ok {

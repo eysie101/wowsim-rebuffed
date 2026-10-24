@@ -3,13 +3,8 @@ import { UIItem as Item } from '../proto/ui.js';
 
 import { armorTypeNames, classNames, rangedWeaponTypeNames, weaponTypeNames } from './names.js';
 
-// Tooltips for Whitemane items Wowhead does not know (their IDs are 100000 and up), built from the sim's item data.
-// tooltips.js asks window.wsrItemTooltip(id) before it asks Wowhead.
-
-// Items with their own tooltip text in tooltips.js.
 const OWN_TOOLTIP_IDS = new Set([130031, 131001, 131002, 132001, 132003]);
 
-// Items below 100000 whose Whitemane 2 stats the tooltip server does not show (Hateful Gladiator's Redoubt: no mana per 5 sec).
 const WHITEMANE_STATS_IDS = new Set([42569]);
 
 const PRIMARY: Array<[Stat, string]> = [
@@ -164,7 +159,6 @@ export function buildItemTooltip(item: Item, lookup: (id: number) => Item | null
 	if (item.effectItemId) {
 		const source = lookup(item.effectItemId);
 		const scale = item.effectScale && item.effectScale != 1 ? `, ${Math.round((item.effectScale - 1) * 100)}% stronger` : '';
-		// only worth a line when the effect comes from another item or is stronger
 		if (source && (source.name != item.name || scale)) lines.push(`<span class="q2">Effect of ${escapeHtml(source.name)}${scale}</span>`);
 	}
 	if (item.setName) lines.push(`<br /><span class="q">${escapeHtml(item.setName)}</span>`);
@@ -174,7 +168,6 @@ export function buildItemTooltip(item: Item, lookup: (id: number) => Item | null
 
 let itemLookup: (id: number) => Item | null = () => null;
 
-// The item below 100000 (known to Wowhead) a Whitemane item is a version of, or 0.
 export function wowheadBaseId(id: number): number {
 	let item = itemLookup(id);
 	for (let step = 0; item && item.id >= 100000 && item.variantBaseId && step < 3; step++) item = itemLookup(item.variantBaseId);

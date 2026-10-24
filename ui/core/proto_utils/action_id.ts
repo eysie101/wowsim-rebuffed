@@ -142,8 +142,6 @@ export class ActionId {
 		if (USE_WOTLK_DB) {
 			return 'https://wotlkdb.com/?item=' + id;
 		} else {
-			// Whitemane ids (100000 and up) have no page: link the Wowhead item they are a version of. tooltips.js reads the
-			// last "item=" of a link, so the fragment keeps the tooltip on the Whitemane item.
 			const base = id >= 100000 ? wowheadBaseId(id) : 0;
 			return base
 				? `https://wowhead.com/wotlk/${langPrefix}item=${base}?lvl=${CHARACTER_LEVEL}#item=${id}`
@@ -186,8 +184,6 @@ export class ActionId {
 	setWowheadHref(elem: HTMLAnchorElement) {
 		if (this.itemId) {
 			elem.href = ActionId.makeItemUrl(this.itemId);
-			// A Whitemane item that is no version of a Wowhead item has no page anywhere: its link only carries the tooltip.
-			// shortcut: "open in new tab" from the context menu still opens Wowhead's item list.
 			const noPage = this.itemId >= 100000 && !wowheadBaseId(this.itemId);
 			elem.onclick = elem.onauxclick = noPage ? (event: MouseEvent) => event.preventDefault() : null;
 		} else if (this.spellId) {

@@ -42,7 +42,6 @@ export interface PresetRotation {
 	enableWhen?: (obj: Player<any>) => boolean;
 }
 
-// A complete build. Loading it first restores the page defaults, then sets every part given here.
 export interface PresetBuild<SpecType extends Spec> {
 	name: string;
 	gear: PresetGear;
@@ -60,7 +59,6 @@ export interface PresetBuild<SpecType extends Spec> {
 	tooltip?: string;
 }
 
-// The encounter of a build: its length in seconds and the number of default targets.
 export interface PresetBuildEncounter {
 	duration: number;
 	durationVariation: number;

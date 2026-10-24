@@ -334,7 +334,7 @@ func (shaman *Shaman) applyFlurry() {
 	procAura := shaman.RegisterAura(core.Aura{
 		Label:     "Flurry Proc",
 		ActionID:  core.ActionID{SpellID: 16280},
-		Duration:  core.NeverExpires,
+		Duration:  time.Second * 15,
 		MaxStacks: 3,
 		OnGain: func(aura *core.Aura, sim *core.Simulation) {
 			shaman.MultiplyMeleeSpeed(sim, bonus)

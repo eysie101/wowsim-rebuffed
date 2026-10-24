@@ -8,12 +8,12 @@ import (
 
 func (fireElemental *FireElemental) registerFireBlast() {
 	fireElemental.FireBlast = fireElemental.RegisterSpell(core.SpellConfig{
-		ActionID:    core.ActionID{SpellID: 13339},
+		ActionID:    core.ActionID{SpellID: 57984},
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
 
 		ManaCost: core.ManaCostOptions{
-			FlatCost: 276,
+			FlatCost: 40,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
@@ -45,7 +45,7 @@ func (fireElemental *FireElemental) registerFireNova() {
 		ProcMask:    core.ProcMaskSpellDamage,
 
 		ManaCost: core.ManaCostOptions{
-			FlatCost: 207,
+			FlatCost: 30,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
@@ -74,7 +74,7 @@ func (fireElemental *FireElemental) registerFireNova() {
 }
 
 func (fireElemental *FireElemental) registerFireShieldAura() {
-	actionID := core.ActionID{SpellID: 11350}
+	actionID := core.ActionID{SpellID: 13376}
 
 	//dummy spell
 	spell := fireElemental.RegisterSpell(core.SpellConfig{

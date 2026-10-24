@@ -40,7 +40,6 @@ const createHeroicLabel = () => {
 	return <span className="heroic-label">[H]</span>;
 };
 
-// Whitemane 2 upgrade level of an item
 const createUpgradeLabel = (level: number) => {
 	return <span className="upgrade-label">{`[+${level}]`}</span>;
 };

@@ -194,7 +194,6 @@ func (druid *Druid) RegisterSpell(formMask DruidForm, config core.SpellConfig) *
 	return ds
 }
 
-// Embersoul, Scythe of the Cat God (Whitemane 2, ilvl 245 and 258): finishing moves restore 4 energy per combo point.
 func (druid *Druid) hasScytheOfTheCatGod() bool {
 	if !druid.HasMHWeapon() {
 		return false

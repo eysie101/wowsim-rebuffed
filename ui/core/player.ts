@@ -1258,8 +1258,6 @@ export class Player<SpecType extends Spec> {
 		return Player.selectItemVariants(itemData, getItemFunc, filters.upgradeLevel, filters.epicVariants);
 	}
 
-	// Whitemane 2: of an item, its upgrade levels and its epic version, keeps the one the filters ask for:
-	// the epic version when epic versions are on, else the highest upgrade level up to the chosen one, else the item.
 	static selectItemVariants<T>(itemData: Array<T>, getItemFunc: (val: T) => Item, upgradeLevel: number, epicVariants: boolean): Array<T> {
 		const families = new Map<number, Array<T>>();
 		const result: Array<T> = [];
@@ -1294,7 +1292,6 @@ export class Player<SpecType extends Spec> {
 				pick = family.find(elem => !getItemFunc(elem).variantBaseId);
 			}
 			if (!pick) {
-				// the base item is not in the list: keep its lowest variant
 				pick = family.reduce((a, b) => (getItemFunc(b).upgradeLevel < getItemFunc(a).upgradeLevel ? b : a));
 			}
 			result.push(pick);

@@ -84,16 +84,13 @@ message UIItem {
 
 	FactionRestriction faction_restriction = 25;
 
-	// Whitemane 2 variants: the item this one is an upgrade level (1-5) or the epic version of.
 	int32 variant_base_id = 26;
 	int32 upgrade_level = 27;
 	bool epic_variant = 28;
 
-	// Item whose effects (procs, set bonuses, item checks) this item shares, and the factor for their amounts.
 	int32 effect_item_id = 29;
 	double effect_scale = 30;
 
-	// Whitemane 2 items: the Use, Equip and Chance on hit lines of the client's tooltip.
 	repeated string effect_texts = 31;
 }
 
@@ -276,7 +273,6 @@ message DatabaseFilters {
 	// Uniquely-identifying strings for favorited enchants.
 	repeated string favorite_enchants = 13;
 
-	// Whitemane 2 variants shown in the item lists: upgrade level (0-5) and epic versions.
 	int32 upgrade_level = 20;
 	bool epic_variants = 21;
 }

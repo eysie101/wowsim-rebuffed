@@ -155,6 +155,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecEnhancementShaman, {
 		talents: [
 			Presets.EnhaP1SpellTalents,
 			Presets.EnhaP1WfTalents,
+			Presets.WowsimsP1Talents,
 		],
 		// Preset rotations that the user can quickly select.
 		rotations: [
@@ -173,10 +174,12 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecEnhancementShaman, {
 			Presets.BUILD_WOWSIMS_P1_SPELL,
 			Presets.BUILD_WOWSIMS_P1_WF,
 		],
+		firstVisitBuild: Presets.BUILD_WOWSIMS_P1_SPELL,
 		// Preset gear configurations that the user can quickly select.
 		gear: [
 			Presets.ENHA_P1_SPELL_PRESET,
 			Presets.ENHA_P1_WF_PRESET,
+			Presets.WOWSIMS_P1_GEAR,
 		],
 	},
 
@@ -188,10 +191,8 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecEnhancementShaman, {
 		const options = player.getSpecOptions();
 
 		if (options.imbueMh == ShamanImbue.FlametongueWeapon) {
-			// Whitemane: the spell build's priority list
 			return Presets.ROTATION_ENHA_P1_SPELL.rotation.rotation!;
 		} else {
-			// Whitemane: the Windfury build's priority list
 			return Presets.ROTATION_ENHA_P1_WF.rotation.rotation!;
 		}
 	},

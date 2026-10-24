@@ -2,9 +2,6 @@ import { IMessageType } from '@protobuf-ts/runtime';
 
 import { Debuffs, IndividualBuffs, PartyBuffs, RaidBuffs, TristateEffect } from '../proto/common';
 
-// The buffs and debuffs of a full 25-man raid: the sim's own full set (FullRaidBuffs, FullPartyBuffs,
-// FullIndividualBuffs and FullDebuffs in sim/core/test_utils.go) plus Heroic Presence.
-// Every spec starts with these, on top of its own defaults.
 export const FULL_RAID_BUFFS = RaidBuffs.create({
 	abominationsMight: true,
 	arcaneBrilliance: true,
@@ -73,7 +70,6 @@ export const FULL_DEBUFFS = Debuffs.create({
 	vindication: true,
 });
 
-// A copy of the spec's defaults in which every field is at least as strong as in the full set.
 export function withFullRaid<T extends object>(type: IMessageType<T>, specDefaults: T, full: T): T {
 	const merged = type.clone(specDefaults) as Record<string, unknown>;
 	for (const [field, value] of Object.entries(full)) {

@@ -54,7 +54,6 @@ export class GearTab extends SimTab {
 			getData: () => builds[0],
 			setData: (eventID: EventID, simUI: IndividualSimUI<any>, build: PresetBuild<any>) => simUI.applyPresetBuild(eventID, build),
 			changeEmitters: [this.simUI.changeEmitter, this.simUI.player.changeEmitter],
-			// presets only: the chip is active while the page holds the whole build
 			equals: (build: PresetBuild<any>) => this.simUI.matchesPresetBuild(build),
 			toJson: (build: PresetBuild<any>) => build.name,
 			fromJson: (_obj: any) => builds[0],

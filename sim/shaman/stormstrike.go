@@ -142,7 +142,10 @@ func (shaman *Shaman) registerStormstrikeSpell() {
 
 				shaman.Stormstrike.SpellMetrics[target.UnitIndex].Hits--
 			}
+			spell.Flags |= core.SpellFlagNoOnDamageDealt
 			spell.DealOutcome(sim, result)
+			spell.Flags &^= core.SpellFlagNoOnDamageDealt
+			spell.ProcMask = core.ProcMaskMeleeMHSpecial
 		},
 		ExtraCastCondition: func(sim *core.Simulation, target *core.Unit) bool {
 			return shaman.HasMHWeapon() || shaman.HasOHWeapon()

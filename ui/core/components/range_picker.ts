@@ -5,11 +5,9 @@ import { Input, InputConfig } from './input.js';
 export interface RangePickerConfig<ModObject> extends InputConfig<ModObject, number> {
 	min: number;
 	max: number;
-	// Text shown next to the slider for a value.
 	formatValue: (value: number) => string;
 }
 
-// A slider over whole numbers, with the current value shown next to it.
 export class RangePicker<ModObject> extends Input<ModObject, number> {
 	private readonly rangeElem: HTMLInputElement;
 	private readonly valueElem: HTMLSpanElement;
@@ -35,8 +33,6 @@ export class RangePicker<ModObject> extends Input<ModObject, number> {
 
 		this.rangeElem.addEventListener('input', () => {
 			this.valueElem.textContent = this.formatValue(this.getInputValue());
-		});
-		this.rangeElem.addEventListener('change', () => {
 			this.inputChanged(TypedEvent.nextEventID());
 		});
 	}

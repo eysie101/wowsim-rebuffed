@@ -157,6 +157,7 @@ export interface IndividualSimUIConfig<SpecType extends Spec> extends PlayerConf
 		talents: Array<SavedDataConfig<Player<any>, SavedTalents>>;
 		rotations: Array<PresetRotation>;
 		builds?: Array<PresetBuild<SpecType>>;
+		firstVisitBuild?: PresetBuild<SpecType>;
 	};
 
 	raidSimPresets: Array<RaidSimPreset<SpecType>>;
@@ -345,6 +346,8 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 				} catch (e) {
 					console.warn('Failed to parse saved settings: ' + e);
 				}
+			} else if (this.individualConfig.presets.firstVisitBuild) {
+				this.applyPresetBuild(initEventID, this.individualConfig.presets.firstVisitBuild);
 			}
 
 			// Loading from link needs to happen after loading saved settings, so that partial link imports
@@ -593,7 +596,6 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 		});
 	}
 
-	// True while the page holds every part of the build (the build chip is shown as active).
 	matchesPresetBuild(build: PresetBuild<SpecType>): boolean {
 		const player = this.player;
 		const encounter = this.sim.encounter.toProto();

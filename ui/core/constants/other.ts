@@ -1,6 +1,5 @@
 export const CURRENT_PHASE = 5;
 
-// Github pages serves our site under the /wowsim-rebuffed directory (because the repo name is wowsim-rebuffed)
 export const REPO_NAME = 'wowsim-rebuffed';
 
 // Get 'elemental_shaman', the pathname part after the repo name

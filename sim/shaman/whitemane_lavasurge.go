@@ -6,9 +6,6 @@ import (
 	"github.com/wowsims/wotlk/sim/core"
 )
 
-// Doomhammer (Whitemane 2, items 131004 and 315008) carries Lava Surge (equip spell 9250001): each Flame Shock tick has a
-// 20% chance to reset the cooldown of Lava Burst and to make the next one instant (buff 8251314, 3 s in the client's
-// Spell.dbc).
 var doomhammerIDs = map[int32]bool{131004: true, 315008: true}
 
 const lavaSurgeChance = 0.20

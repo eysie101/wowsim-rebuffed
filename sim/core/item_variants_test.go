@@ -7,8 +7,6 @@ import (
 	"github.com/wowsims/wotlk/sim/core/stats"
 )
 
-// An item that shares the effects of another item carries that item's ID for the sim,
-// but keeps its own ID wherever it leaves the sim.
 func TestItemFromProtoSharedEffect(t *testing.T) {
 	item := ItemFromProto(&proto.SimItem{Id: 1206830, EffectItemId: 37390, EffectScale: 1.1464})
 	if item.ID != 37390 || item.VariantID != 1206830 || item.RealID() != 1206830 {
@@ -24,7 +22,6 @@ func TestItemFromProtoSharedEffect(t *testing.T) {
 	}
 }
 
-// Effect amounts scale only while an item effect with a scale is being applied.
 func TestScaleItemEffect(t *testing.T) {
 	character := &Character{}
 	bonus := stats.Stats{stats.MeleeHaste: 444, stats.SpellHaste: 444}
@@ -33,7 +30,7 @@ func TestScaleItemEffect(t *testing.T) {
 		t.Fatalf("outside an item effect: %v, want 444", got[stats.MeleeHaste])
 	}
 
-	character.itemEffectScale = 1.1464 // Meteorite Whetstone, epic version: 509 haste rating instead of 444
+	character.itemEffectScale = 1.1464
 	got := character.ScaleItemEffectStats(bonus)
 	if got[stats.MeleeHaste] != 509 || got[stats.SpellHaste] != 509 {
 		t.Fatalf("scaled: %v / %v, want 509", got[stats.MeleeHaste], got[stats.SpellHaste])

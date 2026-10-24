@@ -75,7 +75,6 @@ func init() {
 	}
 	core.NewItemEffect(49623, shadowmourne)
 
-	// Frostmourne (Whitemane 2) carries Shadowmourne's equip spell 71903, with the same values in the client's Spell.dbc
 	core.AddEffectsToTest = false
 	core.NewItemEffect(33475, shadowmourne)
 	core.AddEffectsToTest = true

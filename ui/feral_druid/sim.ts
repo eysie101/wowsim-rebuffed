@@ -171,12 +171,14 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecFeralDruid, {
 		gear: [
 			Presets.PRERAID_PRESET,
 			Presets.P1_FERAL_PRESET,
+			Presets.P1_MEOW_PRESET,
 			Presets.P2_PRESET,
 			Presets.P3_PRESET,
 			Presets.P4_PRESET,
 		],
 		builds: [
 			Presets.BUILD_P1_FERAL,
+			Presets.BUILD_P1_MEOW,
 		],
 	},
 

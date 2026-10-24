@@ -7,9 +7,6 @@ import (
 	"github.com/wowsims/wotlk/sim/core/stats"
 )
 
-// Whitemane 2 trinkets with their own item ids and spells. Amounts, durations and cooldowns are those of the client's
-// Spell.dbc; where it has no internal cooldown, the one of the original WotLK trinket is used. Their epic versions
-// share these effects and scale them.
 func init() {
 	core.AddEffectsToTest = false
 
@@ -22,22 +19,22 @@ func init() {
 	}
 	spellPower := func(v float64) stats.Stats { return stats.Stats{stats.SpellPower: v} }
 
-	onUse(1207310, haste(194), time.Second*20)            // Foresight's Anticipation
-	onUse(1207314, spellPower(120), time.Second*15)       // Will of the Red Dragonflight
-	onUse(1207316, attackPower(346, 264), time.Second*20) // Automated Weapon Coater
-	onUse(1207318, attackPower(367, 280), time.Second*20) // Scarab of Isanoth
-	onUse(1207700, spellPower(145), time.Second*20)       // Mendicant's Charm
-	onUse(1207702, attackPower(284, 248), time.Second*20) // Talon of Hatred
-	onUse(1207704, spellPower(145), time.Second*20)       // Insignia of Bloody Fire
-	onUse(1207708, haste(239), time.Second*20)            // Rune of Finite Variation
-	onUse(1207710, spellPower(202), time.Second*20)       // Rune of Infinite Power
-	onUse(1208214, spellPower(183), time.Second*20)       // Badge of the Infiltrator
-	onUse(1208230, spellPower(145), time.Second*20)       // Spiritist's Focus
-	onUse(1208911, haste(243), time.Second*20)            // Thorny Rose Brooch
-	onUse(1208913, spellPower(281), time.Second*20)       // Softly Glowing Orb
+	onUse(1207310, haste(194), time.Second*20)
+	onUse(1207314, spellPower(120), time.Second*15)
+	onUse(1207316, attackPower(346, 264), time.Second*20)
+	onUse(1207318, attackPower(367, 280), time.Second*20)
+	onUse(1207700, spellPower(145), time.Second*20)
+	onUse(1207702, attackPower(284, 248), time.Second*20)
+	onUse(1207704, spellPower(145), time.Second*20)
+	onUse(1207708, haste(239), time.Second*20)
+	onUse(1207710, spellPower(202), time.Second*20)
+	onUse(1208214, spellPower(183), time.Second*20)
+	onUse(1208230, spellPower(145), time.Second*20)
+	onUse(1208911, haste(243), time.Second*20)
+	onUse(1208913, spellPower(281), time.Second*20)
 
-	core.NewSimpleStatDefensiveTrinketEffect(1207706, stats.Stats{stats.Spirit: 211}, time.Second*20, time.Minute*2) // Futuresight Rune
-	core.NewSimpleStatDefensiveTrinketEffect(1209272, stats.Stats{stats.Dodge: 292}, time.Second*20, time.Minute*2)  // Brawler's Souvenir
+	core.NewSimpleStatDefensiveTrinketEffect(1207706, stats.Stats{stats.Spirit: 211}, time.Second*20, time.Minute*2)
+	core.NewSimpleStatDefensiveTrinketEffect(1209272, stats.Stats{stats.Dodge: 292}, time.Second*20, time.Minute*2)
 
 	newProcStatBonusEffect(ProcStatBonusEffect{
 		Name:       "Valonforth's Remembrance",

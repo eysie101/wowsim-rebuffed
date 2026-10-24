@@ -9,11 +9,9 @@ import (
 	"github.com/wowsims/wotlk/sim/core/stats"
 )
 
-// Variables that control the Fire Elemental.
 const (
-	// 7.5 CPM
-	maxFireBlastCasts = 15
-	maxFireNovaCasts  = 15
+	fireElementalFirstNovaDelay = time.Millisecond * 7430
+	fireElementalNovaCycle      = time.Millisecond * 7060
 )
 
 type FireElemental struct {
@@ -25,6 +23,9 @@ type FireElemental struct {
 	FireShieldAura *core.Aura
 
 	shamanOwner *Shaman
+
+	nextNovaAt   time.Duration
+	blastPending bool
 }
 
 func (shaman *Shaman) NewFireElemental(bonusSpellPower float64) *FireElemental {
@@ -68,6 +69,8 @@ func (shaman *Shaman) NewFireElemental(bonusSpellPower float64) *FireElemental {
 
 func (fireElemental *FireElemental) enable(sim *core.Simulation) {
 	fireElemental.FireShieldAura.Activate(sim)
+	fireElemental.nextNovaAt = sim.CurrentTime + fireElementalFirstNovaDelay
+	fireElemental.blastPending = false
 }
 
 func (fireElemental *FireElemental) disable(sim *core.Simulation) {
@@ -86,51 +89,34 @@ func (fireElemental *FireElemental) Initialize() {
 }
 
 func (fireElemental *FireElemental) Reset(_ *core.Simulation) {
-
+	fireElemental.nextNovaAt = 0
+	fireElemental.blastPending = false
 }
 
 func (fireElemental *FireElemental) ExecuteCustomRotation(sim *core.Simulation) {
-	/*
-		TODO this is a little dirty, can probably clean this up, the rotation might go through some more overhauls,
-		the random AI is hard to emulate.
-	*/
 	target := fireElemental.CurrentTarget
-	fireBlastCasts := fireElemental.FireBlast.SpellMetrics[0].Casts
-	fireNovaCasts := fireElemental.FireNova.SpellMetrics[0].Casts
 
-	if fireBlastCasts == maxFireBlastCasts && fireNovaCasts == maxFireNovaCasts {
+	if fireElemental.blastPending && fireElemental.TryCast(sim, target, fireElemental.FireBlast) {
+		fireElemental.blastPending = false
 		return
 	}
 
-	if fireElemental.FireNova.DefaultCast.Cost > fireElemental.CurrentMana() {
-		return
-	}
-
-	random := sim.RandomFloat("Fire Elemental Pet Spell")
-
-	//Melee the other 30%
-	if random >= .65 {
-		if !fireElemental.TryCast(sim, target, fireElemental.FireNova, maxFireNovaCasts) {
-			fireElemental.TryCast(sim, target, fireElemental.FireBlast, maxFireBlastCasts)
+	if sim.CurrentTime >= fireElemental.nextNovaAt {
+		if fireElemental.TryCast(sim, target, fireElemental.FireNova) {
+			fireElemental.nextNovaAt += fireElementalNovaCycle
+			fireElemental.blastPending = true
+			return
 		}
-	} else if random >= .35 {
-		if !fireElemental.TryCast(sim, target, fireElemental.FireBlast, maxFireBlastCasts) {
-			fireElemental.TryCast(sim, target, fireElemental.FireNova, maxFireNovaCasts)
-		}
-	}
-
-	if !fireElemental.GCD.IsReady(sim) {
+		fireElemental.WaitUntil(sim, sim.CurrentTime+time.Millisecond*100)
 		return
 	}
 
-	fireElemental.WaitUntil(sim, sim.CurrentTime+time.Second)
+	if fireElemental.GCD.IsReady(sim) {
+		fireElemental.WaitUntil(sim, fireElemental.nextNovaAt)
+	}
 }
 
-func (fireElemental *FireElemental) TryCast(sim *core.Simulation, target *core.Unit, spell *core.Spell, maxCastCount int32) bool {
-	if maxCastCount == spell.SpellMetrics[0].Casts {
-		return false
-	}
-
+func (fireElemental *FireElemental) TryCast(sim *core.Simulation, target *core.Unit, spell *core.Spell) bool {
 	if !spell.Cast(sim, target) {
 		return false
 	}

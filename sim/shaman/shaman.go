@@ -79,7 +79,7 @@ type Shaman struct {
 
 	thunderstormInRange bool // flag if thunderstorm will be in range.
 
-	lavaSurgeAura *core.Aura // Doomhammer, whitemane_lavasurge.go
+	lavaSurgeAura *core.Aura
 
 	Talents   *proto.ShamanTalents
 	SelfBuffs SelfBuffs

@@ -188,8 +188,6 @@ func (character *Character) NewTemporaryStatsAura(auraLabel string, actionID Act
 	return character.NewTemporaryStatsAuraWrapped(auraLabel, actionID, tempStats, duration, nil)
 }
 
-// Scales the amounts of an item effect while it is being applied for an item with an EffectScale
-// (an upgraded or epic version of the item that defines the effect); other values pass unchanged.
 func (character *Character) ScaleItemEffect(value float64) float64 {
 	if character.itemEffectScale == 0 || character.itemEffectScale == 1 {
 		return value

@@ -23,4 +23,6 @@ The simulator itself is [wowsims/wotlk](https://github.com/wowsims/wotlk) (MIT L
 
 ## Status
 
-Work in progress. No site yet.
+Work in progress.
+
+Changes: [CHANGELOG.md](CHANGELOG.md)
