@@ -368,6 +368,16 @@ export abstract class IndividualSimUI<SpecType extends Spec> extends SimUI {
 			}
 			window.location.hash = '';
 
+			const talentsName = new URLSearchParams(window.location.search).get('talents');
+			const talentsPreset = this.individualConfig.presets.talents.find(preset => preset.name == talentsName);
+			if (talentsPreset) {
+				this.player.setTalentsString(initEventID, talentsPreset.data.talentsString);
+				this.player.setGlyphs(initEventID, talentsPreset.data.glyphs || Glyphs.create());
+			}
+			if (talentsName != null) {
+				window.history.replaceState(null, '', window.location.pathname);
+			}
+
 			this.player.setName(initEventID, 'Player');
 
 			// This needs to go last so it doesn't re-store things as they are initialized.

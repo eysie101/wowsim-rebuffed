@@ -62,6 +62,80 @@
 
 	.homepage-content-container {
 		flex-direction: column;
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		align-content: start;
+
+		.info-container {
+			grid-area: 1 / 1;
+		}
+
+		.sim-links-container {
+			grid-area: 2 / 1;
+		}
+
+		.changelog {
+			grid-area: 2 / 1;
+			justify-self: end;
+			align-self: start;
+			width: 25%;
+			max-height: 32rem;
+			overflow-y: auto;
+			padding: map-get($spacers, 3) map-get($spacers, 4);
+			background: rgba($body-bg, 0.82);
+			border: 1px solid rgba($brand, 0.45);
+			border-radius: 4px;
+			scrollbar-width: thin;
+			scrollbar-color: rgba($brand, 0.5) transparent;
+
+			.changelog-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: baseline;
+				margin-bottom: map-get($spacers, 2);
+
+				a {
+					color: $wrath-blue;
+					font-size: 0.85rem;
+				}
+			}
+
+			.changelog-title {
+				margin: 0;
+				color: $brand;
+			}
+
+			.changelog-time {
+				margin: map-get($spacers, 3) 0 map-get($spacers, 1);
+				color: $wrath-blue;
+				font-size: 0.95rem;
+			}
+
+			ul {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+
+			li {
+				position: relative;
+				padding-left: 0.9rem;
+				margin: 0.2rem 0;
+				font-size: 0.9rem;
+				line-height: 1.35;
+				color: #e6e6e6;
+
+				&::before {
+					content: '';
+					position: absolute;
+					left: 0;
+					top: 0.6em;
+					width: 0.4rem;
+					height: 2px;
+					background: $brand;
+				}
+			}
+		}
 
 		.info-container {
 			margin-bottom: var(--container-padding);
@@ -114,6 +188,19 @@
 	}
 }
 
+@include media-breakpoint-up(lg) {
+	#homepage .homepage-content-container .changelog {
+		align-self: stretch;
+		max-height: none;
+		margin: map-get($spacers, 2) 0;
+		contain: size;
+	}
+
+	#homepage .homepage-content-container:has(.sim-links > .sim-link-dropdown:nth-child(even) .dropdown-menu.show) .changelog {
+		visibility: hidden;
+	}
+}
+
 @include media-breakpoint-down(lg) {
 	#homepage {
 		.homepage-content-container {
@@ -121,6 +208,13 @@
 				.wowsims-info {
 					width: 100%;
 				}
+			}
+
+			.changelog {
+				grid-area: 3 / 1;
+				justify-self: stretch;
+				width: auto;
+				margin-top: map-get($spacers, 4);
 			}
 
 			.sim-links-container {

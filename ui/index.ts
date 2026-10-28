@@ -4,6 +4,8 @@ import * as Popper from '@popperjs/core';
 import * as bootstrap from 'bootstrap';
 import { Chart, registerables } from 'chart.js';
 
+import changelog from '../CHANGELOG.md?raw';
+
 Chart.register(...registerables);
 Chart.defaults.color = 'white';
 
@@ -36,6 +38,32 @@ function docReady(fn: any) {
 	}
 }
 
+function renderChangelog(text: string) {
+	const entries = document.getElementById('changelog-entries');
+	if (!entries) {
+		return;
+	}
+	let list: HTMLUListElement | null = null;
+	let item: HTMLLIElement | null = null;
+	for (const line of text.split(/\r?\n/)) {
+		if (line.startsWith('## ')) {
+			const time = document.createElement('h4');
+			time.className = 'changelog-time';
+			time.textContent = line.slice(3).trim();
+			list = document.createElement('ul');
+			item = null;
+			entries.append(time, list);
+		} else if (line.startsWith('- ') && list) {
+			item = document.createElement('li');
+			item.textContent = line.slice(2).trim();
+			list.append(item);
+		} else if (/^\s+\S/.test(line) && item) {
+			item.textContent += ' ' + line.trim();
+		}
+	}
+}
+
 docReady(function () {
+	renderChangelog(changelog);
 	document.body.classList.add('ready');
 });
