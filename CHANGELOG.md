@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-10-29
+
+- Upgrade slider steps through the legendary upgrades: Stormcoil 232, 245, 258; Armata Strigoi, Atiesh (mage, priest, druid), Doomhammer, Embersoul and Val'anyr to 258.
+
 ## 2026-10-25
 
 - Feral: a Clearcasting Ferocious Bite costs no energy and converts the full 30 extra energy; the rotation bites on Clearcasting.
