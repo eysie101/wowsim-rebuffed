@@ -1,10 +1,5 @@
 # Changes
 
-## 2026-10-28
-
-- Start page: Hunter, Mage, Rogue and Warlock show their specs on mouseover; a spec opens the sim with its talents.
-- Start page: the changelog beside the class list.
-
 ## 2026-10-25
 
 - Feral: a Clearcasting Ferocious Bite costs no energy and converts the full 30 extra energy; the rotation bites on Clearcasting.
