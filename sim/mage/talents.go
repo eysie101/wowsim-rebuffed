@@ -160,6 +160,9 @@ func (mage *Mage) applyArcaneConcentration() {
 				if !spell.Flags.Matches(SpellFlagMage) {
 					return
 				}
+				if spell == mage.ArcaneMissiles || spell == mage.ArcaneMissilesTickSpell || mage.Blizzard.AOEDot().IsActive() {
+					return
+				}
 				if proccedAt == sim.CurrentTime && proccedSpell == spell {
 					// Means this is another hit from the same cast that procced CC.
 					return

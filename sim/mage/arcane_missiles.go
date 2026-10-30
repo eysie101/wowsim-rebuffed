@@ -14,11 +14,11 @@ func (mage *Mage) registerArcaneMissilesSpell() {
 	mage.ArcaneMissilesTickSpell = mage.GetOrRegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: 42845},
 		SpellSchool: core.SpellSchoolArcane,
-		// unlike Mind Flay, this CAN proc JoW. It can also proc trinkets without the "can proc from proc" flag
+		// it can proc trinkets without the "can proc from proc" flag
 		// such as illustration of the dragon soul
 		// however, it cannot proc Nibelung so we add the ProcMaskNotInSpellbook flag
 		ProcMask:         core.ProcMaskSpellDamage | core.ProcMaskNotInSpellbook,
-		Flags:            SpellFlagMage | core.SpellFlagNoLogs,
+		Flags:            SpellFlagMage | core.SpellFlagNoLogs | core.SpellFlagTriggered,
 		MissileSpeed:     20,
 		BonusHitRating:   float64(mage.Talents.ArcaneFocus) * core.SpellHitRatingPerHitChance,
 		BonusCritRating:  core.TernaryFloat64(mage.HasSetBonus(ItemSetKhadgarsRegalia, 4), 5*core.CritRatingPerCritChance, 0),
@@ -30,6 +30,9 @@ func (mage *Mage) registerArcaneMissilesSpell() {
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			damage := 362 + spellCoeff*spell.SpellPower()
 			result := spell.CalcDamage(sim, target, damage, spell.OutcomeMagicHitAndCrit)
+			if result.Landed() && mage.ArcanePotencyAura.IsActive() {
+				mage.ArcanePotencyAura.Deactivate(sim)
+			}
 
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {
 				spell.DealDamage(sim, result)

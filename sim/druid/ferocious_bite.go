@@ -42,10 +42,6 @@ func (druid *Druid) registerFerociousBiteSpell() {
 			comboPoints := float64(druid.ComboPoints())
 			attackPower := spell.MeleeAttackPower()
 			excessEnergy := min(druid.CurrentEnergy(), 30)
-			freeFullBonus := spell.CurCast.Cost == 0
-			if freeFullBonus {
-				excessEnergy = 30
-			}
 
 			baseDamage := 120.0 +
 				sim.RandomFloat("Ferocious Bite")*140.0 +
@@ -56,9 +52,7 @@ func (druid *Druid) registerFerociousBiteSpell() {
 			result := spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialHitAndCrit)
 
 			if result.Landed() {
-				if !freeFullBonus {
-					druid.SpendEnergy(sim, excessEnergy, spell.Cost.(*core.EnergyCost).ResourceMetrics)
-				}
+				druid.SpendEnergy(sim, excessEnergy, spell.Cost.(*core.EnergyCost).ResourceMetrics)
 				druid.SpendComboPoints(sim, spell.ComboPointMetrics())
 
 				// Scythe of the Cat God (Whitemane)

@@ -32,6 +32,8 @@ type Pet struct {
 
 	isGuardian     bool
 	enabledOnStart bool
+	autocast       bool
+	enabledAt      time.Duration
 
 	OnPetEnable  OnPetEnable
 	OnPetDisable OnPetDisable
@@ -84,6 +86,14 @@ func NewPet(name string, owner *Character, baseStats stats.Stats, statInheritanc
 	return pet
 }
 
+const petAutocastInterval = time.Millisecond * 800
+
+func NewAutocastPet(name string, owner *Character, baseStats stats.Stats, statInheritance PetStatInheritance, enabledOnStart bool, isGuardian bool) Pet {
+	pet := NewPet(name, owner, baseStats, statInheritance, enabledOnStart, isGuardian)
+	pet.autocast = true
+	return pet
+}
+
 // Updates the stats for this pet in response to a stat change on the owner.
 // addedStats is the amount of stats added to the owner (will be negative if the
 // owner lost stats).
@@ -127,6 +137,8 @@ func (pet *Pet) Enable(sim *Simulation, petAgent PetAgent) {
 		}
 		return
 	}
+
+	pet.enabledAt = sim.CurrentTime
 
 	// In case of Pre-pull guardian summoning we need to reset
 	// TODO: Check if this has side effects

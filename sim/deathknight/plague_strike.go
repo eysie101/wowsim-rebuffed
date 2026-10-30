@@ -42,7 +42,7 @@ func (dk *Deathknight) newPlagueStrikeSpell(isMH bool) *core.Spell {
 					spell.BonusWeaponDamage()
 			} else {
 				// SpellID 66992
-				baseDamage = 189 +
+				baseDamage = 378 +
 					spell.Unit.OHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
 					spell.BonusWeaponDamage()
 			}

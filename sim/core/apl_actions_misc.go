@@ -167,6 +167,7 @@ type APLActionCustomRotation struct {
 	defaultAPLActionImpl
 	unit  *Unit
 	agent Agent
+	pet   *Pet
 
 	lastExecutedAt time.Duration
 }
@@ -177,10 +178,14 @@ func (rot *APLRotation) newActionCustomRotation(config *proto.APLActionCustomRot
 		panic("Agent not found for custom rotation")
 	}
 
-	return &APLActionCustomRotation{
+	action := &APLActionCustomRotation{
 		unit:  rot.unit,
 		agent: agent,
 	}
+	if petAgent, ok := agent.(PetAgent); ok && petAgent.GetPet().autocast {
+		action.pet = petAgent.GetPet()
+	}
+	return action
 }
 func (action *APLActionCustomRotation) Reset(sim *Simulation) {
 	action.lastExecutedAt = -1
@@ -191,6 +196,14 @@ func (action *APLActionCustomRotation) IsReady(sim *Simulation) bool {
 }
 func (action *APLActionCustomRotation) Execute(sim *Simulation) {
 	action.lastExecutedAt = sim.CurrentTime
+	if pet := action.pet; pet != nil {
+		if offset := (sim.CurrentTime - pet.enabledAt) % petAutocastInterval; offset != 0 {
+			if pet.GCD.IsReady(sim) {
+				pet.WaitUntil(sim, sim.CurrentTime+petAutocastInterval-offset)
+			}
+			return
+		}
+	}
 	action.agent.ExecuteCustomRotation(sim)
 }
 func (action *APLActionCustomRotation) String() string {

@@ -109,7 +109,7 @@ var mirrorImageBaseStats = stats.Stats{
 var createMirrorImageInheritance = func(mage *Mage) func(stats.Stats) stats.Stats {
 	return func(ownerStats stats.Stats) stats.Stats {
 		return stats.Stats{
-			stats.SpellHit: ownerStats[stats.SpellHit] - float64(mage.Talents.Precision),
+			stats.SpellHit: ownerStats[stats.SpellHit] - float64(mage.Talents.Precision)*core.SpellHitRatingPerHitChance,
 			// seems to be about 8% baseline
 			stats.SpellCrit:  8 * core.CritRatingPerCritChance,
 			stats.SpellPower: ownerStats[stats.SpellPower] * 0.33,

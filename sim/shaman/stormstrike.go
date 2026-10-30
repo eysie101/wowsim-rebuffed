@@ -95,7 +95,7 @@ func (shaman *Shaman) registerStormstrikeSpell() {
 		ActionID:    StormstrikeActionID,
 		SpellSchool: core.SpellSchoolPhysical,
 		ProcMask:    core.ProcMaskMeleeMHSpecial,
-		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL | core.SpellFlagIncludeTargetBonusDamage,
+		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL | core.SpellFlagIncludeTargetBonusDamage | core.SpellFlagTriggered,
 
 		ManaCost: core.ManaCostOptions{
 			BaseCost: 0.08,

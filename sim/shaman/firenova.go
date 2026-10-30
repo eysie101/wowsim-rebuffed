@@ -16,7 +16,7 @@ func (shaman *Shaman) registerFireNovaSpell() {
 		ActionID:    core.ActionID{SpellID: 61657},
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
-		Flags:       SpellFlagFocusable | core.SpellFlagAPL,
+		Flags:       SpellFlagFocusable | core.SpellFlagAPL | core.SpellFlagTriggered,
 
 		ManaCost: core.ManaCostOptions{
 			BaseCost: 0.22,

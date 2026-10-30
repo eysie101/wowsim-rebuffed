@@ -5,6 +5,7 @@ import (
 
 	"github.com/wowsims/wotlk/sim/core"
 	"github.com/wowsims/wotlk/sim/core/proto"
+	"github.com/wowsims/wotlk/sim/core/stats"
 )
 
 func (warrior *Warrior) registerSweepingStrikesCD() {
@@ -42,21 +43,25 @@ func (warrior *Warrior) registerSweepingStrikesCD() {
 				return
 			}
 
-			if spell == warrior.Execute && !sim.IsExecutePhase20() {
-				curDmg = spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
-					spell.BonusWeaponDamage()
-			} else if spell == warrior.Whirlwind {
-				curDmg = spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
-					spell.BonusWeaponDamage()
-			} else {
-				curDmg = result.Damage
+			if spell == warrior.Whirlwind || spell == warrior.Bladestorm || spell == warrior.BladestormOH {
+				return
 			}
 
-			// Undo armor reduction to get the raw damage value.
-			curDmg /= result.ResistanceMultiplier
+			next := warrior.Env.NextTargetUnit(result.Target)
+			if spell == warrior.Execute {
+				curDmg = (spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) + spell.BonusWeaponDamage()) *
+					warrior.PseudoStats.DamageDealtMultiplier *
+					warrior.PseudoStats.SchoolDamageDealtMultiplier[stats.SchoolIndexPhysical] *
+					warrior.AttackTables[next.UnitIndex].DamageDealtMultiplier
+				curDmg += next.PseudoStats.BonusPhysicalDamageTaken
+			} else {
+				curDmg = result.Damage
+				// Undo armor reduction to get the raw damage value.
+				curDmg /= result.ResistanceMultiplier
+			}
 
-			ssHit.Cast(sim, warrior.Env.NextTargetUnit(result.Target))
-			ssHit.SpellMetrics[result.Target.UnitIndex].Casts--
+			ssHit.Cast(sim, next)
+			ssHit.SpellMetrics[next.UnitIndex].Casts--
 			if aura.GetStacks() > 0 {
 				aura.RemoveStack(sim)
 			}

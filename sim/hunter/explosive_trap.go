@@ -15,7 +15,7 @@ func (hunter *Hunter) registerExplosiveTrapSpell(timer *core.Timer) {
 		ActionID:    core.ActionID{SpellID: 49067},
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
-		Flags:       core.SpellFlagAPL,
+		Flags:       core.SpellFlagAPL | core.SpellFlagTriggered,
 
 		ManaCost: core.ManaCostOptions{
 			BaseCost:   0.19,

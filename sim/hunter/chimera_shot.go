@@ -67,7 +67,7 @@ func (hunter *Hunter) chimeraShotSerpentStingSpell() *core.Spell {
 		ActionID:    core.ActionID{SpellID: 53353},
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskRangedSpecial,
-		Flags:       core.SpellFlagMeleeMetrics,
+		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagTriggered,
 
 		DamageMultiplierAdditive: 1 +
 			0.1*float64(hunter.Talents.ImprovedStings) +

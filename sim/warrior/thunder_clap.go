@@ -12,6 +12,8 @@ func (warrior *Warrior) registerThunderClapSpell() {
 		return core.ThunderClapAura(target, warrior.Talents.ImprovedThunderClap)
 	})
 
+	poleaxeCrit := core.TernaryFloat64(warrior.GetProcMaskForTypes(proto.WeaponType_WeaponTypeAxe, proto.WeaponType_WeaponTypePolearm).Matches(core.ProcMaskMeleeMH), float64(warrior.Talents.PoleaxeSpecialization), 0)
+
 	warrior.ThunderClap = warrior.RegisterSpell(core.SpellConfig{
 		ActionID:    core.ActionID{SpellID: 47502},
 		SpellSchool: core.SpellSchoolPhysical,
@@ -39,7 +41,7 @@ func (warrior *Warrior) registerThunderClapSpell() {
 		},
 
 		// Cruelty doesn't apply to Thunder Clap
-		BonusCritRating:  (float64(warrior.Talents.Incite)*5 - float64(warrior.Talents.Cruelty)*1) * core.CritRatingPerCritChance,
+		BonusCritRating:  (float64(warrior.Talents.Incite)*5 - float64(warrior.Talents.Cruelty)*1 - poleaxeCrit) * core.CritRatingPerCritChance,
 		DamageMultiplier: []float64{1.0, 1.1, 1.2, 1.3}[warrior.Talents.ImprovedThunderClap],
 		CritMultiplier:   warrior.critMultiplier(none),
 		ThreatMultiplier: 1.85,

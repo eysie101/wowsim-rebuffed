@@ -16,7 +16,7 @@ func (paladin *Paladin) registerHandOfReckoningSpell() {
 		ActionID:    core.ActionID{SpellID: 67485}, // 62124 is the "taunt" part
 		SpellSchool: core.SpellSchoolHoly,
 		ProcMask:    core.ProcMaskSpellDamage,
-		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL,
+		Flags:       core.SpellFlagMeleeMetrics | core.SpellFlagAPL | core.SpellFlagTriggered,
 
 		ManaCost: core.ManaCostOptions{
 			BaseCost:   0.03,

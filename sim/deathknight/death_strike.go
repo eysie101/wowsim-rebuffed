@@ -52,7 +52,7 @@ func (dk *Deathknight) newDeathStrikeSpell(isMH bool) *core.Spell {
 					spell.Unit.MHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
 					spell.BonusWeaponDamage()
 			} else {
-				baseDamage = 148 +
+				baseDamage = 297 +
 					bonusBaseDamage +
 					spell.Unit.OHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
 					spell.BonusWeaponDamage()

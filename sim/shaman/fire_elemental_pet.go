@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	fireElementalFirstNovaDelay = time.Millisecond * 7430
-	fireElementalNovaCycle      = time.Millisecond * 7060
+	fireElementalNovaCycleMin = 8.0
+	fireElementalNovaCycleMax = 10.0
 )
 
 type FireElemental struct {
@@ -69,8 +69,12 @@ func (shaman *Shaman) NewFireElemental(bonusSpellPower float64) *FireElemental {
 
 func (fireElemental *FireElemental) enable(sim *core.Simulation) {
 	fireElemental.FireShieldAura.Activate(sim)
-	fireElemental.nextNovaAt = sim.CurrentTime + fireElementalFirstNovaDelay
+	fireElemental.nextNovaAt = sim.CurrentTime + fireElemental.novaCycle(sim)
 	fireElemental.blastPending = false
+}
+
+func (fireElemental *FireElemental) novaCycle(sim *core.Simulation) time.Duration {
+	return core.DurationFromSeconds(sim.RollWithLabel(fireElementalNovaCycleMin, fireElementalNovaCycleMax, "Fire Nova Cycle"))
 }
 
 func (fireElemental *FireElemental) disable(sim *core.Simulation) {
@@ -103,7 +107,7 @@ func (fireElemental *FireElemental) ExecuteCustomRotation(sim *core.Simulation) 
 
 	if sim.CurrentTime >= fireElemental.nextNovaAt {
 		if fireElemental.TryCast(sim, target, fireElemental.FireNova) {
-			fireElemental.nextNovaAt += fireElementalNovaCycle
+			fireElemental.nextNovaAt += fireElemental.novaCycle(sim)
 			fireElemental.blastPending = true
 			return
 		}

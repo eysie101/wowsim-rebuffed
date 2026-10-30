@@ -16,7 +16,7 @@ func (mage *Mage) registerLivingBombSpell() {
 		ActionID:    core.ActionID{SpellID: 55362},
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskSpellDamage,
-		Flags:       SpellFlagMage | HotStreakSpells,
+		Flags:       SpellFlagMage | HotStreakSpells | core.SpellFlagTriggered,
 
 		BonusCritRating: 0 +
 			2*float64(mage.Talents.WorldInFlames)*core.CritRatingPerCritChance +

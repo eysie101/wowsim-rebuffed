@@ -221,6 +221,22 @@ func RaidSimTest(label string, t *testing.T, rsr *proto.RaidSimRequest, expected
 	}
 }
 
+func JudgementOfWisdomManaEvents(sim *Simulation, spell *Spell, hits int) int32 {
+	target := sim.Encounter.TargetUnits[0]
+	jow := target.GetAura(JudgementOfWisdomAuraLabel)
+	events := func() int32 {
+		if spell.Unit.JowManaMetrics == nil {
+			return 0
+		}
+		return spell.Unit.JowManaMetrics.Events
+	}
+	before := events()
+	for i := 0; i < hits; i++ {
+		jow.OnSpellHitTaken(jow, sim, spell, &SpellResult{Target: target, Outcome: OutcomeHit})
+	}
+	return events() - before
+}
+
 func RaidBenchmark(b *testing.B, rsr *proto.RaidSimRequest) {
 	rsr.Encounter.Duration = LongDuration
 	rsr.SimOptions.Iterations = 1

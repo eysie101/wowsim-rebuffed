@@ -50,7 +50,7 @@ func (dk *Deathknight) newFrostStrikeHitSpell(isMH bool) *core.Spell {
 					spell.BonusWeaponDamage()
 			} else {
 				// SpellID 66962
-				baseDamage = 125 +
+				baseDamage = 250 +
 					bonusBaseDamage +
 					spell.Unit.OHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
 					spell.BonusWeaponDamage()

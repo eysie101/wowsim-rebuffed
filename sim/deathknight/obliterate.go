@@ -50,7 +50,7 @@ func (dk *Deathknight) newObliterateHitSpell(isMH bool) *core.Spell {
 					spell.BonusWeaponDamage()
 			} else {
 				// SpellID 66974
-				baseDamage = 292 +
+				baseDamage = 584 +
 					bonusBaseDamage +
 					spell.Unit.OHNormalizedWeaponDamage(sim, spell.MeleeAttackPower()) +
 					spell.BonusWeaponDamage()

@@ -590,15 +590,6 @@ func (warrior *Warrior) applySuddenDeath() {
 		Label:    "Sudden Death Proc",
 		ActionID: core.ActionID{SpellID: 29724},
 		Duration: time.Second * 10,
-		OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-			if !result.Landed() || spell != warrior.Execute { // removed only when landed
-				return
-			}
-			if rageRefund := minRageKept - warrior.CurrentRage(); rageRefund > 0 { // refund only when below minRageKept
-				warrior.AddRage(sim, rageRefund, rageMetrics)
-			}
-			aura.Deactivate(sim)
-		},
 	})
 
 	ymirjar4Set := warrior.HasSetBonus(ItemSetYmirjarLordsBattlegear, 4)
@@ -616,15 +607,6 @@ func (warrior *Warrior) applySuddenDeath() {
 			OnExpire: func(aura *core.Aura, sim *core.Simulation) {
 				warrior.Execute.DefaultCast.GCD = core.GCDDefault
 			},
-			OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-				if !result.Landed() || spell != warrior.Execute {
-					return
-				}
-				if rageRefund := minRageKept - warrior.CurrentRage(); rageRefund > 0 {
-					warrior.AddRage(sim, rageRefund, rageMetrics)
-				}
-				aura.RemoveStack(sim)
-			},
 		})
 	}
 
@@ -637,6 +619,17 @@ func (warrior *Warrior) applySuddenDeath() {
 		OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 			if !result.Landed() || !spell.ProcMask.Matches(core.ProcMaskMelee) {
 				return
+			}
+
+			if spell == warrior.Execute && warrior.IsSuddenDeathActive() {
+				if rageRefund := minRageKept - warrior.CurrentRage(); rageRefund > 0 {
+					warrior.AddRage(sim, rageRefund, rageMetrics)
+				}
+				if warrior.SuddenDeathAura.IsActive() {
+					warrior.SuddenDeathAura.Deactivate(sim)
+				} else {
+					warrior.Ymirjar4pcProcAura.RemoveStack(sim)
+				}
 			}
 
 			if sim.RandomFloat("Sudden Death") > procChance {

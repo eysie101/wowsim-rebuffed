@@ -323,7 +323,7 @@ func (hunter *Hunter) applyWildQuiver() {
 		ActionID:    actionID,
 		SpellSchool: core.SpellSchoolNature,
 		ProcMask:    core.ProcMaskRangedAuto,
-		Flags:       core.SpellFlagNoOnCastComplete,
+		Flags:       core.SpellFlagNoOnCastComplete | core.SpellFlagTriggered,
 
 		DamageMultiplier: 0.8,
 		CritMultiplier:   hunter.critMultiplier(false, false, false),

@@ -69,6 +69,7 @@ func init() {
 			ActionID:    core.ActionID{SpellID: 44525},
 			SpellSchool: core.SpellSchoolFire,
 			ProcMask:    core.ProcMaskSpellDamage,
+			Flags:       core.SpellFlagTriggered,
 
 			DamageMultiplier: 1,
 			CritMultiplier:   character.DefaultSpellCritMultiplier(),

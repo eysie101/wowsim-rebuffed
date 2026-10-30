@@ -287,10 +287,6 @@ func (cat *FeralDruid) doRotation(sim *core.Simulation) (bool, time.Duration) {
 		biteNow = curEnergy <= rotation.BerserkBiteThresh
 	}
 
-	if isClearcast && (biteBeforeRip || biteAtEnd) {
-		biteNow = true
-	}
-
 	rakeNow := rotation.UseRake && !rakeDot.IsActive() && (simTimeRemain > rakeDot.Duration) && rakeCcCheck
 
 	// Additionally, don't Rake if the current Shred DPE is higher due to

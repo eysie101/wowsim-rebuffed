@@ -30,7 +30,7 @@ func (mage *Mage) registerBlizzardSpell() {
 		ActionID:         core.ActionID{SpellID: 42938},
 		SpellSchool:      core.SpellSchoolFrost,
 		ProcMask:         core.ProcMaskSpellDamage,
-		Flags:            SpellFlagMage,
+		Flags:            SpellFlagMage | core.SpellFlagTriggered,
 		CritMultiplier:   mage.SpellCritMultiplier(1, mage.bonusCritDamage+float64(mage.Talents.IceShards)/3),
 		DamageMultiplier: 1,
 		ThreatMultiplier: 1 - (0.1/3)*float64(mage.Talents.FrostChanneling),
@@ -64,6 +64,11 @@ func (mage *Mage) registerBlizzardSpell() {
 			IsAOE: true,
 			Aura: core.Aura{
 				Label: "Blizzard",
+				OnExpire: func(aura *core.Aura, sim *core.Simulation) {
+					if mage.ArcanePotencyAura.IsActive() {
+						mage.ArcanePotencyAura.Deactivate(sim)
+					}
+				},
 			},
 			NumberOfTicks:       8,
 			TickLength:          time.Second * 1,

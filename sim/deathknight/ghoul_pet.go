@@ -17,6 +17,9 @@ type GhoulPet struct {
 	Claw            *core.Spell
 
 	uptimePercent float64
+
+	isArmy     bool
+	nextClawAt time.Duration
 }
 
 func (dk *Deathknight) NewArmyGhoulPet(_ int) *GhoulPet {
@@ -42,6 +45,7 @@ func (dk *Deathknight) NewArmyGhoulPet(_ int) *GhoulPet {
 	ghoulPet := &GhoulPet{
 		Pet:     core.NewPet("Army of the Dead", &dk.Character, armyGhoulPetBaseStats, dk.armyGhoulStatInheritance(), false, true),
 		dkOwner: dk,
+		isArmy:  true,
 	}
 
 	ghoulPet.PseudoStats.DamageTakenMultiplier *= 0.1
@@ -92,7 +96,7 @@ func (dk *Deathknight) NewGhoulPet(permanent bool) *GhoulPet {
 	}
 
 	ghoulPet := &GhoulPet{
-		Pet:     core.NewPet("Ghoul", &dk.Character, ghoulPetBaseStats, dk.ghoulStatInheritance(), permanent, !permanent),
+		Pet:     core.NewAutocastPet("Ghoul", &dk.Character, ghoulPetBaseStats, dk.ghoulStatInheritance(), permanent, !permanent),
 		dkOwner: dk,
 	}
 
@@ -160,14 +164,29 @@ func (ghoulPet *GhoulPet) ExecuteCustomRotation(sim *core.Simulation) {
 		}
 	}
 
+	if ghoulPet.isArmy && sim.CurrentTime < ghoulPet.nextClawAt {
+		ghoulPet.WaitUntil(sim, ghoulPet.nextClawAt)
+		return
+	}
+
 	if ghoulPet.CurrentFocus() < ghoulPet.Claw.DefaultCast.Cost {
 		return
 	}
 
-	ghoulPet.Claw.Cast(sim, ghoulPet.CurrentTarget)
+	if ghoulPet.Claw.Cast(sim, ghoulPet.CurrentTarget) && ghoulPet.isArmy {
+		ghoulPet.nextClawAt = sim.CurrentTime + armyClawDelay(sim)
+	}
+}
+
+func armyClawDelay(sim *core.Simulation) time.Duration {
+	return core.DurationFromSeconds(sim.RollWithLabel(4, 5.3, "Army Ghoul Claw"))
 }
 
 func (ghoulPet *GhoulPet) enable(sim *core.Simulation) {
+	if ghoulPet.isArmy {
+		ghoulPet.nextClawAt = max(0, sim.CurrentTime) + armyClawDelay(sim)
+	}
+
 	if ghoulPet.IsGuardian() {
 		ghoulPet.PseudoStats.MeleeSpeedMultiplier = 1 // guardians are not affected by raid buffs
 		ghoulPet.MultiplyMeleeSpeed(sim, ghoulPet.dkOwner.PseudoStats.MeleeSpeedMultiplier)

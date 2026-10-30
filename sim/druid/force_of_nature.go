@@ -75,7 +75,7 @@ func (druid *Druid) NewTreant() *TreantPet {
 		MainHand: core.Weapon{
 			BaseDamageMin:  252,
 			BaseDamageMax:  357,
-			SwingSpeed:     2,
+			SwingSpeed:     1.5,
 			CritMultiplier: druid.BalanceCritMultiplier(),
 		},
 		AutoSwingMelee: true,
@@ -94,7 +94,7 @@ func (treant *TreantPet) GetPet() *core.Pet {
 
 func (treant *TreantPet) enable(sim *core.Simulation) {
 	// Snapshot spellpower
-	treant.snapshotStat = stats.Stats{stats.Strength: treant.druidOwner.GetStat(stats.SpellPower) * 0.5}
+	treant.snapshotStat = stats.Stats{stats.AttackPower: treant.druidOwner.GetStat(stats.SpellPower) * 0.75}
 	treant.AddStatsDynamic(sim, treant.snapshotStat)
 }
 

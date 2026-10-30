@@ -11,6 +11,7 @@ func (warrior *Warrior) registerDevastateSpell() {
 	}
 
 	hasGlyph := warrior.HasMajorGlyph(proto.WarriorMajorGlyph_GlyphOfDevastate)
+	hasSunderGlyph := warrior.HasMajorGlyph(proto.WarriorMajorGlyph_GlyphOfSunderArmor)
 	flatThreatBonus := core.TernaryFloat64(hasGlyph, 630, 315)
 	dynaThreatBonus := core.TernaryFloat64(hasGlyph, 0.1, 0.05)
 
@@ -60,6 +61,11 @@ func (warrior *Warrior) registerDevastateSpell() {
 			spell.DealDamage(sim, result)
 
 			if result.Landed() {
+				if hasSunderGlyph && saStacks == warrior.SunderArmorAuras.Get(target).MaxStacks {
+					if second := sim.Environment.NextTargetUnit(target); second != target && warrior.CanApplySunderAura(second) {
+						warrior.SunderArmorDevastate.Cast(sim, second)
+					}
+				}
 				if warrior.CanApplySunderAura(target) {
 					warrior.SunderArmorDevastate.Cast(sim, target)
 				}

@@ -66,7 +66,7 @@ type WaterElemental struct {
 
 func (mage *Mage) NewWaterElemental(disobeyChance float64) *WaterElemental {
 	waterElemental := &WaterElemental{
-		Pet:           core.NewPet("Water Elemental", &mage.Character, waterElementalBaseStats, waterElementalStatInheritance, mage.HasMajorGlyph(proto.MageMajorGlyph_GlyphOfEternalWater), true),
+		Pet:           core.NewAutocastPet("Water Elemental", &mage.Character, waterElementalBaseStats, waterElementalStatInheritance, mage.HasMajorGlyph(proto.MageMajorGlyph_GlyphOfEternalWater), true),
 		disobeyChance: disobeyChance,
 	}
 	waterElemental.EnableManaBarWithModifier(0.333)

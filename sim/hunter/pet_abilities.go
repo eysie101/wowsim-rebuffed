@@ -10,8 +10,7 @@ import (
 
 type PetAbilityType int
 
-// Pet AI doesn't use abilities immediately, so model this with a 1.6s GCD.
-const PetGCD = time.Millisecond * 1600
+const PetGCD = time.Millisecond * 1500
 
 const (
 	Unknown PetAbilityType = iota

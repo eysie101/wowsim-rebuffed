@@ -274,7 +274,7 @@ func (paladin *Paladin) applyArdentDefender() {
 	// >= 0.35, no effect
 	// < 0.35, pro-rated DR
 	// =< 0, proc death save
-	paladin.AddDynamicDamageTakenModifier(func(sim *core.Simulation, _ *core.Spell, result *core.SpellResult) {
+	ardentDefenderModifier := func(sim *core.Simulation, _ *core.Spell, result *core.SpellResult) {
 		incomingDamage := result.Damage
 		if (paladin.CurrentHealth()-incomingDamage)/paladin.MaxHealth() <= 0.35 {
 			//rangeAura.Activate(sim)
@@ -307,6 +307,9 @@ func (paladin *Paladin) applyArdentDefender() {
 			}
 		}
 		// TODO: Metrics, attribute reduced damage as absorption
+	}
+	paladin.Env.RegisterPreFinalizeEffect(func() {
+		paladin.AddDynamicDamageTakenModifier(ardentDefenderModifier)
 	})
 }
 
