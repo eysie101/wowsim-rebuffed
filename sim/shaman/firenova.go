@@ -30,6 +30,9 @@ func (shaman *Shaman) registerFireNovaSpell() {
 				Duration: time.Second * time.Duration(fireNovaCooldown),
 			},
 		},
+		ExtraCastCondition: func(sim *core.Simulation, target *core.Unit) bool {
+			return shaman.TotemExpirations[FireTotem] > sim.CurrentTime || shaman.FireElemental.IsEnabled()
+		},
 
 		BonusHitRating:   float64(shaman.Talents.ElementalPrecision) * core.SpellHitRatingPerHitChance,
 		DamageMultiplier: 1 + float64(shaman.Talents.CallOfFlame)*0.05 + float64(shaman.Talents.ImprovedFireNova)*0.1,
@@ -47,8 +50,4 @@ func (shaman *Shaman) registerFireNovaSpell() {
 			}
 		},
 	})
-}
-
-func (shaman *Shaman) IsFireNovaCastable(sim *core.Simulation) bool {
-	return shaman.FireNova.IsReady(sim) && shaman.Totems.Fire > 0
 }

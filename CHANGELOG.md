@@ -8,6 +8,8 @@
 - Hunter: with Animal Handler, pet special-ability crits have a 50% or 100% chance to restore 1% of your mana.
 - Paladin: Fanaticism gives auto-attacks a 20% chance to reset the cooldown of Divine Storm.
 - Priest: new Glyph of Quick Pain: haste shortens the time between Shadow Word: Pain's ticks.
+- Shaman: Fire Nova can only be cast while a fire totem or the Fire Elemental Totem is active.
+- Shaman: Totem Remaining Time no longer carries a totem over from the previous iteration.
 - Warlock: the instant Shadow Bolt of Shadow Trance uses it up also while Backdraft is active.
 - Warrior: Sweeping Strikes affects the next 10 melee attacks.
 - Warrior: Improved Mortal Strike increases Mortal Strike damage by 12, 23 or 35% and no longer shortens its cooldown.

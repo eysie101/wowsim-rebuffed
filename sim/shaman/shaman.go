@@ -280,6 +280,9 @@ func (shaman *Shaman) RegisterHealingSpells() {
 }
 
 func (shaman *Shaman) Reset(sim *core.Simulation) {
+	for i := range shaman.TotemExpirations {
+		shaman.TotemExpirations[i] = sim.Environment.PrepullStartTime()
+	}
 	if shaman.Totems.Fire == proto.FireTotem_TotemOfWrath {
 		shaman.applyToWDebuff(sim)
 	}
