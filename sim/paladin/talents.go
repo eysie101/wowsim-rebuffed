@@ -73,6 +73,7 @@ func (paladin *Paladin) ApplyTalents() {
 	paladin.applyRighteousVengeance()
 	paladin.applyMinorGlyphOfSenseUndead()
 	paladin.applyGuardedByTheLight()
+	paladin.applyFanaticismDivineStormReset()
 }
 
 func (paladin *Paladin) getTalentSealsOfThePureBonus() float64 {
@@ -655,6 +656,28 @@ func (paladin *Paladin) applyFanaticism() {
 	}
 
 	paladin.PseudoStats.ThreatMultiplier *= 1 - 0.10*float64(paladin.Talents.Fanaticism)
+}
+
+func (paladin *Paladin) applyFanaticismDivineStormReset() {
+	if paladin.Talents.Fanaticism == 0 {
+		return
+	}
+
+	paladin.RegisterAura(core.Aura{
+		Label:    "Fanaticism",
+		Duration: core.NeverExpires,
+		OnReset: func(aura *core.Aura, sim *core.Simulation) {
+			aura.Activate(sim)
+		},
+		OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+			if !result.Landed() || !spell.ProcMask.Matches(core.ProcMaskMeleeWhiteHit) || spell.Flags.Matches(core.SpellFlagTriggered) {
+				return
+			}
+			if sim.RandomFloat("Fanaticism") < 0.2 {
+				paladin.DivineStorm.CD.Reset()
+			}
+		},
+	})
 }
 
 func (paladin *Paladin) applyGuardedByTheLight() {

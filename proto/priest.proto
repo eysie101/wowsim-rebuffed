@@ -118,6 +118,7 @@ enum PriestMajorGlyph {
 	GlyphOfPowerWordShield = 42408;
 	GlyphOfPrayerOfHealing = 42409;
 	GlyphOfPsychicScream = 42410;
+	GlyphOfQuickPain = 1401670;
 	GlyphOfRenew = 42411;
 	GlyphOfScourgeImprisonment = 42412;
 	GlyphOfShadow = 42407;

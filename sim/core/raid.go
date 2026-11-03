@@ -270,9 +270,17 @@ func (raid *Raid) applyCharacterEffects(raidConfig *proto.Raid) *proto.RaidStats
 	raidBuffs := raid.GetRaidBuffs(raidConfig.Buffs)
 	raidStats := &proto.RaidStats{}
 
+	allPartyBuffs := make([]*proto.PartyBuffs, len(raid.Parties))
+	heroicPresence := false
+	for partyIdx, party := range raid.Parties {
+		allPartyBuffs[partyIdx] = party.GetPartyBuffs(raidConfig.Parties[partyIdx].Buffs)
+		heroicPresence = heroicPresence || allPartyBuffs[partyIdx].HeroicPresence
+	}
+
 	for partyIdx, party := range raid.Parties {
 		partyConfig := raidConfig.Parties[partyIdx]
-		partyBuffs := party.GetPartyBuffs(partyConfig.Buffs)
+		partyBuffs := allPartyBuffs[partyIdx]
+		partyBuffs.HeroicPresence = heroicPresence
 		partyStats := &proto.PartyStats{
 			Players: make([]*proto.PlayerStats, 5),
 		}

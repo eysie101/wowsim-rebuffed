@@ -101,7 +101,8 @@ func (hunter *Hunter) ApplyTalents() {
 	}
 
 	hunter.applySpiritBond()
-	hunter.applyInvigoration()
+	hunter.applyPetCritMana(hunter.Talents.Invigoration, 53253, "Invigoration")
+	hunter.applyPetCritMana(hunter.Talents.AnimalHandler, 34454, "Animal Handler")
 	hunter.applyCobraStrikes()
 	hunter.applyGoForTheThroat()
 	hunter.applyPiercingShots()
@@ -168,16 +169,16 @@ func (hunter *Hunter) applySpiritBond() {
 	})
 }
 
-func (hunter *Hunter) applyInvigoration() {
-	if hunter.Talents.Invigoration == 0 || hunter.pet == nil {
+func (hunter *Hunter) applyPetCritMana(rank int32, spellID int32, label string) {
+	if rank == 0 || hunter.pet == nil {
 		return
 	}
 
-	procChance := 0.5 * float64(hunter.Talents.Invigoration)
-	manaMetrics := hunter.NewManaMetrics(core.ActionID{SpellID: 53253})
+	procChance := 0.5 * float64(rank)
+	manaMetrics := hunter.NewManaMetrics(core.ActionID{SpellID: spellID})
 
 	hunter.pet.RegisterAura(core.Aura{
-		Label:    "Invigoration",
+		Label:    label,
 		Duration: core.NeverExpires,
 		OnReset: func(aura *core.Aura, sim *core.Simulation) {
 			aura.Activate(sim)
@@ -191,7 +192,7 @@ func (hunter *Hunter) applyInvigoration() {
 				return
 			}
 
-			if sim.Proc(procChance, "Invigoration") {
+			if sim.Proc(procChance, label) {
 				hunter.AddMana(sim, 0.01*hunter.MaxMana(), manaMetrics)
 			}
 		},

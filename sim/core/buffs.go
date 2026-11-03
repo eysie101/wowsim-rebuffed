@@ -102,10 +102,7 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 	}
 
 	if partyBuffs.HeroicPresence {
-		character.AddStats(stats.Stats{
-			stats.MeleeHit: 1 * MeleeHitRatingPerHitChance,
-			stats.SpellHit: 1 * SpellHitRatingPerHitChance,
-		})
+		character.AddStats(heroicPresenceStats)
 	}
 
 	if raidBuffs.CommandingShout > 0 {
@@ -201,7 +198,7 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 		})
 	}
 
-	if raidBuffs.ScrollOfProtection && raidBuffs.DevotionAura == proto.TristateEffect_TristateEffectMissing {
+	if raidBuffs.ScrollOfProtection && raidBuffs.DevotionAura == proto.TristateEffect_TristateEffectMissing && gotwArmorAmount == 0 {
 		character.AddStats(stats.Stats{
 			stats.Armor: 750,
 		})
@@ -305,10 +302,22 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 	}
 }
 
+var heroicPresenceStats = stats.Stats{
+	stats.MeleeHit: 1 * MeleeHitRatingPerHitChance,
+	stats.SpellHit: 1 * SpellHitRatingPerHitChance,
+}
+
 // Applies buffs to pets.
 func applyPetBuffEffects(petAgent PetAgent, raidBuffs *proto.RaidBuffs, partyBuffs *proto.PartyBuffs, individualBuffs *proto.IndividualBuffs) {
 	// Summoned pets, like Mage Water Elemental, aren't around to receive raid buffs.
-	if petAgent.GetPet().IsGuardian() {
+	if pet := petAgent.GetPet(); pet.IsGuardian() {
+		if partyBuffs.HeroicPresence {
+			pet.AddStats(heroicPresenceStats)
+			inheritance := pet.statInheritance
+			pet.statInheritance = func(ownerStats stats.Stats) stats.Stats {
+				return inheritance(ownerStats.Subtract(heroicPresenceStats))
+			}
+		}
 		return
 	}
 

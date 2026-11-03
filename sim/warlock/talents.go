@@ -330,7 +330,7 @@ func (warlock *Warlock) setupNightfall() {
 		},
 		OnCastComplete: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell) {
 			// Check if the shadowbolt was instant cast and not a normal one
-			if spell == warlock.ShadowBolt && spell.CurCast.CastTime == 0 {
+			if spell == warlock.ShadowBolt && spell.CurCast.CastTime <= 0 {
 				aura.Deactivate(sim)
 			}
 		},

@@ -109,6 +109,11 @@ export const priestGlyphsConfig: GlyphsConfig = {
 			description: 'Increases the duration of your Psychic Scream by 2 sec. and increases its cooldown by 8 sec.',
 			iconUrl: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_psychicscream.jpg',
 		},
+		[PriestMajorGlyph.GlyphOfQuickPain]: {
+			name: 'Glyph of Quick Pain',
+			description: 'Your haste now reduces the time between periodic damage ticks of your Shadow Word: Pain spell.',
+			iconUrl: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowwordpain.jpg',
+		},
 		[PriestMajorGlyph.GlyphOfRenew]: {
 			name: 'Glyph of Renew',
 			description: 'Reduces the duration of your Renew by 3 sec. but increases the amount healed each tick by 25%.',

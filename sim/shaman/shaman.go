@@ -141,8 +141,6 @@ type Shaman struct {
 	EarthShield            *core.Spell
 
 	waterShieldManaMetrics *core.ResourceMetrics
-
-	hasHeroicPresence bool
 }
 
 // Implemented by each Shaman spec.
@@ -217,8 +215,6 @@ func (shaman *Shaman) AddPartyBuffs(partyBuffs *proto.PartyBuffs) {
 	if shaman.Talents.ManaTideTotem {
 		partyBuffs.ManaTideTotems++
 	}
-
-	shaman.hasHeroicPresence = partyBuffs.HeroicPresence
 }
 
 func (shaman *Shaman) Initialize() {

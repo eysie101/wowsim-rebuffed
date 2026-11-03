@@ -59,7 +59,8 @@ func (priest *Priest) registerShadowWordPainSpell() {
 
 			NumberOfTicks: 6 +
 				core.TernaryInt32(priest.HasSetBonus(ItemSetAbsolution, 2), 1, 0),
-			TickLength: time.Second * 3,
+			TickLength:          time.Second * 3,
+			AffectedByCastSpeed: priest.HasGlyph(int32(proto.PriestMajorGlyph_GlyphOfQuickPain)),
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot, isRollover bool) {
 				dot.SnapshotBaseDamage = 1380/6 + 0.1833*dot.Spell.SpellPower()

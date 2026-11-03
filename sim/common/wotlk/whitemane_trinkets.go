@@ -122,5 +122,45 @@ func init() {
 		MaxDmg: 1776,
 	})
 
+	for _, itemID := range []int32{150090, 315005} {
+		core.NewItemEffect(itemID, func(agent core.Agent) {
+			character := agent.GetCharacter()
+			numHits := min(3, character.Env.GetNumTargets())
+
+			chainLightning := character.RegisterSpell(core.SpellConfig{
+				ActionID:    core.ActionID{SpellID: 25442},
+				SpellSchool: core.SpellSchoolNature,
+				ProcMask:    core.ProcMaskEmpty,
+
+				DamageMultiplier: 1,
+				CritMultiplier:   character.DefaultSpellCritMultiplier(),
+				ThreatMultiplier: 1,
+
+				ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
+					bounceCoeff := 1.0
+					curTarget := target
+					for hitIndex := int32(0); hitIndex < numHits; hitIndex++ {
+						spell.CalcAndDealDamage(sim, curTarget, sim.Roll(749, 853)*bounceCoeff, spell.OutcomeMagicHitAndCrit)
+						bounceCoeff *= 0.7
+						curTarget = sim.Environment.NextTargetUnit(curTarget)
+					}
+				},
+			})
+
+			core.MakeProcTriggerAura(&character.Unit, core.ProcTrigger{
+				Name:     "Stormcoil Trigger",
+				ActionID: core.ActionID{ItemID: itemID},
+				Callback: core.CallbackOnSpellHitDealt,
+				ProcMask: core.ProcMaskRanged,
+				Outcome:  core.OutcomeLanded,
+				PPM:      2.075,
+				ICD:      time.Second * 20,
+				Handler: func(sim *core.Simulation, _ *core.Spell, result *core.SpellResult) {
+					chainLightning.Cast(sim, result.Target)
+				},
+			})
+		})
+	}
+
 	core.AddEffectsToTest = true
 }

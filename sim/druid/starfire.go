@@ -8,7 +8,7 @@ import (
 )
 
 func (druid *Druid) registerStarfireSpell() {
-	spellCoeff := 1.0
+	spellCoeff := 1.12
 	bonusCoeff := 0.04 * float64(druid.Talents.WrathOfCenarius)
 
 	idolSpellPower := 0 +
@@ -58,7 +58,7 @@ func (druid *Druid) registerStarfireSpell() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDamage := sim.Roll(1038, 1222) + ((spell.SpellPower() + idolSpellPower) * spellCoeff) + (spell.SpellPower() * bonusCoeff)
+			baseDamage := sim.Roll(1163, 1369) + ((spell.SpellPower() + idolSpellPower) * spellCoeff) + (spell.SpellPower() * bonusCoeff)
 			result := spell.CalcDamage(sim, target, baseDamage, spell.OutcomeMagicHitAndCrit)
 			if result.Landed() && hasGlyph {
 				starfireGlyphSpell.Cast(sim, target)

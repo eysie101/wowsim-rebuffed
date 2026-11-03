@@ -120,17 +120,17 @@ func TestWhitemaneSweepingStrikesCopies(t *testing.T) {
 		ss.OnSpellHitDealt(ss, sim, spell, &core.SpellResult{Target: target, Outcome: core.OutcomeHit, Damage: 100000, ResistanceMultiplier: 1})
 		return ssHit.SpellMetrics[next.UnitIndex].TotalDamage - before, ss.GetStacks()
 	}
-	if damage, stacks := copyOf(war.MortalStrike); damage < 50000 || stacks != 4 {
-		t.Fatalf("Mortal Strike for 100000: copy %.0f, %d charges left; want a copy of the hit and 4 charges", damage, stacks)
+	if damage, stacks := copyOf(war.MortalStrike); damage < 50000 || stacks != 9 {
+		t.Fatalf("Mortal Strike for 100000: copy %.0f, %d charges left; want a copy of the hit and 9 charges", damage, stacks)
 	}
-	if damage, stacks := copyOf(war.Execute); damage <= 0 || damage > 10000 || stacks != 4 {
-		t.Errorf("Execute for 100000 in the execute phase: copy %.0f, %d charges left; want a normalized weapon hit and 4 charges", damage, stacks)
+	if damage, stacks := copyOf(war.Execute); damage <= 0 || damage > 10000 || stacks != 9 {
+		t.Errorf("Execute for 100000 in the execute phase: copy %.0f, %d charges left; want a normalized weapon hit and 9 charges", damage, stacks)
 	} else {
 		t.Logf("Execute for 100000 in the execute phase: copy %.0f", damage)
 	}
 	for _, spell := range []*core.Spell{war.Whirlwind, war.Bladestorm} {
-		if damage, stacks := copyOf(spell); damage != 0 || stacks != 5 {
-			t.Errorf("%s for 100000: copy %.0f, %d charges left; want no copy and 5 charges", spell.ActionID, damage, stacks)
+		if damage, stacks := copyOf(spell); damage != 0 || stacks != 10 {
+			t.Errorf("%s for 100000: copy %.0f, %d charges left; want no copy and 10 charges", spell.ActionID, damage, stacks)
 		}
 	}
 }
