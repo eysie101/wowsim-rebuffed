@@ -1,5 +1,15 @@
 # Changes
 
+## 2026-11-08
+
+- Melee auto-attacks wait during a spell's cast time and land when the cast ends (players, pets, bosses).
+- Pets: Spirit Wolves and the Shadowfiend keep their owner's inherited stats after an iteration that ended while they were out.
+- Shaman: Spirit Wolves get only Bloodlust and Icy Talons or Windfury Totem melee haste from raid, party and individual buffs; base attack power 311 (was 642).
+- Shaman: Greater Fire Elemental swings every 2.1 s, its spells trigger no global cooldown, Fire Blast no longer restarts its swing timer; damage per hit set to the Whitemane logs (melee x0.929, Fire Blast x1.023, Fire Nova x1.034, Fire Shield x0.977).
+- Items: Flame Cap's fire damage procs on every landed melee and ranged auto attack (was 18.5% of all melee and ranged hits), extra auto attacks (Hand of Justice) included; special attacks (Raptor Strike and Rune Strike too) and triggered extra shots (Wild Quiver) do not proc it.
+- Items: Sundial of the Exiled also procs from Flametongue Attack, Lightning Shield orbs and other effects (Flamecap Fire, totem drops, explosives, warlock curses).
+- Hodir (tank sims): Flash Freeze takes effect when its cast ends; campfires go out 0-4 s later and burn again 15-19 s after the cast ends; storm clouds due during the cast or a few seconds after it come 3-7 s after it ends.
+
 ## 2026-11-03
 
 - Heroic Presence reaches the whole raid, including pets and guardians.

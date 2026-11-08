@@ -39,7 +39,7 @@ var spiritWolfBaseStats = stats.Stats{
 
 	stats.Agility:     113,
 	stats.Strength:    331,
-	stats.AttackPower: -20,
+	stats.AttackPower: 311 - 2*331,
 
 	// Add 1.8% because pets aren't affected by that component of crit suppression.
 	stats.MeleeCrit: (1.1515 + 1.8) * core.CritRatingPerCritChance,
@@ -69,6 +69,8 @@ func (shaman *Shaman) NewSpiritWolf(index int) *SpiritWolf {
 
 	return spiritWolf
 }
+
+func (spiritWolf *SpiritWolf) MeleeHasteBuffOnly() {}
 
 const PetExpertiseScale = 3.25
 

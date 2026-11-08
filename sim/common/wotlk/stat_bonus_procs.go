@@ -175,7 +175,7 @@ func init() {
 		Bonus:      stats.Stats{stats.SpellPower: 590},
 		Duration:   time.Second * 10,
 		Callback:   core.CallbackOnCastComplete,
-		ProcMask:   core.ProcMaskSpellOrProc,
+		ProcMask:   core.ProcMaskSpellOrProc | core.ProcMaskWeaponProc | core.ProcMaskEmpty,
 		ProcChance: 0.10,
 		ICD:        time.Second * 45,
 	})

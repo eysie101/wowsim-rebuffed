@@ -17,7 +17,7 @@ func (fireElemental *FireElemental) registerFireBlast() {
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: core.GCDDefault,
+				GCD: 0,
 			},
 			IgnoreHaste: true,
 			CD: core.Cooldown{
@@ -26,7 +26,7 @@ func (fireElemental *FireElemental) registerFireBlast() {
 			},
 		},
 
-		DamageMultiplier: 1,
+		DamageMultiplier: 1.023,
 		CritMultiplier:   fireElemental.DefaultSpellCritMultiplier(),
 		ThreatMultiplier: 1,
 
@@ -49,7 +49,7 @@ func (fireElemental *FireElemental) registerFireNova() {
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD:      core.GCDDefault,
+				GCD:      0,
 				CastTime: time.Second * 2,
 			},
 			IgnoreHaste: true,
@@ -59,7 +59,7 @@ func (fireElemental *FireElemental) registerFireNova() {
 			},
 		},
 
-		DamageMultiplier: 1,
+		DamageMultiplier: 1.034,
 		CritMultiplier:   fireElemental.DefaultSpellCritMultiplier(),
 		ThreatMultiplier: 1,
 
@@ -82,7 +82,7 @@ func (fireElemental *FireElemental) registerFireShieldAura() {
 		SpellSchool: core.SpellSchoolFire,
 		ProcMask:    core.ProcMaskEmpty,
 
-		DamageMultiplier: 1,
+		DamageMultiplier: 0.977,
 		CritMultiplier:   fireElemental.DefaultSpellCritMultiplier(),
 		ThreatMultiplier: 1,
 

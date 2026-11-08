@@ -37,13 +37,14 @@ func (shaman *Shaman) NewFireElemental(bonusSpellPower float64) *FireElemental {
 		MainHand: core.Weapon{
 			BaseDamageMin:  1,  // Estimated from base AP
 			BaseDamageMax:  23, // Estimated from base AP
-			SwingSpeed:     2,
+			SwingSpeed:     2.1,
 			CritMultiplier: 2, // Pretty sure this is right.
 			SpellSchool:    core.SpellSchoolFire,
 		},
 		AutoSwingMelee: true,
 	})
 	fireElemental.AddStatDependency(stats.Intellect, stats.SpellCrit, core.CritRatingPerCritChance/212)
+	fireElemental.AutoAttacks.MHConfig().DamageMultiplier *= 0.929
 
 	if bonusSpellPower > 0 {
 		fireElemental.AddStat(stats.SpellPower, float64(bonusSpellPower)*0.5218)
@@ -115,7 +116,9 @@ func (fireElemental *FireElemental) TryCast(sim *core.Simulation, target *core.U
 	if !spell.Cast(sim, target) {
 		return false
 	}
-	// all spell casts reset the elemental's swing timer
+	if spell.CurCast.CastTime == 0 {
+		return true
+	}
 	fireElemental.AutoAttacks.StopMeleeUntil(sim, sim.CurrentTime+spell.CurCast.CastTime, false)
 	return true
 }

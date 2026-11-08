@@ -110,6 +110,10 @@ func (pet *Pet) reset(sim *Simulation, agent PetAgent) {
 	}
 	pet.isReset = true
 
+	if pet.enabled {
+		pet.inheritedStats = stats.Stats{}
+	}
+
 	pet.Character.reset(sim, agent)
 
 	pet.CancelGCDTimer(sim)

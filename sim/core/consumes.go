@@ -842,7 +842,6 @@ func registerConjuredCD(agent Agent, consumes *proto.Consumes) {
 			},
 		})
 
-		const procChance = 0.185
 		var fireSpells []*Spell
 		character.OnSpellRegistered(func(spell *Spell) {
 			if spell.SpellSchool.Matches(SpellSchoolFire) {
@@ -865,14 +864,9 @@ func registerConjuredCD(agent Agent, consumes *proto.Consumes) {
 				}
 			},
 			OnSpellHitDealt: func(aura *Aura, sim *Simulation, spell *Spell, result *SpellResult) {
-				if !result.Landed() || !spell.ProcMask.Matches(ProcMaskMeleeOrRanged) {
-					return
+				if result.Landed() && spell.ProcMask.Matches(ProcMaskWhiteHit) && !spell.ProcMask.Matches(ProcMaskMeleeOrRangedSpecial) && !spell.Flags.Matches(SpellFlagTriggered) {
+					flameCapProc.Cast(sim, result.Target)
 				}
-				if sim.RandomFloat("Flame Cap Melee") > procChance {
-					return
-				}
-
-				flameCapProc.Cast(sim, result.Target)
 			},
 		})
 

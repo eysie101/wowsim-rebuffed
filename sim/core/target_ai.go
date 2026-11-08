@@ -44,6 +44,12 @@ func (target *Target) initialize(config *proto.Target) {
 		target.gcdAction = &PendingAction{
 			Priority: ActionPriorityGCD,
 			OnAction: func(sim *Simulation) {
+				if hc := &target.Hardcast; hc.Expires != startingCDTime && hc.Expires <= sim.CurrentTime {
+					hc.Expires = startingCDTime
+					if hc.OnComplete != nil {
+						hc.OnComplete(sim, hc.Target)
+					}
+				}
 				target.Rotation.DoNextAction(sim)
 			},
 		}

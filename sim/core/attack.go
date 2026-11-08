@@ -256,10 +256,21 @@ func (wa *WeaponAttack) trySwing(sim *Simulation) time.Duration {
 	if sim.CurrentTime < wa.swingAt {
 		return wa.swingAt
 	}
+	if wa.unit.Hardcast.Expires > sim.CurrentTime && wa.spell.ProcMask.Matches(ProcMaskMelee) {
+		wa.swingAt = wa.unit.Hardcast.Expires
+		return wa.swingAt
+	}
 	return wa.swing(sim)
 }
 
 func (wa *WeaponAttack) swing(sim *Simulation) time.Duration {
+	if hc := &wa.unit.Hardcast; hc.Expires != startingCDTime && hc.Expires <= sim.CurrentTime {
+		hc.Expires = startingCDTime
+		if hc.OnComplete != nil {
+			hc.OnComplete(sim, hc.Target)
+		}
+	}
+
 	attackSpell := wa.spell
 
 	if wa.replaceSwing != nil {

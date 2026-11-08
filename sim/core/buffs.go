@@ -257,11 +257,7 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 		})
 	}
 
-	if raidBuffs.IcyTalons {
-		character.PseudoStats.MeleeSpeedMultiplier *= 1.2
-	} else if raidBuffs.WindfuryTotem > 0 {
-		character.PseudoStats.MeleeSpeedMultiplier *= GetTristateValueFloat(raidBuffs.WindfuryTotem, 1.16, 1.20)
-	}
+	applyMeleeHasteBuff(character, raidBuffs)
 
 	if raidBuffs.Bloodlust {
 		registerBloodlustCD(agent)
@@ -302,9 +298,21 @@ func applyBuffEffects(agent Agent, raidBuffs *proto.RaidBuffs, partyBuffs *proto
 	}
 }
 
+func applyMeleeHasteBuff(character *Character, raidBuffs *proto.RaidBuffs) {
+	if raidBuffs.IcyTalons {
+		character.PseudoStats.MeleeSpeedMultiplier *= 1.2
+	} else if raidBuffs.WindfuryTotem > 0 {
+		character.PseudoStats.MeleeSpeedMultiplier *= GetTristateValueFloat(raidBuffs.WindfuryTotem, 1.16, 1.20)
+	}
+}
+
 var heroicPresenceStats = stats.Stats{
 	stats.MeleeHit: 1 * MeleeHitRatingPerHitChance,
 	stats.SpellHit: 1 * SpellHitRatingPerHitChance,
+}
+
+type MeleeHasteBuffOnlyPet interface {
+	MeleeHasteBuffOnly()
 }
 
 // Applies buffs to pets.
@@ -318,6 +326,10 @@ func applyPetBuffEffects(petAgent PetAgent, raidBuffs *proto.RaidBuffs, partyBuf
 				return inheritance(ownerStats.Subtract(heroicPresenceStats))
 			}
 		}
+		return
+	}
+	if _, ok := petAgent.(MeleeHasteBuffOnlyPet); ok {
+		applyMeleeHasteBuff(petAgent.GetCharacter(), raidBuffs)
 		return
 	}
 
