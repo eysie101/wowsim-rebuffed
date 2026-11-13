@@ -12,6 +12,15 @@ func CreateBlackMagicProcAura(character *core.Character) *core.Aura {
 	return character.NewTemporaryStatsAura("Black Magic Proc", core.ActionID{SpellID: 59626}, stats.Stats{stats.MeleeHaste: 250, stats.SpellHaste: 250}, time.Second*10)
 }
 
+// Lightweave Embroidery procs from magic spells and periodic damage only (client spell 55640): not from melee or
+// ranged attacks, physical spells, totem damage (Magma Totem 58734, Searing Totem 58704) or Saronite Bombs (41119).
+func lightweaveTrigger(spell *core.Spell) bool {
+	if spell.SpellSchool == core.SpellSchoolPhysical || spell.ProcMask.Matches(core.ProcMaskMelee|core.ProcMaskRanged) {
+		return false
+	}
+	return spell.ActionID.SpellID != 58734 && spell.ActionID.SpellID != 58704 && spell.ActionID.ItemID != 41119
+}
+
 func init() {
 	// Keep these in order by item ID.
 
@@ -354,8 +363,8 @@ func init() {
 		}
 		procAura.Icd = &icd
 
-		callback := func(_ *core.Aura, sim *core.Simulation, _ *core.Spell, result *core.SpellResult) {
-			if !result.Landed() {
+		callback := func(_ *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+			if !result.Landed() || !lightweaveTrigger(spell) {
 				return
 			}
 

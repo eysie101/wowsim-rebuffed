@@ -1,5 +1,10 @@
 # Changes
 
+## 2026-11-13
+
+- Items: Lightweave Embroidery procs only from magic spells and periodic damage; melee and ranged attacks, physical spells, totem damage and Saronite Bombs no longer proc it.
+- Shaman: Glyph of Totem of Wrath adds spell power only with the Totem of Wrath talent.
+
 ## 2026-11-08
 
 - Melee auto-attacks wait during a spell's cast time and land when the cast ends (players, pets, bosses).

@@ -10,7 +10,7 @@ import (
 
 func (shaman *Shaman) ApplyTalents() {
 	// We are going to treat this like a snapshot if you have the glyph.
-	if shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfTotemOfWrath) {
+	if shaman.HasMajorGlyph(proto.ShamanMajorGlyph_GlyphOfTotemOfWrath) && shaman.Talents.TotemOfWrath {
 		shaman.AddStat(stats.SpellPower, 280*0.3)
 	}
 
